@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family Information</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .chip-container {
+      display: inline-block;
+      padding: 5px;
+      border-radius: 15px;
+      background-color: #f2f2f2;
+    }
+    .chip {
+      display: inline-block;
+      padding: 0 10px;
+      margin: 5px;
+      border-radius: 10px;
+      background-color: #ccc;
+    }
+    .chip .close {
+      cursor: pointer;
+      margin-left: 5px;
+    }
+    .person-name {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <h1>Familias</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Apellido</th>
+      <th>Integrantes</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody id="family-table">
+    <!-- Dummy Data -->
+    <tr>
+      <td>López</td>
+      <td>
+        <div class="chip-container">
+          <span class="chip"><span class="person-name" onclick="showPersonInfo('Juan')">Juan</span> <span class="close" onclick="removePerson(this)">&times;</span></span>
+          <span class="chip"><span class="person-name" onclick="showPersonInfo('María')">María</span> <span class="close" onclick="removePerson(this)">&times;</span></span>
+          <span class="chip"><span class="person-name" onclick="showPersonInfo('Pedro')">Pedro</span> <span class="close" onclick="removePerson(this)">&times;</span></span>
+        </div>
+      </td>
+      <td><button class="btn btn-success">+</button></td>
+    </tr>
+    <tr>
+      <td>García</td>
+      <td>
+        <div class="chip-container">
+          <span class="chip"><span class="person-name" onclick="showPersonInfo('Ana')">Ana</span> <span class="close" onclick="removePerson(this)">&times;</span></span>
+          <span class="chip"><span class="person-name" onclick="showPersonInfo('Miguel')">Miguel</span> <span class="close" onclick="removePerson(this)">&times;</span></span>
+        </div>
+      </td>
+      <td><button class="btn btn-success" data-toggle="modal" data-target="#searchModal">+</button></td>
+    </tr>
+    </tbody>
+  </table>
+  <button class="btn btn-success" onclick="openNewFamilyModal()">Nueva Familia</button>
+</div>
+
+<!-- Modal de ingreso de apellido -->
+<div class="modal fade" id="newFamilyModal" tabindex="-1" role="dialog" aria-labelledby="newFamilyModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newFamilyModalLabel">Nueva Familia</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="apellidoInput">Ingrese el apellido:</label>
+          <input type="text" class="form-control" id="apellidoInput" placeholder="Apellido">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="addNewFamily()">Agregar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de búsqueda -->
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="searchModalLabel">Buscar Persona</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre, apellido o DNI">
+        <ul id="searchResults" class="list-group mt-2">
+          <!-- Aquí se mostrarán los resultados de la búsqueda -->
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS, Popper.js y jQuery (requeridos para que funcionen los componentes de Bootstrap) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Script personalizado -->
+<script>
+  function showPersonInfo(name) {
+    // Aquí puedes agregar lógica para mostrar información de la persona
+    alert("Información de " + name);
+  }
+
+  // Función para quitar una persona de la tabla de familia
+  function removePerson(element) {
+    $(element).closest('span.chip').remove();
+  }
+
+  // Función para abrir el modal de búsqueda de personas asociado a la familia correspondiente
+  function openSearchModal(button) {
+    var familyId = $(button).data('family-id');
+    $('#searchModal').modal('show');
+    // Aquí puedes hacer cualquier cosa necesaria con familyId
+  }
+
+  // Función para abrir el modal de ingreso de apellido para nueva familia
+  function openNewFamilyModal() {
+    $('#newFamilyModal').modal('show');
+  }
+
+  // Función para agregar nueva familia (solo apellido)
+  function addNewFamily() {
+    var apellido = $('#apellidoInput').val();
+    // Aquí puedes hacer cualquier cosa necesaria con el apellido ingresado
+    $('#newFamilyModal').modal('hide');
+  }
+  
+</script>
+</body>
+</html>

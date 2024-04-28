@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumnos</title>
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.min.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Alumnos</h2>
+    <button id="btnAgregarAlumno" class="btn btn-primary mb-3">Agregar Nuevo Alumno</button>
+    <table id="alumnosTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Curso</th>
+            <th>Acciones</th> <!-- Nueva columna para el botón de editar -->
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<!-- Modal para ingresar nuevos alumnos -->
+<div class="modal fade" id="modalNuevoAlumno" tabindex="-1" role="dialog" aria-labelledby="modalNuevoAlumnoLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalNuevoAlumnoLabel">Agregar Nuevo Alumno</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formNuevoAlumno">
+                    <div class="form-group">
+                        <label for="dni">DNI:</label>
+                        <input type="text" class="form-control" id="dni" name="dni">
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" class="form-control" id="apellido" name="apellido">
+                    </div>
+                    <div class="form-group">
+                        <label for="curso">Curso:</label>
+                        <select class="form-control" id="curso" name="curso">
+                            <!-- Opciones del dropdown de cursos se cargarán dinámicamente aquí -->
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardarAlumno">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para editar alumnos -->
+<div class="modal fade" id="modalEditarAlumno" tabindex="-1" role="dialog" aria-labelledby="modalEditarAlumnoLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalEditarAlumnoLabel">Editar Alumno</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarAlumno">
+                    <input type="hidden" id="editAlumnoId" name="editAlumnoId">
+                    <div class="form-group">
+                        <label for="editDni">DNI:</label>
+                        <input type="text" class="form-control" id="editDni" name="editDni">
+                    </div>
+                    <div class="form-group">
+                        <label for="editNombre">Nombre:</label>
+                        <input type="text" class="form-control" id="editNombre" name="editNombre">
+                    </div>
+                    <div class="form-group">
+                        <label for="editApellido">Apellido:</label>
+                        <input type="text" class="form-control" id="editApellido" name="editApellido">
+                    </div>
+                    <div class="form-group">
+                        <label for="editCurso">Curso:</label>
+                        <select class="form-control" id="editCurso" name="editCurso">
+                            <!-- Opciones del dropdown de cursos se cargarán dinámicamente aquí -->
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnGuardarCambios">Guardar Cambios</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<!-- Bootstrap JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Evento clic para mostrar el modal de nuevo alumno
+        $('#btnAgregarAlumno').click(function() {
+            $('#modalNuevoAlumno').modal('show');
+        });
+
+        // Evento clic para guardar el nuevo alumno
+        $('#btnGuardarAlumno').click(function() {
+            // Obtener los valores de los campos
+            var dni = $('#dni').val();
+            var nombre = $('#nombre').val();
+            var apellido = $('#apellido').val();
+            var curso = $('#curso').val(); // Obtener el ID del curso seleccionado
+
+            // Crear un objeto con los datos del nuevo alumno
+            var nuevoAlumno = {
+                dni: dni,
+                nombre: nombre,
+                apellido: apellido,
+                curso: curso // Asegúrate de que el valor de curso sea el ID del curso seleccionado
+            };
+
+            // Convertir el objeto a formato JSON
+            var jsonAlumno = JSON.stringify(nuevoAlumno);
+
+            // Enviar la solicitud POST al controlador
+            $.ajax({
+                type: "POST",
+                url: "http://localhost:8080/api/v1/alumnos",
+                contentType: "application/json",
+                data: jsonAlumno,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                },
+                success: function(response) {
+                    // Manejar la respuesta del servidor, si es necesario
+                    console.log("Alumno creado exitosamente:", response);
+                    // Aquí puedes realizar alguna acción adicional, como recargar la tabla de alumnos
+                    location.reload()
+                },
+                error: function(xhr, status, error) {
+                    // Manejar errores en la solicitud
+                    console.error("Error al crear el alumno:", error);
+                    // Aquí puedes mostrar un mensaje de error al usuario o realizar alguna otra acción
+                }
+            });
+        });
+
+        // Obtener la lista de cursos mediante AJAX y llenar el dropdown
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/api/v1/cursos",
+            success: function(cursos) {
+                var dropdownCursos = $('#curso');
+                var dropdownCursosEdit = $('#editCurso');
+                $.each(cursos, function(i, curso) {
+                    dropdownCursos.append($('<option></option>').attr('value', curso.id).text(curso.orden + '° - ' + curso.nivel + ' - TURNO ' + curso.turno));
+                    dropdownCursosEdit.append($('<option></option>').attr('value', curso.id).text(curso.orden + '° - ' + curso.nivel + ' - TURNO ' + curso.turno));
+
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error("Error al obtener la lista de cursos:", error);
+            }
+        });
+
+        // Función para cargar los datos de los alumnos mediante AJAX
+        $.ajax({
+                url: "http://localhost:8080/api/v1/alumnos",
+                type: "GET",
+                success: function(response) {
+                    // Almacenar los datos en la variable datosAlumnos
+                    datosAlumnos = response;
+
+                    // Inicializar DataTables con los datos almacenados
+                    inicializarDataTables();
+
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al cargar los datos de los alumnos:", error);
+                }
+        });
+
+        // Función para inicializar DataTables con los datos almacenados en la variable datosAlumnos
+        function inicializarDataTables() {
+            var table = $('#alumnosTable').DataTable({
+                "processing": true,
+                "serverSide": false,
+                "data": datosAlumnos, // Usar los datos almacenados en la variable
+                "columns": [
+                    {title: "ID", "data": "id"},
+                    {title: "DNI", "data": "dni"},
+                    {title: "Nombre", "data": "nombre"},
+                    {title: "Apellido", "data": "apellido"},
+                    {
+                        title: "Curso",
+                        "render": function(data, type, row) {
+                            return row.curso.orden + '° - ' + row.curso.nivel + ' - TURNO ' + row.curso.turno;
+                        }
+                    },
+                    {
+                        title: "Acciones",
+                        "render": function(data, type, row) {
+                            return '<button class="btn btn-primary btnEditarAlumno" data-id="' + row.id + '">Editar</button>';
+                        }
+                    }
+                ],
+                "columnDefs": [
+                    {
+                        "targets": [0], // Índice de la columna que quieres ocultar (en este caso, la primera columna)
+                        "visible": false, // Hacer la columna invisible
+                        "searchable": false // Ocultar la columna de la búsqueda
+                    }
+                ]
+            });
+        }
+
+        // Evento clic para mostrar el modal de edición
+        $('#alumnosTable').on('click', '.btnEditarAlumno', function() {
+            // Obtener el id del alumno de la fila
+            var alumnoId = $(this).data('id');
+            console.log(alumnoId)
+            // Obtener la fila correspondiente a este alumno
+            var alumnoRow = $(this).closest('tr');
+
+            // Obtener los datos del alumno de la fila
+            var dni = alumnoRow.find('td:eq(0)').text(); // DNI en la primera columna
+            var nombre = alumnoRow.find('td:eq(1)').text(); // Nombre en la segunda columna
+            var apellido = alumnoRow.find('td:eq(2)').text(); // Apellido en la tercera columna
+            var cursoTexto = alumnoRow.find('td:eq(3)').text(); // Curso en la cuarta columna
+
+            // Llenar el formulario de edición con los datos del alumno
+            $('#editAlumnoId').val(alumnoId);
+            $('#editDni').val(dni);
+            $('#editNombre').val(nombre);
+            $('#editApellido').val(apellido);
+            // Obtener el valor del curso seleccionado en el dropdown de cursos
+            var dropdownCursos = $('#editCurso');
+            dropdownCursos.find('option').each(function() {
+                if ($(this).text() === cursoTexto) {
+                    $(this).prop('selected', true);
+                }
+            });
+
+            // Mostrar el modal de edición con los datos cargados
+            $('#modalEditarAlumno').modal('show');
+        });
+
+        // Evento clic para editar el alumno
+        $('#btnGuardarCambios').click(function() {
+            // Obtener los valores de los campos
+            var id = $('#editAlumnoId').val()
+            var dni = $('#editDni').val();
+            var nombre = $('#editNombre').val();
+            var apellido = $('#editApellido').val();
+            var curso = $('#editCurso').val(); // Obtener el ID del curso seleccionado
+
+            // Crear un objeto con los datos del alumno editado
+            var alumnoEditado = {
+                id: id,
+                dni: dni,
+                nombre: nombre,
+                apellido: apellido,
+                curso: curso // Asegúrate de que el valor de curso sea el ID del curso seleccionado
+            };
+
+            // Convertir el objeto a formato JSON
+            var jsonAlumno = JSON.stringify(alumnoEditado);
+
+            // Enviar la solicitud POST al controlador
+            $.ajax({
+                type: "PUT",
+                url: "http://localhost:8080/api/v1/alumnos",
+                contentType: "application/json",
+                data: jsonAlumno,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                },
+                success: function(response) {
+                    // Manejar la respuesta del servidor, si es necesario
+                    console.log("Alumno actualizado exitosamente:", response);
+                    // Aquí puedes realizar alguna acción adicional, como recargar la tabla de alumnos
+                    location.reload()
+                },
+                error: function(xhr, status, error) {
+                    // Manejar errores en la solicitud
+                    console.error("Error al actualizar el alumno:", error);
+                    // Aquí puedes mostrar un mensaje de error al usuario o realizar alguna otra acción
+                }
+            });
+        });
+
+    });
+</script>
+
+</body>
+</html>
