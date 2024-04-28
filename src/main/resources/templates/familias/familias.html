@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Family Information</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.min.css">
   <style>
     .chip-container {
       display: inline-block;
@@ -32,41 +32,21 @@
 <body>
 <div class="container mt-5">
   <h1>Familias</h1>
-  <table class="table">
+  <button id="new-family-btn" class="btn btn-primary" onclick="openNewFamilyModal()">Nueva Familia</button>
+  <table id="family-table" class="table">
     <thead>
     <tr>
       <th>Apellido</th>
       <th>Integrantes</th>
-      <th></th>
+      <th>Acciones</th>
     </tr>
     </thead>
-    <tbody id="family-table">
-    <!-- Dummy Data -->
-    <tr>
-      <td>López</td>
-      <td>
-        <div class="chip-container">
-          <span class="chip"><span class="person-name" onclick="showPersonInfo('Juan')">Juan</span> <span class="close" onclick="removePerson(this)">&times;</span></span>
-          <span class="chip"><span class="person-name" onclick="showPersonInfo('María')">María</span> <span class="close" onclick="removePerson(this)">&times;</span></span>
-          <span class="chip"><span class="person-name" onclick="showPersonInfo('Pedro')">Pedro</span> <span class="close" onclick="removePerson(this)">&times;</span></span>
-        </div>
-      </td>
-      <td><button class="btn btn-success">+</button></td>
-    </tr>
-    <tr>
-      <td>García</td>
-      <td>
-        <div class="chip-container">
-          <span class="chip"><span class="person-name" onclick="showPersonInfo('Ana')">Ana</span> <span class="close" onclick="removePerson(this)">&times;</span></span>
-          <span class="chip"><span class="person-name" onclick="showPersonInfo('Miguel')">Miguel</span> <span class="close" onclick="removePerson(this)">&times;</span></span>
-        </div>
-      </td>
-      <td><button class="btn btn-success" data-toggle="modal" data-target="#searchModal">+</button></td>
-    </tr>
+    <tbody>
+    <!-- Data will be dynamically loaded here -->
     </tbody>
   </table>
-  <button class="btn btn-success" onclick="openNewFamilyModal()">Nueva Familia</button>
 </div>
+
 
 <!-- Modal de ingreso de apellido -->
 <div class="modal fade" id="newFamilyModal" tabindex="-1" role="dialog" aria-labelledby="newFamilyModalLabel" aria-hidden="true">
@@ -103,25 +83,139 @@
         </button>
       </div>
       <div class="modal-body">
-        <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre, apellido o DNI">
-        <ul id="searchResults" class="list-group mt-2">
-          <!-- Aquí se mostrarán los resultados de la búsqueda -->
-        </ul>
+        <table id="alumnosTable" class="table table-striped">
+          <thead>
+          <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Seleccionar</th>
+          </tr>
+          </thead>
+        </table>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" id="sendButton">Enviar</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Bootstrap JS, Popper.js y jQuery (requeridos para que funcionen los componentes de Bootstrap) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+<!-- Bootstrap JavaScript -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<!-- Script personalizado -->
+
 <script>
+  var datosAlumnos;
+  $.ajax({
+    url: "http://localhost:8080/api/v1/alumnos",
+    type: "GET",
+    success: function(response) {
+      // Almacenar los datos en la variable datosAlumnos
+      datosAlumnos = response;
+      cargarAlumnos();
+    },
+    error: function(xhr, status, error) {
+      console.error("Error al cargar los datos de los alumnos:", error);
+    }
+  });
+
+  function cargarAlumnos() {
+    $('#alumnosTable').DataTable({
+      // Configuración de DataTables
+      layout: {
+        bottomEnd: 'search'
+      },
+      "paging": false,
+      "lengthChange": false,
+      "info":false,
+      "data": datosAlumnos, // Aquí debes pasar los datos de los alumnos obtenidos
+      "columns": [
+        {title: 'Nombre', "data": "nombre"},
+        {title: 'Apellido', "data": "apellido"},
+        {title: 'DNI', "data": "dni"},
+        {
+          title: 'Seleccionar', "data": null, render: function () {
+            return '<input type="checkbox">';
+          }
+        }
+        // Aquí puedes agregar más columnas si es necesario
+      ]
+    });
+  }
+
+  $('#sendButton').on('click', function() {
+    var selectedAlumnos = [];
+    $('#alumnosTable').find('input[type="checkbox"]:checked').each(function () {
+      var alumnoData = $(this).closest('tr').find('td').map(function () {
+        return $(this).text();
+      }).get();
+      selectedAlumnos.push({
+        nombre: alumnoData[0],
+        apellido: alumnoData[1],
+        dni: alumnoData[2]
+      });
+    });
+  });
+
+
+  function loadFamilies() {
+    $.ajax({
+      url: 'http://localhost:8080/api/v1/familias',
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        // Clear existing table rows
+        $('#family-table tbody').empty();
+
+        // Iterate through each family data
+        $.each(data, function(index, family) {
+          var row = '<tr>' +
+                  '<td>' + family.apellido + '</td>' +
+                  '<td>';
+
+          if (family.miembros.length > 0) {
+            // Si tiene miembros, mostrar la lista de integrantes
+            $.each(family.miembros, function(index, member) {
+              row += '<div class="chip-container">' +
+                      '<span class="chip">' +
+                      '<span class="person-name" onclick="showPersonInfo(\'' + member.nombre + '\')">' + member.nombre + '</span>' +
+                      '<span class="close" onclick="removePerson(this)">&times;</span>' +
+                      '</span>' +
+                      '</div>';
+            });
+          } else {
+            // Si no tiene miembros, mostrar un mensaje indicando que la familia está vacía
+            row += '<div class="chip-container">' + 'Sin integrantes' + '</div>'
+          }
+
+
+          row += '</td>' +
+                  '<td><button class="btn btn-primary" onclick="openSearchModal()">+</button></td>' +
+                  '</tr>';
+
+          // Append the row to the table body
+          $('#family-table tbody').append(row);
+        });
+        $('#family-table').DataTable();
+      },
+      error: function(xhr, status, error) {
+        console.error('Error loading families:', error);
+      }
+    });
+  }
+
+  // Call the function to load families when the page loads
+  $(document).ready(function() {
+    loadFamilies();
+  });
+
+
   function showPersonInfo(name) {
     // Aquí puedes agregar lógica para mostrar información de la persona
     alert("Información de " + name);
@@ -146,11 +240,30 @@
 
   // Función para agregar nueva familia (solo apellido)
   function addNewFamily() {
-    var apellido = $('#apellidoInput').val();
+    var apellidoInput = $('#apellidoInput').val();
+    var nuevaFamilia = {
+      apellido: apellidoInput
+    }
     // Aquí puedes hacer cualquier cosa necesaria con el apellido ingresado
+    $.ajax({
+      url: 'http://localhost:8080/api/v1/familias',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(nuevaFamilia),
+      success: function(response) {
+        // Manejar la respuesta del servidor
+        console.log('Nueva familia agregada:', response);
+
+        // Recargar la tabla para reflejar los cambios
+        loadFamilies();
+      },
+      error: function(xhr, status, error) {
+        console.error('Error al agregar nueva familia:', error);
+      }
+    });
     $('#newFamilyModal').modal('hide');
   }
-  
+
 </script>
 </body>
 </html>

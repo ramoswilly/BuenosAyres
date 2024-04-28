@@ -5,6 +5,7 @@ import org.gamma.buenosayres.model.Curso;
 import org.gamma.buenosayres.model.Persona;
 import org.gamma.buenosayres.dao.interfaces.AlumnoDAO;
 import org.gamma.buenosayres.dao.interfaces.CursoDAO;
+import org.gamma.buenosayres.model.TipoPersona;
 import org.gamma.buenosayres.service.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class AlumnoService {
 		Curso curso = cursoDAO.findById(alumno.getCurso().getId()).orElseThrow(
 				()->new ServiceException("Curso inexistente\n", 400)
 		);
+		alumno.getPersona().setTipo(TipoPersona.ALUMNO);
 		alumnoDAO.save(alumno);
 	}
 
