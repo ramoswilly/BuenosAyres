@@ -1,5 +1,7 @@
 package org.gamma.buenosayres.rest.controller;
 
+import org.gamma.buenosayres.dto.ActualizarFamiliaDTO;
+import org.gamma.buenosayres.dto.MiembrosFamiliaDTO;
 import org.gamma.buenosayres.mapper.FamiliaMapper;
 import org.gamma.buenosayres.dto.ListarFamiliaDTO;
 import org.gamma.buenosayres.model.Familia;
@@ -14,6 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/familias")
+@CrossOrigin(origins="*")
 public class FamiliaController {
 	private final FamiliaService familiaService;
 	private final FamiliaMapper familiaMapper;
@@ -39,6 +42,7 @@ public class FamiliaController {
 		return ResponseEntity.ok("Familia creada");
 	}
 	@PostMapping("/{familia}")
+	@Deprecated
 	public ResponseEntity<String> addPersona(@PathVariable UUID familia, @RequestBody Map<String, UUID> persona)
 	{
 		try {
@@ -47,5 +51,45 @@ public class FamiliaController {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 		return ResponseEntity.ok("Persona Añadida");
+	}
+	@PutMapping("/{familia}")
+	public ResponseEntity<String> actualizarFamilia(@RequestBody ActualizarFamiliaDTO familia)
+	{
+		try {
+			familiaService.actualizarFamilia(familiaMapper.map(familia));
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+		return ResponseEntity.ok("Familia Actualizada");
+	}
+	@PostMapping("/{familia}/miembros")
+	public ResponseEntity<String> agregarMiembros(@PathVariable UUID familia, @RequestBody Map<String, List<UUID>> miembros)
+	{
+		try {
+			familiaService.agregarMiembros(familiaMapper.map(familia, miembros));
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+		return ResponseEntity.ok("Miembros agregados");
+	}
+	@DeleteMapping("/{familia}/miembros")
+	public ResponseEntity<String> removerMiembro(@PathVariable UUID familia, @RequestBody Map<String, UUID> persona)
+	{
+		try {
+			familiaService.removerMiembro(familia, persona.get("persona"));
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+		return ResponseEntity.ok("Miembro removido");
+	}
+	@GetMapping("/{familia}/miembros")
+	public ResponseEntity<?> verMiembros(@PathVariable UUID familia)
+	{
+		try {
+			List<MiembrosFamiliaDTO> miembros = familiaMapper.mapTo(familiaService.getMiembrosOf(familia));
+			return ResponseEntity.ok(miembros);
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
 	}
 }

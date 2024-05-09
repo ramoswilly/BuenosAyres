@@ -1,26 +1,28 @@
 package org.gamma.buenosayres.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.UUID;
+import org.gamma.buenosayres.dto.ConceptoDTO;
+import org.gamma.buenosayres.mapper.ConceptoVisitor;
 
 @Entity
-@Table(name = "cuotas_de_taller")
-@NoArgsConstructor
+@DiscriminatorValue("TALLER")
 @Getter
 @Setter
-public class CuotaTaller {
-	@Id
-	@GeneratedValue
-	@Column(name = "id_cuota_taller")
-	private UUID id;
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_concepto")
-	private Concepto concepto;
+public class CuotaTaller extends Concepto {
 	@ManyToOne
 	@JoinColumn(name = "id_taller")
 	private Taller taller;
+
+	@Override
+	public ConceptoDTO accept(ConceptoVisitor<ConceptoDTO> visitor)
+	{
+		return visitor.visit(this);
+	}
 }

@@ -2,6 +2,8 @@ package org.gamma.buenosayres.model;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,11 +14,14 @@ import org.gamma.buenosayres.mapper.ConceptoVisitor;
 @NoArgsConstructor
 @Getter
 @Setter
-@DiscriminatorValue(value = "MATERIALES")
-public class Materiales extends Concepto {
+@DiscriminatorValue(value = "ADICIONAL")
+public class ConceptoAdicional extends Concepto {
+	@Enumerated(EnumType.STRING)
+	private Nivel nivel;
 	@Override
 	public ConceptoDTO accept(ConceptoVisitor<ConceptoDTO> visitor)
 	{
 		return visitor.visit(this);
 	}
+	private String descripcion;
 }

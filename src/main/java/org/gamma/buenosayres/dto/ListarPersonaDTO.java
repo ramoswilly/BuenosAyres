@@ -7,15 +7,17 @@ import lombok.Setter;
 import org.gamma.buenosayres.model.TipoPersona;
 
 import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class MiembrosFamiliaDTO {
+public class ListarPersonaDTO {
 	private UUID id;
 	private String dni;
 	private String nombre;
 	private String apellido;
 	private String direccion;
 	private TipoPersona tipo;
+	private UUID familia;
 }

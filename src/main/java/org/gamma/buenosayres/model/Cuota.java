@@ -1,26 +1,26 @@
 package org.gamma.buenosayres.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.gamma.buenosayres.dto.ConceptoDTO;
+import org.gamma.buenosayres.mapper.ConceptoVisitor;
 
-import java.util.UUID;
 @Entity
-@Table(name = "cuotas")
 @NoArgsConstructor
 @Getter
 @Setter
-public class Cuota {
-
-	@Id
-	@GeneratedValue
-	@Column(name = "id_cuota")
-	private UUID id;
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_concepto")
-	private Concepto concepto;
+@DiscriminatorValue(value = "CUOTA")
+public class Cuota extends Concepto {
 	@Enumerated(EnumType.STRING)
-	Nivel nivel;
-
+	private Nivel nivel;
+	@Override
+	public ConceptoDTO accept(ConceptoVisitor<ConceptoDTO> visitor)
+	{
+		return visitor.visit(this);
+	}
 }

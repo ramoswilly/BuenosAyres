@@ -18,6 +18,8 @@ public class Taller {
 	@Column(name = "id_taller")
 	private UUID id;
 	private String descripcion;
+	@Enumerated(EnumType.STRING)
+	private Nivel nivel;
 	@ManyToMany(mappedBy = "talleres")
 	private List<Alumno> alumnos;
 }

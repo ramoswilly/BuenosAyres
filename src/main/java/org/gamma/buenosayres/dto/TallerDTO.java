@@ -4,18 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.gamma.buenosayres.model.TipoPersona;
+import org.gamma.buenosayres.model.Nivel;
 
+import java.util.List;
 import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class MiembrosFamiliaDTO {
+public class TallerDTO {
 	private UUID id;
-	private String dni;
-	private String nombre;
-	private String apellido;
-	private String direccion;
-	private TipoPersona tipo;
+	private String descripcion;
+	private Nivel nivel;
+	private List<UUID> alumnos;
 }
