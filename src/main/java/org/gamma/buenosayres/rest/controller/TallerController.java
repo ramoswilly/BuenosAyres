@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/talleres")
+@CrossOrigin(origins = "*")
 public class TallerController {
 
 	private final TallerService tallerService;
