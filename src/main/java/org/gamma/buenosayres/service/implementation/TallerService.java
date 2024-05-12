@@ -9,7 +9,7 @@ import org.gamma.buenosayres.service.exception.ServiceException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.UUID;
 
 @Service
 public class TallerService {
@@ -37,5 +37,26 @@ public class TallerService {
 			alumno1.getTalleres().add(tNuevo);
 		}
 		return tallerDAO.save(tNuevo);
+	}
+
+	public List<Alumno> getAlumnosInTaller(UUID id_taller) throws ServiceException
+	{
+		Taller taller = tallerDAO.findById(id_taller).orElseThrow(() -> new ServiceException("Taller inexistente", 400));
+		return taller.getAlumnos();
+	}
+
+	public Taller altaAlumnos(UUID id_taller, Taller tNuevo) throws ServiceException
+	{
+		Taller taller = tallerDAO.findById(id_taller).orElseThrow(() -> new ServiceException("Taller inexistente", 400));
+
+		for (Alumno alumno : tNuevo.getAlumnos()) {
+			Alumno alumno1 = alumnoDAO.findById(alumno.getId()).orElseThrow(() -> new ServiceException(
+					String.format("Alumno Inexistente: %s", alumno.getId()), 400
+			));
+
+			alumno1.getTalleres().add(taller);
+			alumnoDAO.save(alumno1);
+		}
+		return taller;
 	}
 }

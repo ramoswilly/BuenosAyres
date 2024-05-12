@@ -1,9 +1,6 @@
 package org.gamma.buenosayres.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.gamma.buenosayres.model.Nivel;
 
 import java.util.List;
@@ -12,6 +9,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class TallerDTO {
 	private UUID id;
 	private String descripcion;

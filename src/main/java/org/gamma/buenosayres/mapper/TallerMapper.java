@@ -52,7 +52,7 @@ public class TallerMapper {
 		dtoTallerTypeMap.addMappings(
 				mapper -> {
 					mapper.skip(Taller::setId);
-					mapper.using(converterAlumnoUUID).map(TallerDTO::getAlumnos, Taller::setAlumnos);
+					mapper.using(converterUUIDAlumno).map(TallerDTO::getAlumnos, Taller::setAlumnos);
 				}
 		);
 	}
