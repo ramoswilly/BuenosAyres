@@ -24,6 +24,8 @@ public class AlumnoMapper {
 			mapper.map(src -> src.getPersona().getNombre(), ListarAlumnoDTO::setNombre);
 			mapper.map(src -> src.getPersona().getApellido(), ListarAlumnoDTO::setApellido);
 			mapper.map(src -> src.getPersona().getDireccion(), ListarAlumnoDTO::setDireccion);
+			mapper.map(Alumno::getCurso, ListarAlumnoDTO::setCurso);
+
 		});
 
 		crearAlumnoDTOToAlumnoMapper.addMappings(mapper -> {

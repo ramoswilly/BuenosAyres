@@ -1,9 +1,7 @@
 package org.gamma.buenosayres.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.gamma.buenosayres.model.Curso;
 
 import java.util.UUID;
 
@@ -11,11 +9,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ListarAlumnoDTO {
 	private UUID id;
 	private String dni;
 	private String nombre;
 	private String apellido;
 	private String direccion;
-	private CursoAlumnoDTO curso;
+	private Curso curso;
 }

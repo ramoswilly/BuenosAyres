@@ -1,5 +1,6 @@
 package org.gamma.buenosayres.service.implementation;
 
+import org.gamma.buenosayres.dto.ListarAlumnoDTO;
 import org.gamma.buenosayres.model.Alumno;
 import org.gamma.buenosayres.model.Curso;
 import org.gamma.buenosayres.model.Persona;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AlumnoService {
@@ -81,5 +83,10 @@ public class AlumnoService {
 
 		// Save the updated Alumno
 		alumnoDAO.save(existingAlumno);
+	}
+
+	public Alumno getAlumno(UUID idAlumno) throws ServiceException
+	{
+		return alumnoDAO.findById(idAlumno).orElseThrow(() -> new ServiceException("No encontrado", 404));
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.gamma.buenosayres.service.implementation.AlumnoService;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/alumnos")
@@ -28,6 +29,17 @@ public class AlumnoController {
 	{
 		return service.findAll().stream().map(alumnoMapper::map).toList();
 	}
+	@GetMapping
+	@RequestMapping("/{id}")
+	public ResponseEntity<?> getAlumno(@PathVariable(value = "id") UUID idAlumno)
+	{
+		try {
+			ListarAlumnoDTO map = alumnoMapper.map(service.getAlumno(idAlumno));
+			return ResponseEntity.ok(map);
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
 	@PostMapping
 	public ResponseEntity<String> newAlumno(@RequestBody CrearAlumnoDTO alumno)
 	{
@@ -38,14 +50,16 @@ public class AlumnoController {
 		}
 		return ResponseEntity.status(HttpStatus.OK).body("Alumno registrado");
 	}
-	@PutMapping
-	public ResponseEntity<String> updateAlumno(@RequestBody ActualizarAlumnoDTO alumno)
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<?> updateAlumno(@PathVariable(value = "id") UUID idAlumno, @RequestBody ActualizarAlumnoDTO alumnoDTO)
 	{
 		try {
-			service.updateAlumno(alumnoMapper.map(alumno));
+			alumnoDTO.setId(idAlumno);
+			service.updateAlumno(alumnoMapper.map(alumnoDTO));
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 		return ResponseEntity.status(HttpStatus.OK).body("Alumno actualizado");
 	}
+
 }
