@@ -3,6 +3,7 @@ package org.gamma.buenosayres.rest.controller;
 import org.gamma.buenosayres.dto.ConceptoDTO;
 import org.gamma.buenosayres.mapper.ConceptoMapper;
 import org.gamma.buenosayres.model.Concepto;
+import org.gamma.buenosayres.model.Nivel;
 import org.gamma.buenosayres.service.exception.ServiceException;
 import org.gamma.buenosayres.service.implementation.ConceptoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +25,13 @@ public class ConceptoController {
 		this.mapper = mapper;
 	}
 	@GetMapping
-	List<ConceptoDTO> get(@RequestParam(value = "type", required = false) String tipo, @RequestParam(value = "limit", defaultValue = "10") int limit)
+	ResponseEntity<?> get(@RequestParam(value = "type", required = false) String tipo, @RequestParam(value = "nivel", required = false) String nivel, @RequestParam(value = "limit", defaultValue = "10") int limit)
 	{
-		return service.get(tipo, limit).stream().map(mapper::map).toList();
+		try {
+			return ResponseEntity.ok(service.get(tipo, nivel, limit).stream().map(mapper::map).toList());
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
 	}
 	@PostMapping
 	ResponseEntity<?> nuevoConcepto(@RequestBody ConceptoDTO concepto)

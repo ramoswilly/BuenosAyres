@@ -16,8 +16,6 @@ import org.gamma.buenosayres.mapper.ConceptoVisitor;
 @Setter
 @DiscriminatorValue(value = "ADICIONAL")
 public class ConceptoAdicional extends Concepto {
-	@Enumerated(EnumType.STRING)
-	private Nivel nivel;
 	@Override
 	public ConceptoDTO accept(ConceptoVisitor<ConceptoDTO> visitor)
 	{

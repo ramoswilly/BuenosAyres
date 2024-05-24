@@ -22,6 +22,4 @@ public class Matricula extends Concepto {
 		return visitor.visit(this);
 	}
 
-	@Enumerated(EnumType.STRING)
-	private Nivel nivel;
 }

@@ -4,7 +4,9 @@ import org.gamma.buenosayres.dao.interfaces.ConceptoDAO;
 import org.gamma.buenosayres.dao.interfaces.TallerDAO;
 import org.gamma.buenosayres.model.*;
 import org.gamma.buenosayres.service.exception.ServiceException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -22,15 +24,25 @@ public class ConceptoService {
 		this.conceptoDAO = conceptoDAO;
 		this.tallerDAO = tallerDAO;
 	}
-	public List<Concepto> get(String tipo, int limit)
+	public Page<Concepto> get(String tipo, String nivel, int limit) throws ServiceException
 	{
-		if (tipo == null) {
-			return conceptoDAO.findAllBy(PageRequest.of(0, limit,
-					Sort.by("fechaActualizacion").descending()));
+		Nivel eNivel = Nivel.INICIAL;
+		if (nivel != null && !nivel.isEmpty()) {
+			try {
+				eNivel = Nivel.valueOf(nivel);
+			} catch (IllegalArgumentException e) {
+				throw new ServiceException("Nivel invalido", 400);
+			}
 		}
-		return conceptoDAO.findByTipoDeConcepto(tipo,
-				PageRequest.of(0, limit,
-						Sort.by("fechaActualizacion").descending()));
+		if ((tipo == null || tipo.isEmpty()) && (nivel == null || nivel.isEmpty())) {
+			return conceptoDAO.findAll(PageRequest.of(0, limit));
+		} else if (tipo == null || tipo.isEmpty()) {
+			return conceptoDAO.findByNivel(eNivel, PageRequest.of(0, limit));
+		} else if (nivel == null || nivel.isEmpty()) {
+			return conceptoDAO.findByTipoDeConcepto(tipo, PageRequest.of(0, limit));
+		} else {
+			return conceptoDAO.findByTipoDeConceptoAndNivel(tipo, eNivel, PageRequest.of(0, limit));
+		}
 	}
 	public Concepto newConcepto(Concepto concepto) throws ServiceException
 	{

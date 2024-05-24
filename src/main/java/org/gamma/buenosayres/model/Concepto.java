@@ -29,6 +29,9 @@ public abstract class Concepto implements ConceptoAcceptor<ConceptoDTO> {
 	private Date fechaActualizacion;
 	@Column(name = "tipo_de_concepto", insertable = false, updatable = false)
 	String tipoDeConcepto;
+	@Column(name = "nivel")
+	@Enumerated(EnumType.STRING)
+	private Nivel nivel;
 	public Concepto(UUID id, float monto, Date fechaActualizacion)
 	{
 		this.id = id;

@@ -1,6 +1,7 @@
 package org.gamma.buenosayres.mapper;
 
 import org.gamma.buenosayres.dto.ActualizarFamiliaDTO;
+import org.gamma.buenosayres.dto.FamiliaDTO;
 import org.gamma.buenosayres.model.Familia;
 import org.gamma.buenosayres.model.Persona;
 import org.gamma.buenosayres.dto.ListarFamiliaDTO;
@@ -50,15 +51,15 @@ public class FamiliaMapper {
 		});
 
 	}
-	public ListarFamiliaDTO map(Familia familia)
+	public FamiliaDTO map(Familia familia)
 	{
-		return modelMapper.map(familia, ListarFamiliaDTO.class);
+		return modelMapper.map(familia, FamiliaDTO.class);
 	}
-	public List<ListarFamiliaDTO> map(List<Familia> familias)
+	public List<FamiliaDTO> map(List<Familia> familias)
 	{
 		return familias.stream().map(this::map).toList();
 	}
-	public Familia map(ActualizarFamiliaDTO familia)
+	public Familia map(FamiliaDTO familia)
 	{
 		return modelMapper.map(familia, Familia.class);
 	}

@@ -19,7 +19,6 @@ public class CuotaTaller extends Concepto {
 	@ManyToOne
 	@JoinColumn(name = "id_taller")
 	private Taller taller;
-
 	@Override
 	public ConceptoDTO accept(ConceptoVisitor<ConceptoDTO> visitor)
 	{

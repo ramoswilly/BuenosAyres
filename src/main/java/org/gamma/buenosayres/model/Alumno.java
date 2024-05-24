@@ -14,7 +14,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class Alumno {
-
 	@Id
 	@GeneratedValue
 	@Column(name = "id_persona")

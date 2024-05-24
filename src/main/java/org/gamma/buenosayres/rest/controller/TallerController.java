@@ -42,10 +42,19 @@ public class TallerController {
 		}
 	}
 	@PutMapping(path = "/{id_taller}/alumnos")
-	public ResponseEntity<?> altaAlumnos(@PathVariable UUID id_taller, @RequestBody TallerDTO alumnos)
+	public ResponseEntity<?> altaAlumnos(@PathVariable UUID id_taller, @RequestBody List<UUID> alumnos)
 	{
 		try {
-			return ResponseEntity.ok(tallerService.altaAlumnos(id_taller, tallerMapper.map(alumnos)));
+			return ResponseEntity.ok(tallerService.altaAlumnos(id_taller, alumnos));
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
+	@DeleteMapping(path = "/{id_taller}/alumnos")
+	public ResponseEntity<?> removerAlumno(@PathVariable UUID id_taller, @RequestBody UUID alumno)
+	{
+		try {
+			return ResponseEntity.ok(tallerService.removerAlumno(id_taller, alumno));
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}

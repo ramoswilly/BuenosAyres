@@ -41,6 +41,7 @@ public class TallerMapper {
 			@Override
 			protected List<Alumno> convert(List<UUID> uuids)
 			{
+				if (uuids == null) return new ArrayList<>();
 				return uuids.stream().map(uuid -> {
 					Alumno alumno = new Alumno();
 					alumno.setId(uuid);

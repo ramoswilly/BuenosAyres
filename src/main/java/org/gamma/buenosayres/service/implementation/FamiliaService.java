@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,6 +34,7 @@ public class FamiliaService {
 	public void newFamilia(String apellido)
 	{
 		Familia nuevaFamilia = new Familia();
+		nuevaFamilia.setHabilitada(true);
 		nuevaFamilia.setApellido(apellido);
 		familiaDAO.save(nuevaFamilia);
 	}
@@ -50,26 +52,14 @@ public class FamiliaService {
 	@Transactional
 	public void actualizarFamilia(Familia actualizar) throws ServiceException
 	{
-		Familia familiaSync = familiaDAO.findById(actualizar.getId()).orElseThrow(() -> new ServiceException("Familia Inexistente", 400));
-
-		/* Remove previous family members */
-		for (Persona persona : personaDAO.findPersonaByFamilia(familiaSync)) {
-			persona.setFamilia(null);
-			personaDAO.save(persona);
-		}
-
-		/* Set new family members */
-		for (Persona persona : actualizar.getMiembros()) {
-			Persona personaSync = personaDAO.findById(persona.getId()).orElseThrow(() -> new ServiceException(String.format("Persona Inexistente: %s", persona.getId()), 400));
-			personaSync.setFamilia(familiaSync);
-			familiaSync.getMiembros().add(personaSync);
-		}
-
-		/* Update apellido if necessary */
-		if (actualizar.getApellido() != null) familiaSync.setApellido(actualizar.getApellido());
-
+		Familia familia = familiaDAO.findById(actualizar.getId()).orElseThrow(() -> new ServiceException("Familia Inexistente", 400));
+		/* Actualizar apellido */
+		if (actualizar.getApellido() != null) familia.setApellido(actualizar.getApellido());
+		/* ¿Está habilitada? TODO: Migrar a Boolean wrapper*/
+		familia.setHabilitada(actualizar.isHabilitada());
+		System.out.println(familia.isHabilitada());
 		/* Finally Persist */
-		familiaDAO.save(familiaSync);
+		familiaDAO.save(familia);
 	}
 	public void agregarMiembros(Familia actualizar) throws ServiceException
 	{
@@ -97,5 +87,10 @@ public class FamiliaService {
 	{
 		Familia familiaHibernate = familiaDAO.findById(familia).orElseThrow(() -> new ServiceException("Familia Inexistente", 400));
 		return familiaHibernate.getMiembros();
+	}
+
+	public Optional<Familia> find(UUID idFamilia)
+	{
+		return familiaDAO.findById(idFamilia);
 	}
 }

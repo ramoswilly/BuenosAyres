@@ -15,5 +15,6 @@ import java.util.UUID;
 public class ActualizarFamiliaDTO {
 	private UUID id;
 	private String apellido;
+	boolean habilitada;
 	private List<UUID> miembros;
 }

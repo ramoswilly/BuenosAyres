@@ -21,6 +21,7 @@ public class Familia {
 	private String apellido;
 	@OneToMany(mappedBy = "familia")
 	List<Persona> miembros;
+	private boolean habilitada;
 	public Familia(UUID id, List<Persona> miembros)
 	{
 		this.id = id;

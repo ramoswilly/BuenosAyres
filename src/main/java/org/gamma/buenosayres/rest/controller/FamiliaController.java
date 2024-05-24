@@ -1,6 +1,7 @@
 package org.gamma.buenosayres.rest.controller;
 
 import org.gamma.buenosayres.dto.ActualizarFamiliaDTO;
+import org.gamma.buenosayres.dto.FamiliaDTO;
 import org.gamma.buenosayres.dto.MiembrosFamiliaDTO;
 import org.gamma.buenosayres.mapper.FamiliaMapper;
 import org.gamma.buenosayres.dto.ListarFamiliaDTO;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -27,13 +29,18 @@ public class FamiliaController {
 		this.familiaService = familiaService;
 		this.familiaMapper= familiaMapper;
 	}
-
 	@GetMapping(produces = "application/json")
-	public List<ListarFamiliaDTO> getAllFamilias()
+	public List<FamiliaDTO> getAllFamilias()
 	{
 		List<Familia> familias = familiaService.getAll();
-
 		return familiaMapper.map(familiaService.getAll());
+	}
+	@GetMapping("/{familia}")
+	public ResponseEntity<?> detalleFamilia(@PathVariable(value = "familia") UUID id_familia)
+	{
+		Optional<Familia> familia = familiaService.find(id_familia);
+		if (familia.isPresent()) return ResponseEntity.ok(familiaMapper.map(familia.get()));
+		return ResponseEntity.notFound().build();
 	}
 	@PostMapping
 	public ResponseEntity<String> newFamilia(@RequestBody Map<String, String> apellido)
@@ -52,10 +59,11 @@ public class FamiliaController {
 		}
 		return ResponseEntity.ok("Persona Añadida");
 	}
-	@PutMapping("/{familia}")
-	public ResponseEntity<String> actualizarFamilia(@RequestBody ActualizarFamiliaDTO familia)
+	@PutMapping("/{id}")
+	public ResponseEntity<String> actualizarFamilia(@PathVariable UUID id, @RequestBody FamiliaDTO familia)
 	{
 		try {
+			familia.setId(id);
 			familiaService.actualizarFamilia(familiaMapper.map(familia));
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
