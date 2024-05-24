@@ -6,13 +6,9 @@ import org.gamma.buenosayres.model.*;
 import org.gamma.buenosayres.service.exception.ServiceException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.sql.rowset.serial.SerialException;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class ConceptoService {
@@ -37,11 +33,11 @@ public class ConceptoService {
 		if ((tipo == null || tipo.isEmpty()) && (nivel == null || nivel.isEmpty())) {
 			return conceptoDAO.findAll(PageRequest.of(0, limit));
 		} else if (tipo == null || tipo.isEmpty()) {
-			return conceptoDAO.findByNivel(eNivel, PageRequest.of(0, limit));
+			return conceptoDAO.findByNivelOrderByFechaActualizacionDesc(eNivel, PageRequest.of(0, limit));
 		} else if (nivel == null || nivel.isEmpty()) {
-			return conceptoDAO.findByTipoDeConcepto(tipo, PageRequest.of(0, limit));
+			return conceptoDAO.findByTipoDeConceptoOrderByFechaActualizacionDesc(tipo, PageRequest.of(0, limit));
 		} else {
-			return conceptoDAO.findByTipoDeConceptoAndNivel(tipo, eNivel, PageRequest.of(0, limit));
+			return conceptoDAO.findByTipoDeConceptoAndNivelOrderByFechaActualizacionDesc(tipo, eNivel, PageRequest.of(0, limit));
 		}
 	}
 	public Concepto newConcepto(Concepto concepto) throws ServiceException
