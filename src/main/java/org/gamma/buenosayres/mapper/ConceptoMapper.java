@@ -6,6 +6,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class ConceptoMapper implements ConceptoVisitor<ConceptoDTO> {
 	private static final ModelMapper modelMapper = new ModelMapper();
@@ -14,6 +16,14 @@ public class ConceptoMapper implements ConceptoVisitor<ConceptoDTO> {
 		TypeMap<CuotaTaller, ConceptoDTO> tallerConceptoDTO = modelMapper.createTypeMap(CuotaTaller.class, ConceptoDTO.class);
 		tallerConceptoDTO.addMappings(mapper -> {
 			mapper.map(src -> src.getTaller().getId(), ConceptoDTO::setTaller);
+		});
+		TypeMap<ConceptoDTO, CuotaTaller> conceptoDTOTaller = modelMapper.createTypeMap(ConceptoDTO.class, CuotaTaller.class);
+		conceptoDTOTaller.addMappings(mapper -> {
+			mapper.map(ConceptoDTO::getMonto, CuotaTaller::setMonto);
+			mapper.map(ConceptoDTO::getNivel, CuotaTaller::setNivel);
+			mapper.map(ConceptoDTO::getTaller, (dest, value) -> {
+				dest.getTaller().setId((UUID) value);
+			});
 		});
 	}
 	public Concepto map(ConceptoDTO concepto)

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/conceptos")
@@ -25,10 +26,13 @@ public class ConceptoController {
 		this.mapper = mapper;
 	}
 	@GetMapping
-	ResponseEntity<?> get(@RequestParam(value = "type", required = false) String tipo, @RequestParam(value = "nivel", required = false) String nivel, @RequestParam(value = "limit", defaultValue = "10") int limit)
+	ResponseEntity<?> get(@RequestParam(value = "type", required = false) String tipo,
+						  @RequestParam(value = "nivel", required = false) String nivel,
+						  @RequestParam(value = "taller", required = false) UUID id_taller,
+						  @RequestParam(value = "limit", defaultValue = "10") int limit)
 	{
 		try {
-			return ResponseEntity.ok(service.get(tipo, nivel, limit).stream().map(mapper::map).toList());
+			return ResponseEntity.ok(service.get(tipo, nivel, id_taller, limit).stream().map(mapper::map).toList());
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
@@ -36,6 +40,7 @@ public class ConceptoController {
 	@PostMapping
 	ResponseEntity<?> nuevoConcepto(@RequestBody ConceptoDTO concepto)
 	{
+		System.out.println(concepto);
 		try {
 			return ResponseEntity.ok(service.newConcepto(mapper.map(concepto)));
 		} catch (ServiceException e) {
