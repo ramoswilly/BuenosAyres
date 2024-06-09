@@ -2,18 +2,16 @@ package org.gamma.buenosayres.model;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.gamma.buenosayres.dto.ConceptoDTO;
 import org.gamma.buenosayres.mapper.ConceptoVisitor;
 
 @Entity
-@NoArgsConstructor
-@Getter
-@Setter
 @DiscriminatorValue(value = "MATERIALES")
 public class Materiales extends Concepto {
+	public Materiales()
+	{
+	}
+
 	@Override
 	public ConceptoDTO accept(ConceptoVisitor<ConceptoDTO> visitor)
 	{

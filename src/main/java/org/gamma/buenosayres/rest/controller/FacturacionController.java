@@ -2,12 +2,11 @@ package org.gamma.buenosayres.rest.controller;
 
 import org.gamma.buenosayres.service.implementation.FacturacionService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/facturacion")
+@CrossOrigin(origins = "*")
 public class FacturacionController {
 
 	private final FacturacionService facturacionService;
@@ -22,5 +21,10 @@ public class FacturacionController {
 	{
 		facturacionService.facturar();
 		return ResponseEntity.accepted().body("");
+	}
+	@GetMapping(path = "/periodos")
+	public ResponseEntity<?> obtenerPeriodos()
+	{
+		return ResponseEntity.ok(facturacionService.obtenerPeriodos());
 	}
 }

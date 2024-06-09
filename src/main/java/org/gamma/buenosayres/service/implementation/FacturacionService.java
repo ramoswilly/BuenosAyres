@@ -1,48 +1,79 @@
 package org.gamma.buenosayres.service.implementation;
 
-import org.gamma.buenosayres.dao.interfaces.AlumnoDAO;
-import org.gamma.buenosayres.dao.interfaces.CuotaDAO;
-import org.gamma.buenosayres.dao.interfaces.FamiliaDAO;
-import org.gamma.buenosayres.dao.interfaces.MaterialesDAO;
+import jakarta.transaction.Transactional;
+import org.gamma.buenosayres.dao.interfaces.*;
 import org.gamma.buenosayres.model.*;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import javax.swing.text.html.Option;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class FacturacionService {
 
 	private final FamiliaDAO familiaDAO;
+	private final ConceptoDAO conceptoDAO;
 	private final AlumnoDAO alumnoDAO;
 	private final CuotaDAO cuotaDAO;
 	private final MaterialesDAO materialesDAO;
+	private final TallerDAO tallerDAO;
+	private final CuotaTallerDAO cuotaTallerDAO;
+	private final DetalleFacturaDAO detalleFacturaDAO;
+	private final FacturaDAO facturaDAO;
 
-	public FacturacionService(FamiliaDAO familiaDAO, AlumnoDAO alumnoDAO, CuotaDAO cuotaDAO, MaterialesDAO materialesDAO)
+	public FacturacionService(FamiliaDAO familiaDAO, ConceptoDAO conceptoDAO, AlumnoDAO alumnoDAO, CuotaDAO cuotaDAO, MaterialesDAO materialesDAO, TallerDAO tallerDAO, CuotaTallerDAO cuotaTallerDAO, FacturaDAO facturaDAO, DetalleFacturaDAO detalleFacturaDAO)
 	{
+		this.conceptoDAO = conceptoDAO;
 		this.familiaDAO = familiaDAO;
 		this.alumnoDAO = alumnoDAO;
 		this.cuotaDAO = cuotaDAO;
 		this.materialesDAO = materialesDAO;
+		this.tallerDAO = tallerDAO;
+		this.cuotaTallerDAO = cuotaTallerDAO;
+		this.facturaDAO = facturaDAO;
+		this.detalleFacturaDAO = detalleFacturaDAO;
 	}
+	private static final int[] porcentaje_descuento = {
+			0, 10, 15, 50, 75, 100
+	};
+	private static DetalleFactura generarDetalle(Factura factura, Alumno alumno, Concepto concepto, int discount_index)
+	{
+		DetalleFactura detalleFactura = new DetalleFactura();
+		detalleFactura.setFactura(factura);
+		detalleFactura.setAlumno(alumno);
+		detalleFactura.setConcepto(concepto);
+		int porcentaje = porcentaje_descuento[discount_index % porcentaje_descuento.length];
+		detalleFactura.setDescuento(porcentaje);
+		detalleFactura.setMontoFinal(concepto.getMonto() * (100 - porcentaje) / 100);
 
+		detalleFactura.setAbonado(false);
+		return detalleFactura;
+	}
 	@Async
+	@Transactional
+	// public void facturar(boolean conMatricula, boolean conAdicionales)
 	public void facturar()
 	{
 		// Pre-obtener montos actuales
-		// Cuota por nivel
+		// Cuota por Nivel
 		Optional<Cuota> cuotaInicial = cuotaDAO.findTopByNivelOrderByFechaActualizacion(Nivel.INICIAL);
 		Optional<Cuota> cuotaPrimaria = cuotaDAO.findTopByNivelOrderByFechaActualizacion(Nivel.PRIMARIA);
 		Optional<Cuota> cuotaSecundaria = cuotaDAO.findTopByNivelOrderByFechaActualizacion(Nivel.SECUNDARIA);
-		Optional<Materiales> cuotaMateriales = materialesDAO.findTop();
+		// Cuota de Materiales
+		Optional<Concepto> cuotaMateriales = conceptoDAO.findTopByTipoDeConceptoOrderByFechaActualizacionDesc("MATERIALES");
 
+		// Cuota de Taller
+		Map<Taller, CuotaTaller> cuotaTallerMap = tallerDAO.findAll().stream()
+				.map(cuotaTallerDAO::findTopByTallerOrderByFechaActualizacionDesc)
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.collect(Collectors.toMap(CuotaTaller::getTaller, Function.identity()));
 		// Obtener todas las familias
 		List<Familia> familias = familiaDAO.findAll();
-
 		for (Familia familia : familias) {
 			// Obtener alumnos en familias
 			List<Optional<Alumno>> alumnos = familia.getMiembros().stream()
@@ -50,34 +81,51 @@ public class FacturacionService {
 					// Convertir persona a alumno con hibernate
 					.map(miembro -> alumnoDAO.findById(miembro.getId()))
 					.toList();
-
 			// Factura
 			Factura factura = new Factura();
-
+			factura.setDetalles(new ArrayList<>());
+			// Obtener un indice para iterar en descuentos
+			AtomicInteger discount_index = new AtomicInteger();
 			// Obtener conceptos
-			alumnos.stream().filter(Optional::isPresent).forEach(alumno -> {
+			alumnos.stream().filter(Optional::isPresent)
+					.sorted(Comparator.comparingInt(a0 -> -a0.get().getCurso().getNivel().ordinal()))
+					.forEach(alumno -> {
 					switch (alumno.get().getCurso().getNivel()) {
 						case INICIAL -> {
-							// Detalle con Cuota
-							DetalleFactura detalleCuota = new DetalleFactura();
-							detalleCuota.setFactura(factura);
-							detalleCuota.setAlumno(alumno.get());
-							detalleCuota.setAbonado(false);
-							detalleCuota.setConcepto(cuotaInicial.get());
-							// Agregar cuota de materiales
-							DetalleFactura detalleMateriales = new DetalleFactura();
-							detalleMateriales.setFactura(factura);
-							detalleMateriales.setAlumno(alumno.get());
-							detalleMateriales.setAbonado(false);
-							detalleMateriales.setConcepto(cuotaMateriales.get());
+							// Detalle con Cuota de materiales
+							DetalleFactura materiales = generarDetalle(factura, alumno.get(), cuotaMateriales.get(), 0);
+							detalleFacturaDAO.save(materiales);
+							factura.getDetalles().add(materiales);
+							// Detalle cuota de nivel
+							DetalleFactura cuota = generarDetalle(factura, alumno.get(), cuotaInicial.get(), discount_index.intValue());
+							detalleFacturaDAO.save(cuota);
+							factura.getDetalles().add(cuota);
 						}
 						case PRIMARIA -> {
-
+							DetalleFactura cuota = generarDetalle(factura, alumno.get(), cuotaPrimaria.get(), discount_index.intValue());
+							detalleFacturaDAO.save(cuota);
+							factura.getDetalles().add(cuota);
 						}
 						case SECUNDARIA -> {
+							DetalleFactura cuota = generarDetalle(factura, alumno.get(), cuotaSecundaria.get(), discount_index.intValue());
+							detalleFacturaDAO.save(cuota);
+							factura.getDetalles().add(cuota);
 						}
 					}
+					discount_index.getAndIncrement(); // Siguiente hermano
 			});
+			// Obtener monto final
+			float monto_final = factura.getDetalles().stream()
+							.map(DetalleFactura::getMontoFinal)
+							.reduce(0f, Float::sum);
+			// Adjuntar monto final
+			factura.setMontoFinal(monto_final);
+			// Persistir factura
+			facturaDAO.save(factura);
 		}
+	}
+	public List<Date> obtenerPeriodos()
+	{
+		return facturaDAO.obtenerPeriodos();
 	}
 }

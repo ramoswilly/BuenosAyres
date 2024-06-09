@@ -1,19 +1,11 @@
 package org.gamma.buenosayres.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "personas")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 public class Persona {
 	@Id
 	@GeneratedValue
@@ -28,4 +20,89 @@ public class Persona {
 	@ManyToOne
 	@JoinColumn(name = "id_familia")
 	private Familia familia;
+
+	public Persona(UUID id, String dni, String nombre, String apellido, String direccion, TipoPersona tipo, Familia familia)
+	{
+		this.id = id;
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.direccion = direccion;
+		this.tipo = tipo;
+		this.familia = familia;
+	}
+
+	public Persona()
+	{
+	}
+
+	public UUID getId()
+	{
+		return this.id;
+	}
+
+	public String getDni()
+	{
+		return this.dni;
+	}
+
+	public String getNombre()
+	{
+		return this.nombre;
+	}
+
+	public String getApellido()
+	{
+		return this.apellido;
+	}
+
+	public String getDireccion()
+	{
+		return this.direccion;
+	}
+
+	public TipoPersona getTipo()
+	{
+		return this.tipo;
+	}
+
+	public Familia getFamilia()
+	{
+		return this.familia;
+	}
+
+	public void setId(UUID id)
+	{
+		this.id = id;
+	}
+
+	public void setDni(String dni)
+	{
+		this.dni = dni;
+	}
+
+	public void setNombre(String nombre)
+	{
+		this.nombre = nombre;
+	}
+
+	public void setApellido(String apellido)
+	{
+		this.apellido = apellido;
+	}
+
+	public void setDireccion(String direccion)
+	{
+		this.direccion = direccion;
+	}
+
+	public void setTipo(TipoPersona tipo)
+	{
+		this.tipo = tipo;
+	}
+
+	public void setFamilia(Familia familia)
+	{
+		this.familia = familia;
+	}
 }

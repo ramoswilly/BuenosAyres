@@ -1,17 +1,12 @@
 package org.gamma.buenosayres.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.UUID;
+
 @Entity
 @Table(name = "talleres")
-@NoArgsConstructor
-@Getter
-@Setter
 public class Taller {
 	@Id
 	@GeneratedValue
@@ -22,4 +17,48 @@ public class Taller {
 	private Nivel nivel;
 	@ManyToMany(mappedBy = "talleres")
 	private List<Alumno> alumnos;
+
+	public Taller()
+	{
+	}
+
+	public UUID getId()
+	{
+		return this.id;
+	}
+
+	public String getDescripcion()
+	{
+		return this.descripcion;
+	}
+
+	public Nivel getNivel()
+	{
+		return this.nivel;
+	}
+
+	public List<Alumno> getAlumnos()
+	{
+		return this.alumnos;
+	}
+
+	public void setId(UUID id)
+	{
+		this.id = id;
+	}
+
+	public void setDescripcion(String descripcion)
+	{
+		this.descripcion = descripcion;
+	}
+
+	public void setNivel(Nivel nivel)
+	{
+		this.nivel = nivel;
+	}
+
+	public void setAlumnos(List<Alumno> alumnos)
+	{
+		this.alumnos = alumnos;
+	}
 }

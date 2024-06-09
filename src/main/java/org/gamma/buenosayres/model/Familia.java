@@ -1,18 +1,12 @@
 package org.gamma.buenosayres.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "familias")
-@NoArgsConstructor
-@Getter
-@Setter
 public class Familia {
 	@Id
 	@GeneratedValue
@@ -26,5 +20,49 @@ public class Familia {
 	{
 		this.id = id;
 		this.miembros = miembros;
+	}
+
+	public Familia()
+	{
+	}
+
+	public UUID getId()
+	{
+		return this.id;
+	}
+
+	public String getApellido()
+	{
+		return this.apellido;
+	}
+
+	public List<Persona> getMiembros()
+	{
+		return this.miembros;
+	}
+
+	public boolean isHabilitada()
+	{
+		return this.habilitada;
+	}
+
+	public void setId(UUID id)
+	{
+		this.id = id;
+	}
+
+	public void setApellido(String apellido)
+	{
+		this.apellido = apellido;
+	}
+
+	public void setMiembros(List<Persona> miembros)
+	{
+		this.miembros = miembros;
+	}
+
+	public void setHabilitada(boolean habilitada)
+	{
+		this.habilitada = habilitada;
 	}
 }

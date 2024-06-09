@@ -1,12 +1,8 @@
 package org.gamma.buenosayres.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.gamma.buenosayres.dto.ConceptoDTO;
 import org.gamma.buenosayres.mapper.ConceptoAcceptor;
-import org.gamma.buenosayres.mapper.ConceptoVisitor;
 
 import java.util.Date;
 import java.util.UUID;
@@ -15,9 +11,6 @@ import java.util.UUID;
 @Table(name = "conceptos")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipo_de_concepto", discriminatorType = DiscriminatorType.STRING)
-@NoArgsConstructor
-@Getter
-@Setter
 public abstract class Concepto implements ConceptoAcceptor<ConceptoDTO> {
 	@Id
 	@GeneratedValue
@@ -39,4 +32,57 @@ public abstract class Concepto implements ConceptoAcceptor<ConceptoDTO> {
 		this.fechaActualizacion = fechaActualizacion;
 	}
 
+	public Concepto()
+	{
+	}
+
+	public UUID getId()
+	{
+		return this.id;
+	}
+
+	public float getMonto()
+	{
+		return this.monto;
+	}
+
+	public Date getFechaActualizacion()
+	{
+		return this.fechaActualizacion;
+	}
+
+	public String getTipoDeConcepto()
+	{
+		return this.tipoDeConcepto;
+	}
+
+	public Nivel getNivel()
+	{
+		return this.nivel;
+	}
+
+	public void setId(UUID id)
+	{
+		this.id = id;
+	}
+
+	public void setMonto(float monto)
+	{
+		this.monto = monto;
+	}
+
+	public void setFechaActualizacion(Date fechaActualizacion)
+	{
+		this.fechaActualizacion = fechaActualizacion;
+	}
+
+	public void setTipoDeConcepto(String tipoDeConcepto)
+	{
+		this.tipoDeConcepto = tipoDeConcepto;
+	}
+
+	public void setNivel(Nivel nivel)
+	{
+		this.nivel = nivel;
+	}
 }
