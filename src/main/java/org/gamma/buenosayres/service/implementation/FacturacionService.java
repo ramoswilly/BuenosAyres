@@ -55,8 +55,7 @@ public class FacturacionService {
 	}
 	@Async
 	@Transactional
-	// public void facturar(boolean conMatricula, boolean conAdicionales)
-	public void facturar()
+	public void facturar(boolean conAdicionales, boolean conMatricula)
 	{
 		// Pre-obtener montos actuales
 		// Cuota por Nivel
@@ -65,6 +64,8 @@ public class FacturacionService {
 		Optional<Cuota> cuotaSecundaria = cuotaDAO.findTopByNivelOrderByFechaActualizacion(Nivel.SECUNDARIA);
 		// Cuota de Materiales
 		Optional<Concepto> cuotaMateriales = conceptoDAO.findTopByTipoDeConceptoOrderByFechaActualizacionDesc("MATERIALES");
+		// Fecha actual
+		Date fechaFacturacion = new Date();
 
 		// Cuota de Taller
 		Map<Taller, CuotaTaller> cuotaTallerMap = tallerDAO.findAll().stream()
@@ -83,6 +84,7 @@ public class FacturacionService {
 					.toList();
 			// Factura
 			Factura factura = new Factura();
+			factura.setPeriodo(fechaFacturacion);
 			factura.setDetalles(new ArrayList<>());
 			// Obtener un indice para iterar en descuentos
 			AtomicInteger discount_index = new AtomicInteger();
@@ -127,5 +129,9 @@ public class FacturacionService {
 	public List<Date> obtenerPeriodos()
 	{
 		return facturaDAO.obtenerPeriodos();
+	}
+	public List<Factura> obtenerFacturas(Date periodo)
+	{
+		return facturaDAO.findAllByPeriodo(periodo);
 	}
 }

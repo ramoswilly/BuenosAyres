@@ -1,5 +1,7 @@
 package org.gamma.buenosayres.rest.controller;
 
+import java.util.Date;
+
 import org.gamma.buenosayres.service.implementation.FacturacionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +17,17 @@ public class FacturacionController {
 	{
 		this.facturacionService = facturacionService;
 	}
-
-	@PostMapping
-	public ResponseEntity<?> facturar()
+	@GetMapping
+	public ResponseEntity<?> obtenerFacturas(@RequestParam Date periodo)
 	{
-		facturacionService.facturar();
+		return ResponseEntity.ok(0);
+//		facturacionService.obtenerFacturas(periodo);
+	}
+	@PostMapping
+	public ResponseEntity<?> facturar(@RequestParam(required = false, defaultValue = "false") boolean adicionales,
+									  @RequestParam(required = false,  defaultValue = "false") boolean matriculas)
+	{
+		facturacionService.facturar(adicionales, matriculas);
 		return ResponseEntity.accepted().body("");
 	}
 	@GetMapping(path = "/periodos")

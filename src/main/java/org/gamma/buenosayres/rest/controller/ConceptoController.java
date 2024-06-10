@@ -40,7 +40,6 @@ public class ConceptoController {
 	@PostMapping
 	ResponseEntity<?> nuevoConcepto(@RequestBody ConceptoDTO concepto)
 	{
-		System.out.println(concepto);
 		try {
 			return ResponseEntity.ok(service.newConcepto(mapper.map(concepto)));
 		} catch (ServiceException e) {

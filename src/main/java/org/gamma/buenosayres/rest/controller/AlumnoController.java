@@ -2,7 +2,7 @@ package org.gamma.buenosayres.rest.controller;
 
 import org.gamma.buenosayres.mapper.AlumnoMapper;
 import org.gamma.buenosayres.dto.ActualizarAlumnoDTO;
-import org.gamma.buenosayres.dto.CrearAlumnoDTO;
+import org.gamma.buenosayres.dto.AlumnoDTO;
 import org.gamma.buenosayres.dto.ListarAlumnoDTO;
 import org.gamma.buenosayres.service.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class AlumnoController {
 		this.alumnoMapper = alumnoMapper;
 	}
 	@GetMapping(produces = "application/json")
-	public List<ListarAlumnoDTO> getAllAlumnos()
+	public List<AlumnoDTO> getAllAlumnos()
 	{
 		return service.findAll().stream().map(alumnoMapper::map).toList();
 	}
@@ -34,14 +34,13 @@ public class AlumnoController {
 	public ResponseEntity<?> getAlumno(@PathVariable(value = "id") UUID idAlumno)
 	{
 		try {
-			ListarAlumnoDTO map = alumnoMapper.map(service.getAlumno(idAlumno));
-			return ResponseEntity.ok(map);
+			return ResponseEntity.ok(alumnoMapper.map(service.getAlumno(idAlumno)));
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 	}
 	@PostMapping
-	public ResponseEntity<String> newAlumno(@RequestBody CrearAlumnoDTO alumno)
+	public ResponseEntity<String> newAlumno(@RequestBody AlumnoDTO alumno)
 	{
 		try {
 			service.newAlumno(alumnoMapper.map(alumno));
@@ -51,7 +50,7 @@ public class AlumnoController {
 		return ResponseEntity.status(HttpStatus.OK).body("Alumno registrado");
 	}
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> updateAlumno(@PathVariable(value = "id") UUID idAlumno, @RequestBody ActualizarAlumnoDTO alumnoDTO)
+	public ResponseEntity<?> updateAlumno(@PathVariable(value = "id") UUID idAlumno, @RequestBody AlumnoDTO alumnoDTO)
 	{
 		try {
 			alumnoDTO.setId(idAlumno);
@@ -61,5 +60,4 @@ public class AlumnoController {
 		}
 		return ResponseEntity.status(HttpStatus.OK).body("Alumno actualizado");
 	}
-
 }

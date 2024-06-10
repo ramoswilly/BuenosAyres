@@ -1,5 +1,6 @@
 package org.gamma.buenosayres.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.gamma.buenosayres.model.Nivel;
 
@@ -8,6 +9,7 @@ import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ConceptoDTO {
+	@JsonIgnore
 	private UUID id;
 	private float monto;
 	private Date fechaActualizacion;
