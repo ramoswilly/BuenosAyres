@@ -2,7 +2,9 @@ package org.gamma.buenosayres.rest.controller;
 
 import java.util.Date;
 
+import org.gamma.buenosayres.mapper.FacturacionMapper;
 import org.gamma.buenosayres.service.implementation.FacturacionService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,16 +14,17 @@ import org.springframework.web.bind.annotation.*;
 public class FacturacionController {
 
 	private final FacturacionService facturacionService;
+	private final FacturacionMapper facturacionMapper;
 
-	public FacturacionController(FacturacionService facturacionService)
+	public FacturacionController(FacturacionService facturacionService, FacturacionMapper facturacionMapper)
 	{
 		this.facturacionService = facturacionService;
+		this.facturacionMapper = facturacionMapper;
 	}
 	@GetMapping
-	public ResponseEntity<?> obtenerFacturas(@RequestParam Date periodo)
+	public ResponseEntity<?> obtenerFacturas(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date periodo)
 	{
-		return ResponseEntity.ok(0);
-//		facturacionService.obtenerFacturas(periodo);
+		return ResponseEntity.ok(facturacionService.obtenerFacturas(periodo).stream().map(facturacionMapper::map).toList());
 	}
 	@PostMapping
 	public ResponseEntity<?> facturar(@RequestParam(required = false, defaultValue = "false") boolean adicionales,
@@ -30,7 +33,8 @@ public class FacturacionController {
 		facturacionService.facturar(adicionales, matriculas);
 		return ResponseEntity.accepted().body("");
 	}
-	@GetMapping(path = "/periodos")
+
+	@GetMapping("/periodos")
 	public ResponseEntity<?> obtenerPeriodos()
 	{
 		return ResponseEntity.ok(facturacionService.obtenerPeriodos());
