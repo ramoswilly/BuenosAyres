@@ -9,7 +9,6 @@ import java.util.UUID;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ConceptoDTO {
-	@JsonIgnore
 	private UUID id;
 	private float monto;
 	private Date fechaActualizacion;
@@ -32,7 +31,7 @@ public class ConceptoDTO {
 	public ConceptoDTO()
 	{
 	}
-
+	@JsonIgnore
 	public UUID getId()
 	{
 		return this.id;
