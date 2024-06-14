@@ -4,6 +4,7 @@ import org.gamma.buenosayres.dto.ConceptoDTO;
 import org.gamma.buenosayres.mapper.ConceptoMapper;
 import org.gamma.buenosayres.model.Concepto;
 import org.gamma.buenosayres.model.Nivel;
+import org.gamma.buenosayres.model.TipoConcepto;
 import org.gamma.buenosayres.service.exception.ServiceException;
 import org.gamma.buenosayres.service.implementation.ConceptoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class ConceptoController {
 		this.mapper = mapper;
 	}
 	@GetMapping
-	ResponseEntity<?> get(@RequestParam(value = "type", required = false) String tipo,
-						  @RequestParam(value = "nivel", required = false) String nivel,
+	ResponseEntity<?> get(@RequestParam(value = "type", required = false) TipoConcepto tipo,
+						  @RequestParam(value = "nivel", required = false) Nivel nivel,
 						  @RequestParam(value = "taller", required = false) UUID id_taller,
 						  @RequestParam(value = "limit", defaultValue = "10") int limit)
 	{

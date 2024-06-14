@@ -18,24 +18,19 @@ public class FacturacionService {
 	private final FamiliaDAO familiaDAO;
 	private final ConceptoDAO conceptoDAO;
 	private final AlumnoDAO alumnoDAO;
-	private final CuotaDAO cuotaDAO;
-	private final MaterialesDAO materialesDAO;
 	private final TallerDAO tallerDAO;
-	private final CuotaTallerDAO cuotaTallerDAO;
 	private final DetalleFacturaDAO detalleFacturaDAO;
 	private final FacturaDAO facturaDAO;
 
-	public FacturacionService(FamiliaDAO familiaDAO, ConceptoDAO conceptoDAO, AlumnoDAO alumnoDAO, CuotaDAO cuotaDAO, MaterialesDAO materialesDAO, TallerDAO tallerDAO, CuotaTallerDAO cuotaTallerDAO, FacturaDAO facturaDAO, DetalleFacturaDAO detalleFacturaDAO)
+	public FacturacionService(FamiliaDAO familiaDAO, ConceptoDAO conceptoDAO,
+							  AlumnoDAO alumnoDAO, TallerDAO tallerDAO, DetalleFacturaDAO detalleFacturaDAO, FacturaDAO facturaDAO)
 	{
-		this.conceptoDAO = conceptoDAO;
 		this.familiaDAO = familiaDAO;
+		this.conceptoDAO = conceptoDAO;
 		this.alumnoDAO = alumnoDAO;
-		this.cuotaDAO = cuotaDAO;
-		this.materialesDAO = materialesDAO;
 		this.tallerDAO = tallerDAO;
-		this.cuotaTallerDAO = cuotaTallerDAO;
-		this.facturaDAO = facturaDAO;
 		this.detalleFacturaDAO = detalleFacturaDAO;
+		this.facturaDAO = facturaDAO;
 	}
 	private static final int[] porcentaje_descuento = {
 			0, 10, 15, 50, 75, 100
@@ -59,20 +54,19 @@ public class FacturacionService {
 	{
 		// Pre-obtener montos actuales
 		// Cuota por Nivel
-		Optional<Cuota> cuotaInicial = cuotaDAO.findTopByNivelOrderByFechaActualizacion(Nivel.INICIAL);
-		Optional<Cuota> cuotaPrimaria = cuotaDAO.findTopByNivelOrderByFechaActualizacion(Nivel.PRIMARIA);
-		Optional<Cuota> cuotaSecundaria = cuotaDAO.findTopByNivelOrderByFechaActualizacion(Nivel.SECUNDARIA);
-		// Cuota de Materiales
-		Optional<Concepto> cuotaMateriales = conceptoDAO.findTopByTipoDeConceptoOrderByFechaActualizacionDesc("MATERIALES");
+		Optional<Concepto> cuotaInicial = conceptoDAO.findTopByNivelAndTipoDeConceptoOrderByFechaActualizacionDesc(Nivel.INICIAL, TipoConcepto.CUOTA);
+		Optional<Concepto> cuotaPrimaria = conceptoDAO.findTopByNivelAndTipoDeConceptoOrderByFechaActualizacionDesc(Nivel.PRIMARIA, TipoConcepto.CUOTA);
+		Optional<Concepto> cuotaSecundaria = conceptoDAO.findTopByNivelAndTipoDeConceptoOrderByFechaActualizacionDesc(Nivel.SECUNDARIA, TipoConcepto.CUOTA);
+		Optional<Concepto> cuotaMateriales = conceptoDAO.findTopByTipoDeConceptoOrderByFechaActualizacionDesc(TipoConcepto.MATERIALES);
 		// Fecha actual
 		Date fechaFacturacion = new Date();
 
 		// Cuota de Taller
-		Map<Taller, CuotaTaller> cuotaTallerMap = tallerDAO.findAll().stream()
-				.map(cuotaTallerDAO::findTopByTallerOrderByFechaActualizacionDesc)
+		Map<Taller, Concepto> cuotaTallerMap = tallerDAO.findAll().stream()
+				.map(conceptoDAO::findTopByTallerOrderByFechaActualizacionDesc)
 				.filter(Optional::isPresent)
 				.map(Optional::get)
-				.collect(Collectors.toMap(CuotaTaller::getTaller, Function.identity()));
+				.collect(Collectors.toMap(Concepto::getTaller, Function.identity()));
 		// Obtener todas las familias
 		List<Familia> familias = familiaDAO.findAll();
 		for (Familia familia : familias) {
