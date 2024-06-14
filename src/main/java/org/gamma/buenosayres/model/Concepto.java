@@ -25,6 +25,7 @@ public class Concepto {
 	@ManyToOne
 	@JoinColumn(name = "id_taller")
 	private Taller taller;
+	private String descripcion;
 	public UUID getId() {
 		return id;
 	}
@@ -60,6 +61,12 @@ public class Concepto {
 	}
 	public void setTaller(Taller taller) {
 		this.taller = taller;
+	}
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
 	}
 
 }

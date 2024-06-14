@@ -21,11 +21,13 @@ public class FacturacionController {
 		this.facturacionService = facturacionService;
 		this.facturacionMapper = facturacionMapper;
 	}
+
 	@GetMapping
 	public ResponseEntity<?> obtenerFacturas(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date periodo)
 	{
 		return ResponseEntity.ok(facturacionService.obtenerFacturas(periodo).stream().map(facturacionMapper::map).toList());
 	}
+
 	@PostMapping
 	public ResponseEntity<?> facturar(@RequestParam(required = false, defaultValue = "false") boolean adicionales,
 									  @RequestParam(required = false,  defaultValue = "false") boolean matriculas)
