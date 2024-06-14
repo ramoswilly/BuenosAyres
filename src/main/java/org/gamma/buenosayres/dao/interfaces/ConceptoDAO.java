@@ -1,18 +1,29 @@
 package org.gamma.buenosayres.dao.interfaces;
 
 import org.gamma.buenosayres.model.Concepto;
+import org.gamma.buenosayres.model.TipoConcepto;
 import org.gamma.buenosayres.model.Nivel;
+import org.gamma.buenosayres.model.Taller;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public interface ConceptoDAO extends JpaRepository<Concepto, UUID> {
-	Page<Concepto> findByTipoDeConceptoOrderByFechaActualizacionDesc(String tipoDeConcepto, Pageable pageable);
-	Page<Concepto> findByNivelOrderByFechaActualizacionDesc(Nivel nivel, Pageable pageable);
-	Page<Concepto> findByTipoDeConceptoAndNivelOrderByFechaActualizacionDesc(String tipoDeConcepto, Nivel nivel, Pageable pageable);
-	Optional<Concepto> findTopByTipoDeConceptoAndNivelOrderByFechaActualizacion(String tipoDeConcepto, Nivel nivel);
-	Optional<Concepto> findTopByTipoDeConceptoOrderByFechaActualizacionDesc(String tipoDeConcepto);
+	Optional<Concepto> findTopByTipoDeConceptoOrderByFechaActualizacionDesc(TipoConcepto tipoDeConcepto);
+	Optional<Concepto> findTopByTallerOrderByFechaActualizacionDesc(Taller taller);
+
+	@Query("SELECT c FROM Concepto c " +
+           "WHERE (:tipo IS NULL OR c.tipoConcepto = :tipo) " +
+           "AND (:nivel IS NULL OR c.nivel = :nivel) " +
+           "AND (:taller IS NULL OR c.taller = :taller)")
+    Page<Concepto> findByTipoConceptoAndNivelAndTallerOrderByFechaActualizacionDesc(
+            @Param("tipo") TipoConcepto tipo,
+            @Param("nivel") Nivel nivel,
+            @Param("taller") Taller taller,
+            Pageable pageable);
 }
