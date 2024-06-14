@@ -24,4 +24,41 @@ public class Concepto {
 	@ManyToOne
 	@JoinColumn(name = "id_taller")
 	private Taller taller;
+	public UUID getId() {
+		return id;
+	}
+	public void setId(UUID id) {
+		this.id = id;
+	}
+	public float getMonto() {
+		return monto;
+	}
+	public void setMonto(float monto) {
+		this.monto = monto;
+	}
+	public Date getFechaActualizacion() {
+		return fechaActualizacion;
+	}
+	public void setFechaActualizacion(Date fechaActualizacion) {
+		this.fechaActualizacion = fechaActualizacion;
+	}
+	public tipoConcepto getTipoDeConcepto() {
+		return tipoDeConcepto;
+	}
+	public void setTipoDeConcepto(tipoConcepto tipoDeConcepto) {
+		this.tipoDeConcepto = tipoDeConcepto;
+	}
+	public Nivel getNivel() {
+		return nivel;
+	}
+	public void setNivel(Nivel nivel) {
+		this.nivel = nivel;
+	}
+	public Taller getTaller() {
+		return taller;
+	}
+	public void setTaller(Taller taller) {
+		this.taller = taller;
+	}
+
 }
