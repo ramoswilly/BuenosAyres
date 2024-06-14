@@ -16,8 +16,9 @@ public class Concepto {
 	private float monto;
 	@Column(name = "fecha_actualizacion")
 	private Date fechaActualizacion;
-	@Column(name = "tipo", updatable = false)
-	tipoConcepto tipoDeConcepto;
+	@Column(name = "tipo")
+	@Enumerated(EnumType.STRING)
+	TipoConcepto tipoDeConcepto;
 	@Column(name = "nivel")
 	@Enumerated(EnumType.STRING)
 	private Nivel nivel;
@@ -42,10 +43,10 @@ public class Concepto {
 	public void setFechaActualizacion(Date fechaActualizacion) {
 		this.fechaActualizacion = fechaActualizacion;
 	}
-	public tipoConcepto getTipoDeConcepto() {
+	public TipoConcepto getTipoDeConcepto() {
 		return tipoDeConcepto;
 	}
-	public void setTipoDeConcepto(tipoConcepto tipoDeConcepto) {
+	public void setTipoDeConcepto(TipoConcepto tipoDeConcepto) {
 		this.tipoDeConcepto = tipoDeConcepto;
 	}
 	public Nivel getNivel() {
