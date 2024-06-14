@@ -14,11 +14,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ConceptoDAO extends JpaRepository<Concepto, UUID> {
+	Optional<Concepto> findTopByNivelAndTipoDeConceptoOrderByFechaActualizacionDesc(Nivel nivel, TipoConcepto tipoConcepto);
 	Optional<Concepto> findTopByTipoDeConceptoOrderByFechaActualizacionDesc(TipoConcepto tipoDeConcepto);
 	Optional<Concepto> findTopByTallerOrderByFechaActualizacionDesc(Taller taller);
 
 	@Query("SELECT c FROM Concepto c " +
-           "WHERE (:tipo IS NULL OR c.tipoConcepto = :tipo) " +
+           "WHERE (:tipo IS NULL OR c.tipoDeConcepto = :tipo) " +
            "AND (:nivel IS NULL OR c.nivel = :nivel) " +
            "AND (:taller IS NULL OR c.taller = :taller)")
     Page<Concepto> findByTipoConceptoAndNivelAndTallerOrderByFechaActualizacionDesc(
