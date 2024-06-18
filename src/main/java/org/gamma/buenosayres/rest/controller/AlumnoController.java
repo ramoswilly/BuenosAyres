@@ -3,7 +3,7 @@ package org.gamma.buenosayres.rest.controller;
 import org.gamma.buenosayres.mapper.AlumnoMapper;
 import org.gamma.buenosayres.dto.ActualizarAlumnoDTO;
 import org.gamma.buenosayres.dto.AlumnoDTO;
-import org.gamma.buenosayres.dto.ListarAlumnoDTO;
+
 import org.gamma.buenosayres.service.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,8 @@ public class AlumnoController {
 	private final AlumnoService service;
 	private final AlumnoMapper alumnoMapper;
 	@Autowired
-	public AlumnoController(AlumnoService service, AlumnoMapper alumnoMapper) {
+	public AlumnoController(AlumnoService service, AlumnoMapper alumnoMapper)
+	{
 		this.service = service;
 		this.alumnoMapper = alumnoMapper;
 	}
@@ -49,6 +50,7 @@ public class AlumnoController {
 		}
 		return ResponseEntity.status(HttpStatus.OK).body("Alumno registrado");
 	}
+
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?> updateAlumno(@PathVariable(value = "id") UUID idAlumno, @RequestBody AlumnoDTO alumnoDTO)
 	{

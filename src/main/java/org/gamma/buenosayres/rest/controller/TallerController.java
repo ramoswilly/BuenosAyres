@@ -1,6 +1,6 @@
 package org.gamma.buenosayres.rest.controller;
 
-import org.gamma.buenosayres.dto.ListarAlumnoDTO;
+
 import org.gamma.buenosayres.dto.TallerDTO;
 import org.gamma.buenosayres.mapper.AlumnoMapper;
 import org.gamma.buenosayres.mapper.TallerMapper;

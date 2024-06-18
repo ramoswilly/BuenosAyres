@@ -1,6 +1,5 @@
 package org.gamma.buenosayres.service.implementation;
 
-import org.gamma.buenosayres.dto.ListarAlumnoDTO;
 import org.gamma.buenosayres.model.Alumno;
 import org.gamma.buenosayres.model.Curso;
 import org.gamma.buenosayres.model.Persona;

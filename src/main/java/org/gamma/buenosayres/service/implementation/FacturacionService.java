@@ -61,13 +61,14 @@ public class FacturacionService {
 		Optional<Concepto> cuotaMateriales = conceptoDAO.findTopByTipoDeConceptoOrderByFechaActualizacionDesc(TipoConcepto.MATERIALES);
 		// Fecha actual
 		Date fechaFacturacion = new Date();
-
 		// Cuota de Taller
 		Map<Taller, Concepto> cuotaTallerMap = tallerDAO.findAll().stream()
 				.map(conceptoDAO::findTopByTallerOrderByFechaActualizacionDesc)
 				.filter(Optional::isPresent)
 				.map(Optional::get)
 				.collect(Collectors.toMap(Concepto::getTaller, Function.identity()));
+		// Facturar adicionales?
+
 		// Obtener todas las familias
 		List<Familia> familias = familiaDAO.findAll();
 		for (Familia familia : familias) {
