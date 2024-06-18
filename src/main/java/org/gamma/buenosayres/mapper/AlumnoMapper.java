@@ -1,14 +1,11 @@
 package org.gamma.buenosayres.mapper;
 
 import org.gamma.buenosayres.model.Alumno;
-import org.gamma.buenosayres.dto.ActualizarAlumnoDTO;
 import org.gamma.buenosayres.dto.AlumnoDTO;
-import org.gamma.buenosayres.dto.ListarAlumnoDTO;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
 
 @Component
 public class AlumnoMapper {
@@ -23,7 +20,7 @@ public class AlumnoMapper {
 			mapper.map(src -> src.getPersona().getNombre(), AlumnoDTO::setNombre);
 			mapper.map(src -> src.getPersona().getApellido(), AlumnoDTO::setApellido);
 			mapper.map(src -> src.getPersona().getDireccion(), AlumnoDTO::setDireccion);
-			mapper.map(Alumno::getCurso, AlumnoDTO::setCurso);
+			//mapper.map(src -> src.getCurso().getId(), AlumnoDTO::setCurso);
 		});
 
 		alumnoDTOToAlumnoMapper.addMappings(mapper -> {
@@ -31,7 +28,7 @@ public class AlumnoMapper {
 			mapper.map(AlumnoDTO::getNombre, (dest, value) -> dest.getPersona().setNombre((String) value));
 			mapper.map(AlumnoDTO::getApellido, (dest, value) -> dest.getPersona().setApellido((String) value));
 			mapper.map(AlumnoDTO::getDireccion, (dest, value) -> dest.getPersona().setDireccion((String) value));
-			mapper.map(AlumnoDTO::getCurso, (dest, value) -> dest.getCurso().setId((UUID) value));
+			//mapper.map(AlumnoDTO::getCurso, (dest, value) -> dest.getCurso().setId((UUID)value));
 		});
 	}
 	public Alumno map(AlumnoDTO alumno)
