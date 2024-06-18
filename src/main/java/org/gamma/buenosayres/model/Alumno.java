@@ -2,9 +2,10 @@ package org.gamma.buenosayres.model;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
+import org.gamma.buenosayres.model.Curso;
 @Entity
 @Table(name = "alumnos")
 public class Alumno {
@@ -16,6 +17,8 @@ public class Alumno {
 	@MapsId
 	@JoinColumn(name = "id_persona")
 	private Persona persona;
+	@Column(name = "fecha_de_nacimiento")
+	private Date fechaNacimiento;
 	@ManyToOne
 	@JoinColumn(name = "id_curso")
 	private Curso curso;
