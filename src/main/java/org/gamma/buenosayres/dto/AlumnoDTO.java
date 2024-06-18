@@ -26,7 +26,7 @@ public class AlumnoDTO {
 	public AlumnoDTO()
 	{
 	}
-	@JsonIgnore
+	
 	public UUID getId() {
         return id;
     }
