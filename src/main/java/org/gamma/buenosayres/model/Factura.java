@@ -17,13 +17,13 @@ public class Factura {
 	private Date periodo;
 	@ManyToOne
 	@JoinColumn(name = "id_facturado")
-	private Responsable facturado;
+	private Padre facturado;
 	@Column(name = "monto_final")
 	private float montoFinal;
 	@OneToMany(mappedBy = "factura")
 	private List<DetalleFactura> detalles;
 
-	public Factura(UUID id, Responsable facturado, float montoFinal, List<DetalleFactura> detalles)
+	public Factura(UUID id, Padre facturado, float montoFinal, List<DetalleFactura> detalles)
 	{
 		this.id = id;
 		this.facturado = facturado;
@@ -45,7 +45,7 @@ public class Factura {
 		return this.periodo;
 	}
 
-	public Responsable getFacturado()
+	public Padre getFacturado()
 	{
 		return this.facturado;
 	}
@@ -70,7 +70,7 @@ public class Factura {
 		this.periodo = periodo;
 	}
 
-	public void setFacturado(Responsable facturado)
+	public void setFacturado(Padre facturado)
 	{
 		this.facturado = facturado;
 	}
