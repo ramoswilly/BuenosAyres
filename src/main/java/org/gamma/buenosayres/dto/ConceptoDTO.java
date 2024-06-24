@@ -31,7 +31,7 @@ public class ConceptoDTO {
 	public ConceptoDTO()
 	{
 	}
-	@JsonIgnore
+
 	public UUID getId()
 	{
 		return this.id;
