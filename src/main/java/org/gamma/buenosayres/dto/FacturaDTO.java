@@ -7,6 +7,7 @@ import java.util.UUID;
 public class FacturaDTO {
     private UUID id;
     private Date periodo;
+	private String apellido_familia;
     private UUID id_facturado;
     private String dni_facturado;
     private String nombre_facturado;
@@ -60,6 +61,12 @@ public class FacturaDTO {
 	}
 	public void setDetalles(List<DetalleFacturaDTO> detalles) {
 		this.detalles = detalles;
+	}
+	public String getApellido_familia() {
+		return apellido_familia;
+	}
+	public void setApellido_familia(String apellido_familia) {
+		this.apellido_familia = apellido_familia;
 	}
 
 }
