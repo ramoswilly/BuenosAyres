@@ -1,7 +1,11 @@
 package org.gamma.buenosayres.rest.controller;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
+import org.gamma.buenosayres.dto.FacturacionRequestDTO;
 import org.gamma.buenosayres.mapper.FacturacionMapper;
 import org.gamma.buenosayres.service.implementation.FacturacionService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,13 +30,13 @@ public class FacturacionController {
 	public ResponseEntity<?> obtenerFacturas(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date periodo)
 	{
 		return ResponseEntity.ok(facturacionService.obtenerFacturas(periodo).stream().map(facturacionMapper::map).toList());
+		//TODO: manejar periodos invalidos
 	}
 
 	@PostMapping
-	public ResponseEntity<?> facturar(@RequestParam(required = false, defaultValue = "false") boolean adicionales,
-									  @RequestParam(required = false,  defaultValue = "false") boolean matriculas)
+	public ResponseEntity<?> facturar(@RequestBody FacturacionRequestDTO request)
 	{
-		facturacionService.facturar(adicionales, matriculas);
+		facturacionService.facturar(request);
 		return ResponseEntity.accepted().body("");
 	}
 
