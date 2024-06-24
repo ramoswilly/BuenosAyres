@@ -19,16 +19,18 @@ import org.springframework.stereotype.Component;
 public class FacturacionMapper {
     private static final ModelMapper modelMapper = new ModelMapper();
     private ConceptoMapper conceptoMapper;
+    private AlumnoMapper alumnoMapper;
 
-    public FacturacionMapper(ConceptoMapper conceptoMapper)
+    public FacturacionMapper(ConceptoMapper conceptoMapper, AlumnoMapper alumnoMapper)
     {
         this.conceptoMapper = conceptoMapper;
+        this.alumnoMapper = alumnoMapper;
         Converter<List<DetalleFactura>, List<DetalleFacturaDTO>> converter = new AbstractConverter<>() {
                 private DetalleFacturaDTO map(DetalleFactura detalle)
                 {
                     DetalleFacturaDTO dto = new DetalleFacturaDTO();
-                    dto.setConceptoDTO(conceptoMapper.map(detalle.getConcepto()));
-                    dto.setAlumno(modelMapper.map(detalle.getAlumno(), AlumnoDTO.class));
+                    dto.setConcepto(conceptoMapper.map(detalle.getConcepto()));
+                    dto.setAlumno(alumnoMapper.map(detalle.getAlumno()));
                     dto.setDescuento(detalle.getDescuento());
                     dto.setAbonado(false);
                     dto.setFechaPago(detalle.getFechaPago());
@@ -49,10 +51,12 @@ public class FacturacionMapper {
                 mapper.map(src -> src.getFacturado().getPersona().getDni(), FacturaDTO::setDni_facturado);
                 mapper.map(src -> src.getFacturado().getPersona().getNombre(), FacturaDTO::setNombre_facturado);
                 mapper.map(src -> src.getFacturado().getPersona().getApellido(), FacturaDTO::setApellido_facturado);
+                mapper.map(src -> src.getFamilia().getApellido(), FacturaDTO::setApellido_familia);
         });
     }
     public FacturaDTO map(Factura factura)
     {
+        System.out.println(factura.getDetalles().get(0).getAlumno().getPersona().getNombre());
         return modelMapper.map(factura, FacturaDTO.class);
     }
     public DetalleFacturaDTO map(DetalleFactura detalle)
