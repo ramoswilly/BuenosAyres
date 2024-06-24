@@ -13,7 +13,6 @@ public class ConceptoMapper {
 	private static final ModelMapper modelMapper = new ModelMapper();
 	public ConceptoMapper()
 	{
-
 	}
 	public Concepto map(ConceptoDTO concepto)
 	{
