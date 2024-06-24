@@ -2,8 +2,8 @@ package org.gamma.buenosayres.service.implementation;
 
 import jakarta.transaction.Transactional;
 import org.gamma.buenosayres.dao.interfaces.*;
+import org.gamma.buenosayres.dto.FacturacionRequestDTO;
 import org.gamma.buenosayres.model.*;
-import org.gamma.buenosayres.model.TipoConcepto;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,17 +23,19 @@ public class FacturacionService {
 	private final TallerDAO tallerDAO;
 	private final DetalleFacturaDAO detalleFacturaDAO;
 	private final FacturaDAO facturaDAO;
+	private final PadreDAO padreDAO;
 
-	public FacturacionService(FamiliaDAO familiaDAO, ConceptoDAO conceptoDAO,
-							  AlumnoDAO alumnoDAO, TallerDAO tallerDAO, DetalleFacturaDAO detalleFacturaDAO, FacturaDAO facturaDAO)
-	{
-		this.familiaDAO = familiaDAO;
-		this.conceptoDAO = conceptoDAO;
-		this.alumnoDAO = alumnoDAO;
-		this.tallerDAO = tallerDAO;
-		this.detalleFacturaDAO = detalleFacturaDAO;
-		this.facturaDAO = facturaDAO;
-	}
+	public FacturacionService(FamiliaDAO familiaDAO, ConceptoDAO conceptoDAO, AlumnoDAO alumnoDAO, TallerDAO tallerDAO,
+            DetalleFacturaDAO detalleFacturaDAO, FacturaDAO facturaDAO, PadreDAO padreDAO) {
+        this.familiaDAO = familiaDAO;
+        this.conceptoDAO = conceptoDAO;
+        this.alumnoDAO = alumnoDAO;
+        this.tallerDAO = tallerDAO;
+        this.detalleFacturaDAO = detalleFacturaDAO;
+        this.facturaDAO = facturaDAO;
+        this.padreDAO = padreDAO;
+    }
+
 	private static final int[] porcentaje_descuento = {
 			0, 10, 15, 50, 75, 100
 	};
@@ -45,20 +48,34 @@ public class FacturacionService {
 		int porcentaje = porcentaje_descuento[discount_index % porcentaje_descuento.length];
 		detalleFactura.setDescuento(porcentaje);
 		detalleFactura.setMontoFinal(concepto.getMonto() * (100 - porcentaje) / 100);
-
 		detalleFactura.setAbonado(false);
 		return detalleFactura;
 	}
 	@Async
 	@Transactional
-	public void facturar(boolean conAdicionales, boolean conMatricula)
+	public void facturar(FacturacionRequestDTO request)
 	{
+		//TODO: Signo pesos donde sea necesario
 		// Pre-obtener montos actuales
 		// Cuota por Nivel
 		Optional<Concepto> cuotaInicial = conceptoDAO.findTopByNivelAndTipoDeConceptoOrderByFechaActualizacionDesc(Nivel.INICIAL, TipoConcepto.CUOTA);
 		Optional<Concepto> cuotaPrimaria = conceptoDAO.findTopByNivelAndTipoDeConceptoOrderByFechaActualizacionDesc(Nivel.PRIMARIA, TipoConcepto.CUOTA);
 		Optional<Concepto> cuotaSecundaria = conceptoDAO.findTopByNivelAndTipoDeConceptoOrderByFechaActualizacionDesc(Nivel.SECUNDARIA, TipoConcepto.CUOTA);
+		// Materiales
 		Optional<Concepto> cuotaMateriales = conceptoDAO.findTopByTipoDeConceptoOrderByFechaActualizacionDesc(TipoConcepto.MATERIALES);
+		// Pre-obtener adicionales
+		List<Concepto> adicionales =
+		request.getAdicionales().stream()
+			.map(id -> conceptoDAO.findById(id))
+			.filter(Optional::isPresent)
+			.map(Optional::get)
+			.collect(Collectors.toList());
+
+		// Lista de adicionales por nivel
+		List<Concepto> adicionalInicial = adicionales.stream().filter(adicional -> adicional.getNivel() == Nivel.INICIAL).toList();
+		List<Concepto> adicionalPrimaria = adicionales.stream().filter(adicional -> adicional.getNivel() == Nivel.PRIMARIA).toList();
+		List<Concepto> adicionalSecundaria = adicionales.stream().filter(adicional -> adicional.getNivel() == Nivel.SECUNDARIA).toList();
+
 		// Fecha actual
 		Date fechaFacturacion = new Date();
 		// Cuota de Taller
@@ -67,8 +84,6 @@ public class FacturacionService {
 				.filter(Optional::isPresent)
 				.map(Optional::get)
 				.collect(Collectors.toMap(Concepto::getTaller, Function.identity()));
-		// Facturar adicionales?
-
 		// Obtener todas las familias
 		List<Familia> familias = familiaDAO.findAll();
 		for (Familia familia : familias) {
@@ -98,16 +113,34 @@ public class FacturacionService {
 							DetalleFactura cuota = generarDetalle(factura, alumno.get(), cuotaInicial.get(), discount_index.intValue());
 							detalleFacturaDAO.save(cuota);
 							factura.getDetalles().add(cuota);
+							// Aplicar adicionales
+							adicionalInicial.stream().forEach(adicional -> {
+									DetalleFactura detalleAdicional = generarDetalle(factura, alumno.get(), adicional, 0);
+									detalleFacturaDAO.save(detalleAdicional);
+									factura.getDetalles().add(detalleAdicional);
+							});
 						}
 						case PRIMARIA -> {
 							DetalleFactura cuota = generarDetalle(factura, alumno.get(), cuotaPrimaria.get(), discount_index.intValue());
 							detalleFacturaDAO.save(cuota);
 							factura.getDetalles().add(cuota);
+							// Aplicar adicionales
+							adicionalPrimaria.stream().forEach(adicional -> {
+									DetalleFactura detalleAdicional = generarDetalle(factura, alumno.get(), adicional, 0);
+									detalleFacturaDAO.save(detalleAdicional);
+									factura.getDetalles().add(detalleAdicional);
+							});
 						}
 						case SECUNDARIA -> {
 							DetalleFactura cuota = generarDetalle(factura, alumno.get(), cuotaSecundaria.get(), discount_index.intValue());
 							detalleFacturaDAO.save(cuota);
 							factura.getDetalles().add(cuota);
+							// Aplicar adicionales
+							adicionalSecundaria.stream().forEach(adicional -> {
+									DetalleFactura detalleAdicional = generarDetalle(factura, alumno.get(), adicional, 0);
+									detalleFacturaDAO.save(detalleAdicional);
+									factura.getDetalles().add(detalleAdicional);
+							});
 						}
 					}
 					discount_index.getAndIncrement(); // Siguiente hermano
@@ -118,6 +151,18 @@ public class FacturacionService {
 							.reduce(0f, Float::sum);
 			// Adjuntar monto final
 			factura.setMontoFinal(monto_final);
+			// Setear familia
+			factura.setFamilia(familia);
+			// Setear responsable de facturacion
+			Optional<Padre> padre = familia.getMiembros().stream()
+				.filter(persona -> persona.getTipo() == TipoPersona.PADRE)
+				.map(persona -> padreDAO.findById(persona.getId()))
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.filter(Padre::isResponsableFacturacion)
+				.findAny();
+			if (padre.isPresent())
+				factura.setFacturado(padre.get());
 			// Persistir factura
 			facturaDAO.save(factura);
 		}
