@@ -16,6 +16,9 @@ public class Factura {
 	@Column(name = "periodo")
 	private Date periodo;
 	@ManyToOne
+	@JoinColumn(name = "id_familia")
+	private Familia familia;
+	@ManyToOne
 	@JoinColumn(name = "id_facturado")
 	private Padre facturado;
 	@Column(name = "monto_final")
@@ -84,4 +87,13 @@ public class Factura {
 	{
 		this.detalles = detalles;
 	}
+
+	public Familia getFamilia() {
+		return familia;
+	}
+
+	public void setFamilia(Familia familia) {
+		this.familia = familia;
+	}
+
 }
