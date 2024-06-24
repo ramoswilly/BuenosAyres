@@ -3,17 +3,16 @@ package org.gamma.buenosayres.dto;
 import java.util.Date;
 
 public class DetalleFacturaDTO {
-     private ConceptoDTO conceptoDTO;
+     private ConceptoDTO concepto;
      private AlumnoDTO alumno;
      private int descuento;
      private boolean abonado;
      private Date fechaPago;
-
-    public ConceptoDTO getConceptoDTO() {
-		return conceptoDTO;
+	public ConceptoDTO getConcepto() {
+		return concepto;
 	}
-	public void setConceptoDTO(ConceptoDTO conceptoDTO) {
-		this.conceptoDTO = conceptoDTO;
+	public void setConcepto(ConceptoDTO concepto) {
+		this.concepto = concepto;
 	}
 	public AlumnoDTO getAlumno() {
 		return alumno;
@@ -39,5 +38,5 @@ public class DetalleFacturaDTO {
 	public void setFechaPago(Date fechaPago) {
 		this.fechaPago = fechaPago;
 	}
-
+     
 }
