@@ -29,10 +29,11 @@ public class FacturacionMapper {
                 private DetalleFacturaDTO map(DetalleFactura detalle)
                 {
                     DetalleFacturaDTO dto = new DetalleFacturaDTO();
+                    dto.setId(detalle.getId());
                     dto.setConcepto(conceptoMapper.map(detalle.getConcepto()));
                     dto.setAlumno(alumnoMapper.map(detalle.getAlumno()));
                     dto.setDescuento(detalle.getDescuento());
-                    dto.setAbonado(false);
+                    dto.setAbonado(detalle.isAbonado());
                     dto.setFechaPago(detalle.getFechaPago());
                     return dto;
                 }
@@ -56,7 +57,6 @@ public class FacturacionMapper {
     }
     public FacturaDTO map(Factura factura)
     {
-        System.out.println(factura.getDetalles().get(0).getAlumno().getPersona().getNombre());
         return modelMapper.map(factura, FacturaDTO.class);
     }
     public DetalleFacturaDTO map(DetalleFactura detalle)
