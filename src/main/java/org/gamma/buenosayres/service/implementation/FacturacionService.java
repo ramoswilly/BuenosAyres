@@ -2,8 +2,11 @@ package org.gamma.buenosayres.service.implementation;
 
 import jakarta.transaction.Transactional;
 import org.gamma.buenosayres.dao.interfaces.*;
+import org.gamma.buenosayres.dto.DeudaDTO;
 import org.gamma.buenosayres.dto.FacturacionRequestDTO;
+import org.gamma.buenosayres.mapper.FacturacionMapper;
 import org.gamma.buenosayres.model.*;
+import org.gamma.buenosayres.service.exception.ServiceException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +28,11 @@ public class FacturacionService {
 	private final FacturaDAO facturaDAO;
 	private final PadreDAO padreDAO;
 
+	private final FacturacionMapper facturacionMapper;
+
 	public FacturacionService(FamiliaDAO familiaDAO, ConceptoDAO conceptoDAO, AlumnoDAO alumnoDAO, TallerDAO tallerDAO,
-            DetalleFacturaDAO detalleFacturaDAO, FacturaDAO facturaDAO, PadreDAO padreDAO) {
+            DetalleFacturaDAO detalleFacturaDAO, FacturaDAO facturaDAO, PadreDAO padreDAO,
+            FacturacionMapper facturacionMapper) {
         this.familiaDAO = familiaDAO;
         this.conceptoDAO = conceptoDAO;
         this.alumnoDAO = alumnoDAO;
@@ -34,9 +40,9 @@ public class FacturacionService {
         this.detalleFacturaDAO = detalleFacturaDAO;
         this.facturaDAO = facturaDAO;
         this.padreDAO = padreDAO;
+        this.facturacionMapper = facturacionMapper;
     }
-
-	private static final int[] porcentaje_descuento = {
+    private static final int[] porcentaje_descuento = {
 			0, 10, 15, 50, 75, 100
 	};
 	private static DetalleFactura generarDetalle(Factura factura, Alumno alumno, Concepto concepto, int discount_index)
@@ -175,4 +181,44 @@ public class FacturacionService {
 	{
 		return facturaDAO.findAllByPeriodo(periodo);
 	}
+	public Factura obtenerFacturaPorId(UUID id) throws ServiceException {
+		return facturaDAO.findById(id).orElseThrow(() -> new ServiceException("Id de Factura invalido", 404));
+	}
+	@Transactional
+	public List<DetalleFactura> actualizarDeudas(List<UUID> detallesAbonados) {
+		Date fecha = new Date();
+		return detalleFacturaDAO.findAllById(detallesAbonados)
+			.stream()
+			.map(detalle -> {
+					detalle.setAbonado(true);
+					detalle.setFechaPago(fecha);
+					detalleFacturaDAO.save(detalle);
+					return detalle;
+				})
+			.toList();
+	}
+    public List<DeudaDTO> obtenerDeudas() {
+        List<Factura> facturas = facturaDAO.facturasImpagas();
+		Map<Familia, List<Factura>> facturasMap = facturas.stream()
+			.collect(Collectors.groupingBy(Factura::getFamilia));
+		return facturasMap.entrySet().stream()
+			.map(entry -> {
+					Familia familia = entry.getKey();
+					Double deudaTotal = entry.getValue().stream()
+						.flatMap(factura -> factura.getDetalles().stream())
+						.filter(detalle -> !detalle.isAbonado())
+						.mapToDouble(DetalleFactura::getMontoFinal)
+						.sum();
+
+                    DeudaDTO deudaDTO = new DeudaDTO();
+                    deudaDTO.setIdFamilia(familia.getId());
+                    deudaDTO.setApellidoFamilia(familia.getApellido());
+                    deudaDTO.setDeudaTotal(deudaTotal.floatValue());
+                    deudaDTO.setFacturas(entry.getValue().stream()
+                            .map(facturacionMapper::map)
+                            .collect(Collectors.toList()));
+                    return deudaDTO;
+				})
+			.toList();
+    }
 }
