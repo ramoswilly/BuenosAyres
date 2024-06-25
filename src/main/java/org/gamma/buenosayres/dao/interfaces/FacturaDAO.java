@@ -12,4 +12,10 @@ public interface FacturaDAO extends JpaRepository<Factura, UUID> {
 	@Query("SELECT DISTINCT f.periodo FROM Factura f")
 	List<Date> obtenerPeriodos();
 	List<Factura> findAllByPeriodo(Date periodo);
+
+    @Query("SELECT DISTINCT f FROM Factura f " +
+           "JOIN f.detalles df " +
+           "WHERE df.abonado = false " +
+           "ORDER BY f.familia.id")
+    List<Factura> facturasImpagas();
 }
