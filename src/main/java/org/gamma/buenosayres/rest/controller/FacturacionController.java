@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.gamma.buenosayres.dto.FacturacionRequestDTO;
 import org.gamma.buenosayres.mapper.FacturacionMapper;
+import org.gamma.buenosayres.service.exception.ServiceException;
 import org.gamma.buenosayres.service.implementation.FacturacionService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,30 @@ public class FacturacionController {
 		return ResponseEntity.ok(facturacionService.obtenerFacturas(periodo).stream().map(facturacionMapper::map).toList());
 		//TODO: manejar periodos invalidos
 	}
-
+	@GetMapping("/detalles")
+	public ResponseEntity<?> obtenerFacturaPorId(@RequestParam UUID id)
+	{
+		try {
+			return ResponseEntity.ok(facturacionMapper.map(facturacionService.obtenerFacturaPorId(id)));
+		} catch(ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
+	@GetMapping("/deudas")
+	public ResponseEntity<?> obtenerDeudas()
+	{
+		return ResponseEntity.ok(facturacionService.obtenerDeudas());
+	}
+	@PutMapping("/deudas")
+	public ResponseEntity<?> actualizarDeudas(@RequestBody List<UUID> detallesAbonados)
+	{
+		return ResponseEntity.ok(
+		facturacionService.actualizarDeudas(detallesAbonados)
+			.stream()
+			.map(facturacionMapper::map)
+			.toList()
+		);
+	}
 	@PostMapping
 	public ResponseEntity<?> facturar(@RequestBody FacturacionRequestDTO request)
 	{
