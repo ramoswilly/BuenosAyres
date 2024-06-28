@@ -21,7 +21,8 @@ public interface ConceptoDAO extends JpaRepository<Concepto, UUID> {
 	@Query("SELECT c FROM Concepto c " +
            "WHERE (:tipo IS NULL OR c.tipoDeConcepto = :tipo) " +
            "AND (:nivel IS NULL OR c.nivel = :nivel) " +
-           "AND (:taller IS NULL OR c.taller = :taller)")
+           "AND (:taller IS NULL OR c.taller = :taller)" +
+		   "ORDER BY c.fechaActualizacion DESC")
     Page<Concepto> findByTipoConceptoAndNivelAndTallerOrderByFechaActualizacionDesc(
             @Param("tipo") TipoConcepto tipo,
             @Param("nivel") Nivel nivel,

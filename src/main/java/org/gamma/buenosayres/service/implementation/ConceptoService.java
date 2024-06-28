@@ -29,6 +29,8 @@ public class ConceptoService {
 					() -> new ServiceException("Taller Inexistente", 400)
 			);
 		}
+
+
 		return conceptoDAO.findByTipoConceptoAndNivelAndTallerOrderByFechaActualizacionDesc(tipo, nivel, taller, PageRequest.of(0, limit));
 	}
 	public Concepto newConcepto(Concepto concepto) throws ServiceException

@@ -61,6 +61,14 @@ public class FacturacionMapper {
     }
     public DetalleFacturaDTO map(DetalleFactura detalle)
     {
-        return modelMapper.map(detalle, DetalleFacturaDTO.class);
+        DetalleFacturaDTO dto = new DetalleFacturaDTO();
+        dto.setId(detalle.getId());
+        dto.setConcepto(conceptoMapper.map(detalle.getConcepto()));
+        dto.setAlumno(alumnoMapper.map(detalle.getAlumno()));
+        dto.setDescuento(detalle.getDescuento());
+        dto.setAbonado(detalle.isAbonado());
+        dto.setFechaPago(detalle.getFechaPago());
+        return dto;
+        //return modelMapper.map(detalle, DetalleFacturaDTO.class); TODO
     }
 }

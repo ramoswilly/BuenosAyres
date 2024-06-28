@@ -45,7 +45,8 @@ public class TallerController {
 	public ResponseEntity<?> altaAlumnos(@PathVariable UUID id_taller, @RequestBody List<UUID> alumnos)
 	{
 		try {
-			return ResponseEntity.ok(tallerService.altaAlumnos(id_taller, alumnos));
+			tallerService.altaAlumnos(id_taller, alumnos);
+			return ResponseEntity.ok("Agregados");
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
@@ -54,7 +55,8 @@ public class TallerController {
 	public ResponseEntity<?> removerAlumno(@PathVariable UUID id_taller, @RequestBody UUID alumno)
 	{
 		try {
-			return ResponseEntity.ok(tallerService.removerAlumno(id_taller, alumno));
+			tallerService.removerAlumno(id_taller, alumno);
+			return ResponseEntity.ok("Eliminados");
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}

@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import org.gamma.buenosayres.model.Curso;
+
 @Entity
 @Table(name = "alumnos")
 public class Alumno {

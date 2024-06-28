@@ -10,7 +10,7 @@ import org.gamma.buenosayres.service.exception.ServiceException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
@@ -84,14 +84,20 @@ public class FacturacionService {
 
 		// Fecha actual
 		Date fechaFacturacion = new Date();
+		// 1 minuto despues
+		Date fechaFacturacionMatriculas = Date.from(Instant.now().plusSeconds(60));
 		// Cuota de Taller
 		Map<Taller, Concepto> cuotaTallerMap = tallerDAO.findAll().stream()
 				.map(conceptoDAO::findTopByTallerOrderByFechaActualizacionDesc)
 				.filter(Optional::isPresent)
 				.map(Optional::get)
 				.collect(Collectors.toMap(Concepto::getTaller, Function.identity()));
+		// Matriculas
+		Optional<Concepto> matriculaInicial = conceptoDAO.findTopByNivelAndTipoDeConceptoOrderByFechaActualizacionDesc(Nivel.INICIAL, TipoConcepto.MATRICULA);
+		Optional<Concepto> matriculaPrimaria = conceptoDAO.findTopByNivelAndTipoDeConceptoOrderByFechaActualizacionDesc(Nivel.PRIMARIA, TipoConcepto.MATRICULA);
+		Optional<Concepto> matriculaSecundaria = conceptoDAO.findTopByNivelAndTipoDeConceptoOrderByFechaActualizacionDesc(Nivel.SECUNDARIA, TipoConcepto.MATRICULA);
 		// Obtener todas las familias
-		List<Familia> familias = familiaDAO.findAll();
+		List<Familia> familias = familiaDAO.findAll().stream().filter(Familia::isHabilitada).filter(familia -> familia.getMiembros().size() > 0).toList();
 		for (Familia familia : familias) {
 			// Obtener alumnos en familias
 			List<Optional<Alumno>> alumnos = familia.getMiembros().stream()
@@ -103,12 +109,17 @@ public class FacturacionService {
 			Factura factura = new Factura();
 			factura.setPeriodo(fechaFacturacion);
 			factura.setDetalles(new ArrayList<>());
+			// Factura de matricula
+			Factura facturaMatricula = new Factura();
+			facturaMatricula.setPeriodo(fechaFacturacionMatriculas);
+			facturaMatricula.setDetalles(new ArrayList<>());
 			// Obtener un indice para iterar en descuentos
 			AtomicInteger discount_index = new AtomicInteger();
 			// Obtener conceptos
 			alumnos.stream().filter(Optional::isPresent)
 					.sorted(Comparator.comparingInt(a0 -> -a0.get().getCurso().getNivel().ordinal()))
 					.forEach(alumno -> {
+					System.out.println(alumno.get().getCurso());
 					switch (alumno.get().getCurso().getNivel()) {
 						case INICIAL -> {
 							// Detalle con Cuota de materiales
@@ -125,6 +136,20 @@ public class FacturacionService {
 									detalleFacturaDAO.save(detalleAdicional);
 									factura.getDetalles().add(detalleAdicional);
 							});
+							// Está en un taller?
+							for (Taller taller : alumno.get().getTalleres()) {
+								if (cuotaTallerMap.containsKey(taller)) {
+									DetalleFactura detalleTaller = generarDetalle(factura, alumno.get(), cuotaTallerMap.get(taller), 0);
+									detalleFacturaDAO.save(detalleTaller);
+									factura.getDetalles().add(detalleTaller);
+								}
+							}
+							// Cuando se habilita la facturacion de matriculas, facturar las mismas
+							if (request.facturarMatricula()) {
+								DetalleFactura detalleMatricula = generarDetalle(facturaMatricula, alumno.get(), matriculaInicial.get(), 0);
+								detalleFacturaDAO.save(detalleMatricula);
+								facturaMatricula.getDetalles().add(detalleMatricula);
+							}
 						}
 						case PRIMARIA -> {
 							DetalleFactura cuota = generarDetalle(factura, alumno.get(), cuotaPrimaria.get(), discount_index.intValue());
@@ -136,6 +161,20 @@ public class FacturacionService {
 									detalleFacturaDAO.save(detalleAdicional);
 									factura.getDetalles().add(detalleAdicional);
 							});
+							// Está en un taller?
+							for (Taller taller : alumno.get().getTalleres()) {
+								if (cuotaTallerMap.containsKey(taller)) {
+									DetalleFactura detalleTaller = generarDetalle(factura, alumno.get(), cuotaTallerMap.get(taller), 0);
+									detalleFacturaDAO.save(detalleTaller);
+									factura.getDetalles().add(detalleTaller);
+								}
+							}
+							// Cuando se habilita la facturacion de matriculas, facturar las mismas
+							if (request.facturarMatricula()) {
+								DetalleFactura detalleMatricula = generarDetalle(facturaMatricula, alumno.get(), matriculaPrimaria.get(), 0);
+								detalleFacturaDAO.save(detalleMatricula);
+								facturaMatricula.getDetalles().add(detalleMatricula);
+							}
 						}
 						case SECUNDARIA -> {
 							DetalleFactura cuota = generarDetalle(factura, alumno.get(), cuotaSecundaria.get(), discount_index.intValue());
@@ -147,6 +186,20 @@ public class FacturacionService {
 									detalleFacturaDAO.save(detalleAdicional);
 									factura.getDetalles().add(detalleAdicional);
 							});
+							// Está en un taller?
+							for (Taller taller : alumno.get().getTalleres()) {
+								if (cuotaTallerMap.containsKey(taller)) {
+									DetalleFactura detalleTaller = generarDetalle(factura, alumno.get(), cuotaTallerMap.get(taller), 0);
+									detalleFacturaDAO.save(detalleTaller);
+									factura.getDetalles().add(detalleTaller);
+								}
+							}
+							// Cuando se habilita la facturacion de matriculas, facturar las mismas
+							if (request.facturarMatricula()) {
+								DetalleFactura detalleMatricula = generarDetalle(facturaMatricula, alumno.get(), matriculaSecundaria.get(), 0);
+								detalleFacturaDAO.save(detalleMatricula);
+								facturaMatricula.getDetalles().add(detalleMatricula);
+							}
 						}
 					}
 					discount_index.getAndIncrement(); // Siguiente hermano
@@ -171,6 +224,17 @@ public class FacturacionService {
 				factura.setFacturado(padre.get());
 			// Persistir factura
 			facturaDAO.save(factura);
+			if (request.facturarMatricula()) {
+				// Lo mismo pero con matriculas
+				monto_final = facturaMatricula.getDetalles().stream()
+					.map(DetalleFactura::getMontoFinal)
+					.reduce(0f, Float::sum);
+				facturaMatricula.setMontoFinal(monto_final);
+				facturaMatricula.setFamilia(familia);
+				if (padre.isPresent())
+					facturaMatricula.setFacturado(padre.get());
+				facturaDAO.save(facturaMatricula);
+			}
 		}
 	}
 	public List<Date> obtenerPeriodos()

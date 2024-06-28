@@ -13,6 +13,16 @@ public class ConceptoMapper {
 	private static final ModelMapper modelMapper = new ModelMapper();
 	public ConceptoMapper()
 	{
+		TypeMap<ConceptoDTO, Concepto> dtoToConcepto
+			= modelMapper.createTypeMap(ConceptoDTO.class, Concepto.class);
+		dtoToConcepto.addMappings(mapper -> {
+				mapper.map(ConceptoDTO::getTaller, (dest, val) -> dest.getTaller().setId((UUID)val));
+		});
+		TypeMap<Concepto, ConceptoDTO> conceptoToDTO =
+			modelMapper.createTypeMap(Concepto.class, ConceptoDTO.class);
+		conceptoToDTO.addMappings(mapper -> {
+				mapper.map(src -> src.getTaller().getId(), ConceptoDTO::setTaller);
+		});
 	}
 	public Concepto map(ConceptoDTO concepto)
 	{
