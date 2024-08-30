@@ -15,20 +15,21 @@ public class Persona {
 	private String nombre;
 	private String apellido;
 	private String direccion;
-	@Enumerated(EnumType.STRING)
+	@Column(name = "email")
+	private String email;
 	private TipoPersona tipo;
 	@ManyToOne
 	@JoinColumn(name = "id_familia")
 	private Familia familia;
-
-	public Persona(UUID id, String dni, String nombre, String apellido, String direccion, TipoPersona tipo, Familia familia)
+	@OneToOne
+	private Usuario usuario;
+	public Persona(UUID id, String dni, String nombre, String apellido, String direccion, Familia familia)
 	{
 		this.id = id;
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.direccion = direccion;
-		this.tipo = tipo;
 		this.familia = familia;
 	}
 
@@ -104,5 +105,25 @@ public class Persona {
 	public void setFamilia(Familia familia)
 	{
 		this.familia = familia;
+	}
+
+	public String getEmail()
+	{
+		return email;
+	}
+
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
+
+	public Usuario getUsuario()
+	{
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario)
+	{
+		this.usuario = usuario;
 	}
 }

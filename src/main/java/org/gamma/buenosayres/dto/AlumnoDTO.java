@@ -12,8 +12,8 @@ public class AlumnoDTO {
 	private String nombre;
 	private String apellido;
 	private String direccion;
+	private String email;
 	private Curso curso;
-
 	public AlumnoDTO(String dni, String nombre, String apellido, String direccion, Curso curso)
 	{
 		this.dni = dni;
@@ -83,5 +83,15 @@ public class AlumnoDTO {
 	public void setCurso(Curso curso)
 	{
 		this.curso = curso;
+	}
+
+	public String getEmail()
+	{
+		return email;
+	}
+
+	public void setEmail(String email)
+	{
+		this.email = email;
 	}
 }

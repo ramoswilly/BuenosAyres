@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <title>Buenos Ayres - Agregar Profesor</title>
+
+  <link rel="shortcut icon" href="assets/img/favicon.png">
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+          rel="stylesheet">
+
+  <link rel="stylesheet" href="assets/plugins/bootstrap/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="assets/plugins/feather/feather.css">
+
+  <link rel="stylesheet" href="assets/plugins/icons/flags/flags.css">
+
+  <link rel="stylesheet" href="assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="assets/plugins/fontawesome/css/all.min.css">
+
+  <link rel="stylesheet" href="assets/plugins/datatables/datatables.min.css">
+
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/plugins/toastr/toatr.css">
+
+</head>
+
+<body>
+
+<div class="main-wrapper">
+
+  <div class="header">
+
+    <div class="header-left">
+      <a href="index" class="logo">
+        <img src="assets/img/logo.png" alt="Logo">
+      </a>
+      <a href="index" class="logo logo-small">
+        <img src="assets/img/logo-small.png" alt="Logo" width="30" height="30">
+      </a>
+    </div>
+
+    <div class="menu-toggle">
+      <a href="javascript:void(0);" id="toggle_btn">
+        <i class="fas fa-bars"></i>
+      </a>
+    </div>
+
+
+    <a class="mobile_btn" id="mobile_btn">
+      <i class="fas fa-bars"></i>
+    </a>
+
+
+    <ul class="nav user-menu">
+
+      <li class="nav-item zoom-screen me-2">
+        <a href="#" class="nav-link header-nav-list">
+          <img src="assets/img/icons/header-icon-04.svg" alt="">
+        </a>
+      </li>
+
+      <li class="nav-item dropdown has-arrow new-user-menus">
+        <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="assets/img/profiles/avatar-01.jpg" width="31"
+                         alt="Soeng Souy">
+                    <div class="user-text">
+                        <h6>Buenos Ayres</h6>
+                        <p class="text-muted mb-0">Administrador</p>
+                    </div>
+                </span>
+        </a>
+        <div class="dropdown-menu">
+          <div class="user-header">
+            <div class="avatar avatar-sm">
+              <img src="assets/img/profiles/avatar-01.jpg" alt="User Image"
+                   class="avatar-img rounded-circle">
+            </div>
+            <div class="user-text">
+              <h6>Buenos Ayres</h6>
+              <p class="text-muted mb-0">Administrador</p>
+            </div>
+          </div>
+
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+      <div id="sidebar-menu" class="sidebar-menu">
+        <ul>
+          <li class="menu-title">
+            <span>Menú Principal</span>
+          </li>
+
+          <li class="submenu">
+            <a href="#"><i class="fas fa-graduation-cap"></i> <span> Alumnos</span> <span
+                    class="menu-arrow"></span></a>
+            <ul>
+              <li><a href="alumnos">Lista de alumnos</a></li>
+              <li><a href="agregar-alumno">Agregar alumno</a></li>
+              <li><a href="editar-alumno">Editar alumno</a></li>
+            </ul>
+          </li>
+          <li class="submenu">
+            <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Profesores</span> <span
+                    class="menu-arrow"></span></a>
+            <ul>
+              <li><a href="profesores">Lista de profesores</a></li>
+              <li><a href="agregar-profesor">Agregar profesor</a></li>
+              <li><a href="editar-profesor">Editar profesor</a></li>
+            </ul>
+          </li>
+          <li class="submenu">
+            <a href="#"><i class="fas fa-home"></i> <span> Padres</span> <span
+                    class="menu-arrow"></span></a>
+            <ul>
+              <li><a href="padres">Lista de Padres</a></li>
+              <li><a href="agregar-padre">Agregar padre</a></li>
+              <li><a href="editar-padre">Editar padre</a></li>
+            </ul>
+          </li>
+          <li class="submenu">
+            <a href="#"><i class="fas fa-users"></i> <span> Familias</span> <span
+                    class="menu-arrow"></span></a>
+            <ul>
+              <li><a href="familias">Lista de familias</a></li>
+              <li><a href="ver-familias">Detalles de familia</a></li>
+              <li><a href="agregar-familia">Agregar familia</a></li>
+              <li><a href="editar-familia">Editar familia</a></li>
+            </ul>
+          </li>
+
+          <li class="submenu">
+            <a href="#"><i class="fas fa-wrench"></i> <span> Talleres</span> <span
+                    class="menu-arrow"></span></a>
+            <ul>
+              <li><a href="talleres">Lista de talleres</a></li>
+
+            </ul>
+          </li>
+          <li class="submenu">
+            <a href="#"><i class="fas fa-file-invoice-dollar"></i> <span> Conceptos</span> <span
+                    class="menu-arrow"></span></a>
+            <ul>
+              <li><a href="conceptos">Revisar conceptos</a></li>
+
+            </ul>
+          </li>
+          <li class="submenu">
+            <a href="#"><i class="fas fa-comment-dollar"></i> <span>Facturación</span> <span
+                    class="menu-arrow"></span></a>
+            <ul>
+              <li><a href="facturacion">Facturar</a></li>
+              <li><a href="deudas">Deudas</a></li>
+
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+
+      <div class="page-header">
+        <div class="row">
+          <div class="col">
+
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="index">Profesores</a></li>
+              <li class="breadcrumb-item active">Agregar Profesor</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-wrapper">
+        <div class="content container-fluid">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title">Datos Básicos del Profesor</h5>
+                </div>
+                <div class="card-body">
+                  <form id="form-profesor" novalidate>
+                    <div class="form-group row">
+                      <label for="dni" class="col-form-label col-lg-2">DNI</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="dni" name="dni"
+                               placeholder="Número de Documento de Identidad" required
+                               pattern="[0-9]{8,}" minlength="8">
+                        <div class="invalid-feedback">
+                          Por favor, ingrese un DNI válido (al menos 8 dígitos).
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="nombre" class="col-form-label col-lg-2">Nombre</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="nombre" name="nombre"
+                               placeholder="Nombre del Profesor" required
+                               pattern="^[A-Za-z\s]+$">
+                        <div class="invalid-feedback">
+                          Por favor, ingrese un nombre válido.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="apellido" class="col-form-label col-lg-2">Apellido</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="apellido"
+                               name="apellido" placeholder="Apellido del Profesor" required
+                               pattern="^[A-Za-z\s]+$">
+                        <div class="invalid-feedback">
+                          Por favor, ingrese un apellido válido.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="direccion" class="col-form-label col-lg-2">Dirección</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="direccion"
+                               name="direccion" placeholder="Dirección del Profesor" required>
+                        <div class="invalid-feedback">
+                          Por favor, ingrese una dirección.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="cuil" class="col-form-label col-lg-2">CUIL</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="cuil" name="cuil"
+                               placeholder="CUIL del Profesor" required pattern="[0-9]{11}">
+                        <div class="invalid-feedback">
+                          Por favor, ingrese un CUIL válido (11 dígitos).
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="telefono" class="col-form-label col-lg-2">Teléfono</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="telefono" name="telefono"
+                               placeholder="Teléfono del Profesor" required>
+                        <div class="invalid-feedback">
+                          Por favor, ingrese un teléfono.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="email" class="col-form-label col-lg-2">Email</label>
+                      <div class="col-lg-10">
+                        <input type="email" class="form-control" id="email" name="email"
+                               placeholder="Email del Profesor" required>
+                        <div class="invalid-feedback">
+                          Por favor, ingrese un email válido.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="nivel" class="col-form-label col-lg-2">Nivel</label>
+                      <div class="col-lg-10">
+                        <select class="form-control" id="nivel" name="nivel" required>
+                          <option value="">Seleccione un Nivel</option>
+                          <option value="INICIAL">INICIAL</option>
+                          <option value="PRIMARIA">PRIMARIA</option>
+                          <option value="SECUNDARIA">SECUNDARIA</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          Por favor, seleccione un nivel.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="tipo" class="col-form-label col-lg-2">Tipo</label>
+                      <div class="col-lg-10">
+                        <select class="form-control" id="tipo" name="tipo" required>
+                          <option value="">Seleccione un Tipo</option>
+                          <option value="PROFESOR">PROFESOR</option>
+                          <option value="PRECEPTOR">PRECEPTOR</option>
+                          <option value="DIRECTOR">DIRECTOR</option>
+                        </select>
+                        <div class="invalid-feedback">
+                          Por favor, seleccione un tipo.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row mb-0">
+                      <div class="col-lg-10 offset-lg-2">
+                        <button type="button" class="btn btn-primary" id="guardarProfesorBtn">Guardar</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="assets/js/jquery-3.6.0.min.js"></script>
+
+  <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <script src="assets/js/feather.min.js"></script>
+
+  <script src="assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+  <script src="assets/plugins/select2/js/select2.min.js"></script>
+
+  <script src="assets/plugins/moment/moment.min.js"></script>
+  <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+  <script src="assets/plugins/toastr/toastr.min.js"></script>
+  <script src="assets/plugins/toastr/toastr.js"></script>
+  <script src="assets/js/script.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Validación del formulario al hacer clic en el botón
+      $('#guardarProfesorBtn').on('click', function () {
+        var form = $('#form-profesor')[0];
+
+        if (form.checkValidity() === false) {
+          // La validación falla, muestra los mensajes de error
+          event.preventDefault();
+          event.stopPropagation();
+          form.classList.add('was-validated');
+        } else {
+          // La validación es exitosa, continúa con guardarProfesor()
+          guardarProfesor();
+        }
+      });
+    });
+
+    function guardarProfesor() {
+      // Obtener los valores de los campos
+      var dni = $('#dni').val();
+      var nombre = $('#nombre').val();
+      var apellido = $('#apellido').val();
+      var direccion = $('#direccion').val();
+      var cuil = $('#cuil').val();
+      var telefono = $('#telefono').val();
+      var email = $('#email').val();
+      var nivel = $('#nivel').val();
+
+      // Crear un objeto con los datos del nuevo profesor
+      var nuevoProfesor = {
+        persona: {
+          dni: dni,
+          nombre: nombre,
+          apellido: apellido,
+          direccion: direccion
+        },
+        CUIL: cuil,
+        telefono: telefono,
+        email: email,
+        nivel: nivel
+      };
+
+      // Convertir el objeto a formato JSON
+      var jsonProfesor = JSON.stringify(nuevoProfesor);
+
+      // Enviar la solicitud POST al controlador
+      $.ajax({
+        type: "POST",
+        url: "/api/v1/profesores",
+        contentType: "application/json",
+        data: jsonProfesor,
+        success: function (response) {
+          toastr.success('Profesor creado exitosamente.', 'Éxito', {
+            timeOut: 3000 // Duración del mensaje en milisegundos
+          });
+
+          // Manejar la respuesta del servidor, si es necesario
+          console.log("Profesor creado exitosamente:", response);
+          // Aquí puedes realizar alguna acción adicional, como recargar la tabla de profesores o mostrar un mensaje de éxito
+          $('#form-profesor')[0].reset();
+          $('#form-profesor').removeClass('was-validated'); // Eliminar las clases de validación
+          // Puedes mostrar un mensaje de éxito al usuario si lo deseas
+        },
+        error: function (xhr, status, error) {
+          // Manejar errores en la solicitud
+          toastr.error('Error al crear el profesor. Por favor, inténtelo de nuevo.', 'Error', {
+            timeOut: 5000
+          });
+          console.error("Error al crear el profesor:", error);
+          // Aquí puedes mostrar un mensaje de error al usuario o realizar alguna otra acción
+        }
+      });
+    }
+
+  </script>
+</div>
+</body>
+
+</html>

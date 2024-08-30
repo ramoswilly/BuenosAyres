@@ -99,4 +99,12 @@ public class MainViewController {
     public String deudas() {
         return "deudas";
     }
+    @GetMapping("/profesores")
+    public String profesores() {
+        return "profesores";
+    }
+    @GetMapping("/agregar-profesor")
+    public String agregarProfesor() {
+        return "agregar-profesor";
+    }
 }

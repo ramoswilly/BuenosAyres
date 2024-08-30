@@ -17,6 +17,10 @@ public class Curso {
 	private Nivel nivel;
 	@Enumerated(EnumType.STRING)
 	private Turno turno;
+	@ManyToOne
+	@JoinColumn(name = "id_profesor")
+	@JsonIgnore
+	private Profesor responsable;
 	@OneToMany(mappedBy = "curso")
 	@JsonIgnore
 	private List<Alumno> alumnos;
@@ -83,5 +87,15 @@ public class Curso {
 	public void setAlumnos(List<Alumno> alumnos)
 	{
 		this.alumnos = alumnos;
+	}
+
+	public Profesor getResponsable()
+	{
+		return responsable;
+	}
+
+	public void setResponsable(Profesor responsable)
+	{
+		this.responsable = responsable;
 	}
 }
