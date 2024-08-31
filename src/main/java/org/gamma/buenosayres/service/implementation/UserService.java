@@ -6,7 +6,6 @@ import org.gamma.buenosayres.dao.interfaces.RolDAO;
 import org.gamma.buenosayres.dao.interfaces.UsuarioDAO;
 import org.gamma.buenosayres.model.Persona;
 import org.gamma.buenosayres.model.Rol;
-import org.gamma.buenosayres.model.TipoEmpleado;
 import org.gamma.buenosayres.model.Usuario;
 import org.gamma.buenosayres.service.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +43,7 @@ public class UserService {
 		return usuarioDAO.save(usuario);
 	}
 	@Transactional
-	public Usuario giveRole(Usuario usuario, TipoEmpleado name) throws ServiceException
+	public Usuario giveRole(Usuario usuario, String name) throws ServiceException
 	{
 		Optional<Rol> byAuthority = rolDAO.findByAuthority(String.valueOf(name));
 		if (byAuthority.isEmpty()) throw new ServiceException("Rol inexistente", 400);

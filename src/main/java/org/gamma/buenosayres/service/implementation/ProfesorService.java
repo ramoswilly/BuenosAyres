@@ -40,7 +40,7 @@ public class ProfesorService {
 		Usuario usuario = userService.create(profesor.getPersona().getId());
 		profesor.getPersona().setUsuario(usuario);
 		// Agregar rol..
-		userService.giveRole(usuario, profesor.getTipo());
+		userService.giveRole(usuario, profesor.getTipo().name());
 		return profesorDAO.save(profesor);
 	}
 

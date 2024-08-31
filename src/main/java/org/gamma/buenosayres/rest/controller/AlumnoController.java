@@ -41,14 +41,13 @@ public class AlumnoController {
 		}
 	}
 	@PostMapping
-	public ResponseEntity<String> newAlumno(@RequestBody AlumnoDTO alumno)
+	public ResponseEntity<?> newAlumno(@RequestBody AlumnoDTO alumno)
 	{
 		try {
-			service.newAlumno(alumnoMapper.map(alumno));
+			return ResponseEntity.ok(alumnoMapper.map(service.newAlumno(alumnoMapper.map(alumno))));
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Alumno registrado");
 	}
 
 	@PutMapping(value = "/{id}")
