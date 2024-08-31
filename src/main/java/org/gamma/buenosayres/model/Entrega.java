@@ -15,6 +15,7 @@ public class Entrega {
 	private Evaluacion evaluacion;
 	@ManyToOne
 	private Alumno alumno;
+	private String comentarios;
 	@Column(name = "fecha_entrega")
 	private Date fecha;
 
