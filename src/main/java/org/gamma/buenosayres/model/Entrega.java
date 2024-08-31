@@ -58,4 +58,14 @@ public class Entrega {
 	{
 		this.fecha = fecha;
 	}
+
+	public String getComentarios()
+	{
+		return comentarios;
+	}
+
+	public void setComentarios(String comentarios)
+	{
+		this.comentarios = comentarios;
+	}
 }
