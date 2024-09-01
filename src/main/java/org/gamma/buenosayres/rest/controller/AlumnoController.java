@@ -1,7 +1,6 @@
 package org.gamma.buenosayres.rest.controller;
 
 import org.gamma.buenosayres.mapper.AlumnoMapper;
-import org.gamma.buenosayres.dto.ActualizarAlumnoDTO;
 import org.gamma.buenosayres.dto.AlumnoDTO;
 
 import org.gamma.buenosayres.service.exception.*;
