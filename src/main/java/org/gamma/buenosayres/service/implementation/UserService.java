@@ -47,19 +47,7 @@ public class UserService {
 	{
 		Optional<Rol> byAuthority = rolDAO.findByAuthority(String.valueOf(name));
 		if (byAuthority.isEmpty()) throw new ServiceException("Rol inexistente", 400);
-
-		// Verificar si es profesor, director o preceptor
-		Optional<Rol> actual = usuario.getRoles()
-				.stream()
-				.filter(rol -> rol.getAuthority().equals("ROLE_PROFESOR"))
-				.filter(rol -> rol.getAuthority().equals("ROLE_PRECEPTOR"))
-				.filter(rol -> rol.getAuthority().equals("ROLE_DIRECTOR"))
-				.findAny();
-		if (actual.isPresent()) { // No puede ser dos cargos al mismo tiempo
-			usuario.getRoles().remove(actual.get());
-		}
-		// otorgar nuevo
-		usuario.getRoles().add(byAuthority.get());
+		usuario.setRol(byAuthority.get());
 		return usuarioDAO.save(usuario);
 	}
 }

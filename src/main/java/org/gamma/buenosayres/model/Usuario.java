@@ -16,12 +16,12 @@ public class Usuario {
 	private String username;
 	private String password;
 	private boolean enabled;
-	@ManyToMany(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_roles",
 			joinColumns = @JoinColumn(name = "user_id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id")
 	)
-	private Set<Rol> roles = new HashSet<>();
+	private Rol rol;
 
 	public UUID getId()
 	{
@@ -63,19 +63,14 @@ public class Usuario {
 		this.enabled = enabled;
 	}
 
-	public Set<Rol> getRoles()
+	public Rol getRol()
 	{
-		return roles;
+		return rol;
 	}
 
-	public void setRoles(Set<Rol> roles)
+	public void setRol(Rol rol)
 	{
-		this.roles = roles;
-	}
-
-	public void addRol(Rol rol)
-	{
-		roles.add(rol);
+		this.rol = rol;
 	}
 
 	public Persona getPersona()
