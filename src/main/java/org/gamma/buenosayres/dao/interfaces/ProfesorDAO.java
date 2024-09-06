@@ -16,7 +16,7 @@ public interface ProfesorDAO extends JpaRepository<Profesor, UUID> {
 	@Query("SELECT p FROM Profesor p " +
 			"LEFT JOIN p.persona per " +
 			"LEFT JOIN per.usuario u " +
-			"LEFT JOIN u.roles r " +
+			"LEFT JOIN u.rol r " +
 			"WHERE (:rol IS NULL OR r.authority = :rol) " +
 			"AND (:nivel IS NULL OR p.nivel = :nivel) ")
 	List<Profesor> findProfesoresByRolAndNivel(
