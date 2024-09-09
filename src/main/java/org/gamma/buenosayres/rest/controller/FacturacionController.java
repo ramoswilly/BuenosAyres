@@ -1,5 +1,7 @@
 package org.gamma.buenosayres.rest.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +30,7 @@ public class FacturacionController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> obtenerFacturas(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date periodo)
+	public ResponseEntity<?> obtenerFacturas(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate periodo)
 	{
 		return ResponseEntity.ok(facturacionService.obtenerFacturas(periodo).stream().map(facturacionMapper::map).toList());
 		//TODO: manejar periodos invalidos
@@ -63,7 +65,16 @@ public class FacturacionController {
 		facturacionService.facturar(request);
 		return ResponseEntity.accepted().body("");
 	}
-
+	@GetMapping("/familias")
+	public ResponseEntity<?> familiasMasValiosas()
+	{
+		return ResponseEntity.ok(facturacionService.familiasMasValiosas().stream().map(facturacionMapper::map).toList());
+	}
+	@GetMapping("/ingresos")
+	public ResponseEntity<?> ingresosPorMes()
+	{
+		return ResponseEntity.ok(facturacionService.ingresosPorMes());
+	}
 	@GetMapping("/periodos")
 	public ResponseEntity<?> obtenerPeriodos()
 	{

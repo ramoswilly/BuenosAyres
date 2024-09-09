@@ -10,13 +10,13 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
+//TODO: Might be unstable rolandnivel
 public interface ProfesorDAO extends JpaRepository<Profesor, UUID> {
 	Optional<Profesor> findByPersonaDni(String dni);
 	@Query("SELECT p FROM Profesor p " +
 			"LEFT JOIN p.persona per " +
 			"LEFT JOIN per.usuario u " +
-			"LEFT JOIN u.rol r " +
+			"LEFT JOIN u.roles r " +
 			"WHERE (:rol IS NULL OR r.authority = :rol) " +
 			"AND (:nivel IS NULL OR p.nivel = :nivel) ")
 	List<Profesor> findProfesoresByRolAndNivel(

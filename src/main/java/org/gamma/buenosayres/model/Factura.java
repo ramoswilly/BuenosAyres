@@ -2,6 +2,7 @@ package org.gamma.buenosayres.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -14,7 +15,7 @@ public class Factura {
 	@Column(name = "id_factura")
 	private UUID id;
 	@Column(name = "periodo")
-	private Date periodo;
+	private LocalDate periodo;
 	@ManyToOne
 	@JoinColumn(name = "id_familia")
 	private Familia familia;
@@ -23,7 +24,7 @@ public class Factura {
 	private Padre facturado;
 	@Column(name = "monto_final")
 	private float montoFinal;
-	@OneToMany(mappedBy = "factura")
+	@OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<DetalleFactura> detalles;
 
 	public Factura(UUID id, Padre facturado, float montoFinal, List<DetalleFactura> detalles)
@@ -43,7 +44,7 @@ public class Factura {
 		return this.id;
 	}
 
-	public Date getPeriodo()
+	public LocalDate getPeriodo()
 	{
 		return this.periodo;
 	}
@@ -68,7 +69,7 @@ public class Factura {
 		this.id = id;
 	}
 
-	public void setPeriodo(Date periodo)
+	public void setPeriodo(LocalDate periodo)
 	{
 		this.periodo = periodo;
 	}

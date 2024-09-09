@@ -37,7 +37,7 @@ public class UserService {
 
 		Usuario usuario = new Usuario();
 		usuario.setUsername(persona.get().getDni());
-		usuario.setPassword("###"); //TODO: password
+		usuario.setPassword(persona.get().getDni()); //TODO: password
 		usuario.setEnabled(true);
 		usuario.setPersona(persona.get());
 		return usuarioDAO.save(usuario);
@@ -47,7 +47,14 @@ public class UserService {
 	{
 		Optional<Rol> byAuthority = rolDAO.findByAuthority(String.valueOf(name));
 		if (byAuthority.isEmpty()) throw new ServiceException("Rol inexistente", 400);
-		usuario.setRol(byAuthority.get());
+		usuario.addRol(byAuthority.get());
 		return usuarioDAO.save(usuario);
+	}
+	@Transactional
+	public boolean hasRole(Usuario usuario, String name)
+	{
+		Optional<Rol> byAuthority = rolDAO.findByAuthority(String.valueOf(name));
+		if (byAuthority.isEmpty()) return false;
+		return usuario.getRoles().stream().anyMatch(rol -> rol.equals(byAuthority.get()));
 	}
 }
