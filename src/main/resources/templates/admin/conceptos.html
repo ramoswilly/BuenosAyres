@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Buenos Ayres - Familias</title>
+
+    <link rel="shortcut icon" href="../assets/img/favicon.png">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
+
+    <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
+
+    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+
+    <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/plugins/toastr/toatr.css">
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <div class="header">
+
+            <div class="header-left">
+                <a href="index.html" class="logo">
+                    <img src="../assets/img/logo.png" alt="Logo">
+                </a>
+                <a href="index.html" class="logo logo-small">
+                    <img src="../assets/img/logo-small.png" alt="Logo" width="30" height="30">
+                </a>
+            </div>
+
+            <div class="menu-toggle">
+                <a href="javascript:void(0);" id="toggle_btn">
+                    <i class="fas fa-bars"></i>
+                </a>
+            </div>
+
+
+
+
+            <a class="mobile_btn" id="mobile_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+
+
+            <ul class="nav user-menu">
+
+                <li class="nav-item zoom-screen me-2">
+                    <a href="#" class="nav-link header-nav-list">
+                        <img src="../assets/img/icons/header-icon-04.svg" alt="">
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown has-arrow new-user-menus">
+                    <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
+                                alt="Soeng Souy">
+                            <div class="user-text">
+                                <h6>Buenos Ayres</h6>
+                                <p class="text-muted mb-0">Administrador</p>
+                            </div>
+                        </span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="user-header">
+                            <div class="avatar avatar-sm">
+                                <img src="../assets/img/profiles/avatar-01.jpg" alt="User Image"
+                                    class="avatar-img rounded-circle">
+                            </div>
+                            <div class="user-text">
+                                <h6>Buenos Ayres</h6>
+                                <p class="text-muted mb-0">Administrador</p>
+                            </div>
+                        </div>
+                        <a class="dropdown-item" href="profile.html">Perfil</a>
+                        <a class="dropdown-item" href="inbox.html">Novedades</a>
+                        <a class="dropdown-item" href="login.html">Salir</a>
+                    </div>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-inner slimscroll">
+    <div id="sidebar-menu" class="sidebar-menu">
+      <ul>
+        <li class="menu-title">
+          <span>Menú Principal</span>
+        </li>
+
+        <li class="submenu">
+          <a href="#"><i class="fas fa-graduation-cap"></i> <span> Alumnos</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="alumnos">Lista de alumnos</a></li>
+            <li><a href="agregar-alumno">Agregar alumno</a></li>
+            <li><a href="editar-alumno">Editar alumno</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-home"></i> <span> Padres</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="padres">Lista de Padres</a></li>
+            <li><a href="agregar-padre">Agregar padre</a></li>
+            <li><a href="editar-padre">Editar padre</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-users"></i> <span> Familias</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="familias">Lista de familias</a></li>
+            <li><a href="ver-familias">Detalles de familia</a></li>
+            <li><a href="agregar-familia">Agregar familia</a></li>
+            <li><a href="editar-familia">Editar familia</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu">
+          <a href="#"><i class="fas fa-wrench"></i> <span> Talleres</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="talleres">Lista de talleres</a></li>
+
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-file-invoice-dollar"></i> <span> Conceptos</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="conceptos">Revisar conceptos</a></li>
+
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-comment-dollar"></i> <span>Facturación</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="facturacion">Facturar</a></li>
+            <li><a href="deudas">Deudas</a></li>
+
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Profesores</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="profesores">Lista de profesores</a></li>
+            <li><a href="agregar-profesor">Agregar profesor</a></li>
+            <li><a href="editar-profesor">Editar profesor</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Cursos</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="cursos">Lista de Cursos</a></li>
+
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-book"></i> <span> Materias</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="materias">Lista de Materias</a></li>
+            <li><a href="agregar-materia">Agregar Materia</a></li>
+            <li><a href="editar-materia">Editar Materia</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-clipboard-list"></i> <span> Evaluaciones</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="evaluaciones">Lista de Evaluaciones</a></li>
+            <li><a href="agregar-evaluacion">Agregar Evaluación</a></li>
+            <li><a href="evaluaciones-creadas">Evaluaciones Creadas</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-gavel"></i> <span> Disciplina</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="disciplina">Lista de Sanciones</a></li>
+            <li><a href="agregar-sancion">Agregar Sanción</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-user-clock"></i> <span> Inasistencias</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="inasistencias">Lista de Inasistencias</a></li>
+            <li><a href="agregar-inasistencia">Agregar Inasistencia</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-chart-bar"></i> <span> Reportes</span> <span class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="ver-reportes">Ver Reportes</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index.html">Conceptos</a></li>
+                                <li class="breadcrumb-item active">Principal</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="card bg-white">
+                                <div class="card-header">
+                                    <h5 class="card-title">Todos los conceptos</h5>
+                                </div>
+                                <div class="card-body">
+                                    <ul class="nav nav-tabs nav-tabs-bottom">
+                                        <li class="nav-item"><a class="nav-link active" href="#matricula" data-bs-toggle="tab">Matrícula</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#cuota" data-bs-toggle="tab">Cuota</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#materiales" data-bs-toggle="tab">Materiales</a></li>
+                                        <li class="nav-item"><a class="nav-link" href="#adicionales" data-bs-toggle="tab">Adicionales</a></li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane show active" id="matricula">
+                                            <table class="table table-striped" id="tabla-matricula">
+                                                <thead>
+                                                <tr>
+                                                    <th>Matricula</th>
+                                                    <th>Monto</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Inicial</td>
+                                                    <td class="monto-inicial-m"></td>
+                                                    <td class="text-start">
+                                                        <div class="actions d-flex justify-content-start">
+                                                            <button onclick="Matricula('INICIAL')" class="btn btn-sm bg-danger-light btn-hover"><i class="feather-edit"></i></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Primaria</td>
+                                                    <td class="monto-primaria-m"></td>
+                                                    <td class="text-start">
+                                                        <div class="actions d-flex justify-content-start">
+                                                            <button onclick="Matricula('PRIMARIA')" class="btn btn-sm bg-danger-light btn-hover"><i class="feather-edit"></i></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Secundaria</td>
+                                                    <td class="monto-secundaria-m"></td>
+                                                    <td class="text-start">
+                                                        <div class="actions d-flex justify-content-start">
+                                                            <button onclick="Matricula('SECUNDARIA')" class="btn btn-sm bg-danger-light btn-hover"><i class="feather-edit"></i></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="tab-pane" id="cuota">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>Cuota</th>
+                                                    <th>Monto</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr>
+                                                    <td>Inicial</td>
+                                                    <td class="monto-inicial-c"></td>
+                                                    <td class="text-start">
+                                                        <div class="actions d-flex justify-content-start">
+                                                            <button onclick="Cuota('INICIAL')" class="btn btn-sm bg-danger-light btn-hover"><i class="feather-edit"></i></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Primaria</td>
+                                                    <td class="monto-primaria-c"></td>
+                                                    <td class="text-start">
+                                                        <div class="actions d-flex justify-content-start">
+                                                            <button onclick="Cuota('PRIMARIA')" class="btn btn-sm bg-danger-light"><i class="feather-edit"></i></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Secundaria</td>
+                                                    <td class="monto-secundaria-c"></td>
+                                                    <td class="text-start">
+                                                        <div class="actions d-flex justify-content-start">
+                                                            <button onclick="Cuota('SECUNDARIA')" class="btn btn-sm bg-danger-light"><i class="feather-edit"></i></button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="tab-pane" id="materiales">
+                                            <div class="materiales-container">
+                                                <div class="monto-container">
+                                                    <h3>Monto actual</h3>
+                                                    <p class="monto-materiales"></p>
+                                                </div>
+                                                <button onclick="Materiales()" class="btn btn-primary">Modificar <i class="fas fa-edit"></i></button>
+                                            </div>
+                                        </div>
+
+                                        <div class="tab-pane" id="adicionales">
+                                            <div class="col-auto text-end float-end ms-auto download-grp">
+                                                <button onclick="nuevoAdicional()" class="btn btn-primary"><i
+                                                        class="fas fa-plus"></i></button>
+                                            </div>
+                                            <table id="tabla-adicionales" class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th>Descripcion</th>
+                                                    <th>Nivel</th>
+                                                    <th>Monto</th>
+                                                    <th>Fecha de creación</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <footer>
+                    <p>Buenos Ayres - Agustín Ramos</p>
+                </footer>
+
+            </div>
+
+        </div>
+
+
+        <div id="modal-modificar" class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Modificar Monto</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" id="monto" placeholder="Ingrese el monto" value="">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="porcentaje" class="form-label">Ó ingrese un porcentaje:</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="porcentaje" placeholder="%" min="-100">
+                                <span class="input-group-text">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="actualizarConcepto()">Guardar
+                            Cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div id="modal-adicional" class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog"
+             aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Nuevo Concepto Adicional</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="descripcion-adicional" placeholder="Ingrese una descripcion" value="">
+                            </div>
+
+                        <div class="mb-3">
+                            <label for="nivel-select" class="form-label"></label>
+                            <select class="form-select" id="nivel-select">
+                                <option value="INICIAL">INICIAL</option>
+                                <option value="PRIMARIA">PRIMARIA</option>
+                                <option value="SECUNDARIA">SECUNDARIA</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="text" class="form-control" id="monto-adicional" placeholder="Ingrese el monto" value="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="actualizarAdicional()">Guardar
+                            Cambios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="../assets/js/jquery-3.6.0.min.js"></script>
+
+        <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <script src="../assets/js/feather.min.js"></script>
+
+        <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+        <script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="../assets/plugins/datatables/datatables.min.js"></script>
+        <script src="../assets/plugins/toastr/toastr.min.js"></script>
+        <script src="../assets/plugins/toastr/toastr.js"></script>
+        <script src="../assets/js/script.js"></script>
+
+        <script>
+            function formatearMoneda(numero) {
+                return '$ ' + numero.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+            $(document).ready(function () {
+                cargarMatricula();
+                $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+                    var target = $(e.target).attr("href");
+                    if (target === '#matricula') {
+                        cargarMatricula();
+                    } else if (target === '#cuota') {
+                        cargarCuota();
+                    } else if (target === '#materiales') {
+                        cargarMateriales();
+                    } else if (target === '#adicionales') {
+                        cargarAdicionales();
+                    }
+                });
+                $('#modal-modificar').on('shown.bs.modal', function () {
+                    //$('#monto').val('');
+                });
+            });
+
+            function doGet(type, nivel, limit, action, class_) {
+                $.ajax({
+                    url: `http://localhost:8080/api/v1/conceptos?type=${type}&nivel=${nivel}&limit=${limit}`,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    success: function (response) {
+                        action(response, class_);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error al obtener los conceptos:', textStatus, errorThrown);
+                        toastr.error('Error al obtener los conceptos.', 'Error', { timeOut: 5000 });
+                    }
+                });
+            }
+
+            function nuevoAdicional() {
+                $("#modal-adicional").modal('show');
+            }
+
+            function cargarCuota() {
+                function action(data, class_) {
+                    $.each(data, function (index, data) {
+                        $(`.${class_}`).text(formatearMoneda(data.monto));
+                    });
+                }
+                limpiarCuota();
+                doGet("CUOTA", "INICIAL", 1, action, "monto-inicial-c");
+                doGet("CUOTA", "PRIMARIA", 1, action, "monto-primaria-c");
+                doGet("CUOTA", "SECUNDARIA", 1, action, "monto-secundaria-c");
+            }
+
+            function cargarMateriales() {
+                $.ajax({
+                    url: `http://localhost:8080/api/v1/conceptos?type=MATERIALES&limit=1`,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    success: function (response) {
+                        $.each(response, function (index, data) {
+                            $('.monto-materiales').text(formatearMoneda(data.monto));
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error al obtener el concepto de materiales:', textStatus, errorThrown);
+                        toastr.error('Error al obtener el concepto de materiales.', 'Error', { timeOut: 5000 });
+                    }
+                });
+            }
+
+            function cargarAdicionales() {
+                $('#tabla-adicionales').DataTable({ // Inicializa DataTable aquí
+                    processing: true,
+                    ajax: {
+                        url: `http://localhost:8080/api/v1/conceptos?type=ADICIONAL`,
+                        dataSrc: ''
+                    },
+                    columns: [
+                        { data: 'descripcion' },
+                        { data: 'nivel' },
+                        { data: 'monto', render: function (data) { return `${formatearMoneda(data)}`; } },
+                        { data: 'fechaActualizacion', render: function (data) { return new Date(data).toLocaleDateString('es-AR'); } }
+                    ],
+                    destroy: true // Destruye la instancia anterior de DataTable si existe
+                });
+            }
+
+            function cargarMatricula() {
+                function action(data, class_) {
+                    $.each(data, function (index, data) {
+                        $(`.${class_}`).text(formatearMoneda(data.monto));
+                    });
+                }
+                limpiarMatricula();
+                doGet("MATRICULA", "INICIAL", 1, action, "monto-inicial-m");
+                doGet("MATRICULA", "PRIMARIA", 1, action, "monto-primaria-m");
+                doGet("MATRICULA", "SECUNDARIA", 1, action, "monto-secundaria-m");
+            }
+
+            function limpiarCuota() {
+                $('.monto-inicial-c').text('');
+                $('.monto-primaria-c').text('');
+                $('.monto-secundaria-c').text('');
+            }
+
+            function limpiarMatricula() {
+                $('.monto-inicial-m').text('');
+                $('.monto-primaria-m').text('');
+                $('.monto-secundaria-m').text('');
+            }
+
+            function Cuota(nivel) {
+                obtenerMontoActual('CUOTA', nivel); // Obtener el monto actual antes de abrir el modal
+                window.tipo = 'CUOTA';
+                window.nivel = nivel;
+                window.taller = null;
+            }
+
+            function Matricula(nivel) {
+                obtenerMontoActual('MATRICULA', nivel); // Obtener el monto actual antes de abrir el modal
+                window.tipo = 'MATRICULA';
+                window.nivel = nivel;
+                window.taller = null;
+            }
+
+            function Materiales() {
+                obtenerMontoActual('MATERIALES'); // Obtener el monto actual antes de abrir el modal
+                window.tipo = 'MATERIALES';
+                window.taller = null;
+                window.nivel = 'INICIAL';
+            }
+
+            function obtenerMontoActual(tipo, nivel = null, taller = null) {
+                let url = `http://localhost:8080/api/v1/conceptos?type=${tipo}`;
+                if (nivel) {
+                    url += `&nivel=${nivel}`;
+                }
+                if (taller) {
+                    url += `&taller=${taller}`;
+                }
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $("#monto").val(data[0].monto); // Asignar el monto al input del modal
+                            abrirModal(`${tipo} de ${nivel || data[0].descripcion}`); // Abrir el modal después de obtener el monto
+                        } else {
+                            $("#monto").val('');
+                            abrirModal(`${tipo} de ${nivel || 'INICIAL'}`); // Abrir el modal después de obtener el monto
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error al obtener el monto:", error);
+                        toastr.error('Error al obtener el monto del concepto.', 'Error', { timeOut: 5000 });
+                    }
+                });
+            }
+
+
+
+            function abrirModal(titulo) {
+                $("#modal-modificar").modal('show');
+                $("#modal-modificar .modal-title").text(titulo);
+            }
+
+            function obtenerMonto() {
+                return $("#monto").val();
+            }
+
+            function actualizarAdicional() {
+                var datos = {
+                    tipoDeConcepto: 'ADICIONAL',
+                    nivel: $('#nivel-select').val(),
+                    descripcion: $('#descripcion-adicional').val(),
+                    monto: $('#monto-adicional').val()
+                };
+
+                $.ajax({
+                    url: 'http://localhost:8080/api/v1/conceptos',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(datos),
+                    success: function (response) {
+                        toastr.success('Concepto adicional creado', 'Éxito', { timeOut: 3000 });
+                        $('#modal-adicional').modal('hide');
+                        cargarAdicionales(); // Recargar la tabla de adicionales
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error al crear el concepto adicional:', textStatus, errorThrown);
+                        toastr.error('Error al crear el concepto adicional.', 'Error', { timeOut: 5000 });
+                    }
+                });
+            }
+
+            function actualizarConcepto() {
+                var monto = parseFloat($("#monto").val()); // Obtener el monto ingresado directamente
+                var porcentaje = parseFloat($("#porcentaje").val()); // Obtener el porcentaje
+
+                // Si se ingresa un porcentaje, calcular el nuevo monto
+                if (!isNaN(porcentaje) && porcentaje !== 0) {
+                    monto = monto * (1 + porcentaje / 100);
+                }
+
+                var datos = {
+                    tipoDeConcepto: window.tipo,
+                    nivel: window.nivel,
+                    taller: window.taller,
+                    monto: monto
+                };
+
+                $.ajax({
+                    url: 'http://localhost:8080/api/v1/conceptos',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(datos),
+                    success: function (response) {
+                        toastr.success('Monto actualizado', 'Éxito', { timeOut: 3000 });
+                        $('#modal-modificar').modal('hide');
+
+                        // Recargar la tabla correspondiente
+                        if (window.tipo === 'MATRICULA') {
+                            cargarMatricula();
+                        } else if (window.tipo === 'CUOTA') {
+                            cargarCuota();
+                        } else if (window.tipo === 'MATERIALES') {
+                            cargarMateriales();
+                        }
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.error('Error al actualizar el concepto:', textStatus, errorThrown);
+                        toastr.error('Error al actualizar el concepto.', 'Error', { timeOut: 5000 });
+                    }
+                });
+            }
+        </script>
+</div>
+</body>
+
+</html>

@@ -6,6 +6,7 @@ import org.gamma.buenosayres.service.exception.ServiceException;
 import org.gamma.buenosayres.service.implementation.EvaluacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -33,10 +34,11 @@ public class EvaluacionController {
 		}
 	}
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody EvaluacionDTO evaluacionDTO)
+	public ResponseEntity<?> create(Authentication authentication, @RequestBody EvaluacionDTO evaluacionDTO)
 	{
 		try {
-			return ResponseEntity.ok(evaluacionMapper.map(evaluacionService.create(evaluacionDTO)));
+			return ResponseEntity.ok(evaluacionMapper.map(evaluacionService.create(authentication.getName(), evaluacionDTO)));
+			// return ResponseEntity.ok(evaluacionMapper.map(evaluacionService.create(evaluacionDTO)));
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}

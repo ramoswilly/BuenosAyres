@@ -2,7 +2,7 @@ package org.gamma.buenosayres.model;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -14,9 +14,9 @@ public class Evaluacion {
 	private String descripcion;
 	private String comentarios;
 	@Column(name = "fecha_creacion")
-	private Date fechaCreacion;
+	private LocalDate fechaCreacion;
 	@Column(name = "fecha_vencimiento")
-	private Date fechaVencimiento;
+	private LocalDate fechaVencimiento;
 	@ManyToOne
 	private Materia materia;
 	@ManyToOne
@@ -51,22 +51,22 @@ public class Evaluacion {
 		this.comentarios = comentarios;
 	}
 
-	public Date getFechaCreacion()
+	public LocalDate getFechaCreacion()
 	{
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(Date fechaCreacion)
+	public void setFechaCreacion(LocalDate fechaCreacion)
 	{
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public Date getFechaVencimiento()
+	public LocalDate getFechaVencimiento()
 	{
 		return fechaVencimiento;
 	}
 
-	public void setFechaVencimiento(Date fechaVencimiento)
+	public void setFechaVencimiento(LocalDate fechaVencimiento)
 	{
 		this.fechaVencimiento = fechaVencimiento;
 	}

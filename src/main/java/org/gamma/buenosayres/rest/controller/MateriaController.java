@@ -7,9 +7,11 @@ import org.gamma.buenosayres.service.exception.ServiceException;
 import org.gamma.buenosayres.service.implementation.MateriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -35,8 +37,13 @@ public class MateriaController {
 		}
 	}
 	@GetMapping(produces = "application/json")
-	public ResponseEntity<?> get()
+	public ResponseEntity<?> get(Authentication authentication)
 	{
+		// Obtener materias del profe
+		if (authentication.getAuthorities().stream().anyMatch(auth -> Objects.equals(auth.getAuthority(), "ROLE_PROFESOR"))) {
+			return ResponseEntity.ok(materiaService.get(authentication.getName()).stream().map(materiaMapper::map).toList());
+		}
+		// Devolver todo
 		return ResponseEntity.ok(materiaService.get().stream().map(materiaMapper::map).toList());
 	}
 	@GetMapping("/{materia}")

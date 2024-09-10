@@ -9,10 +9,12 @@ import org.gamma.buenosayres.dto.ProfesorDTO;
 import org.gamma.buenosayres.model.Curso;
 import org.gamma.buenosayres.model.Materia;
 import org.gamma.buenosayres.model.Profesor;
+import org.gamma.buenosayres.model.Usuario;
 import org.gamma.buenosayres.service.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -22,12 +24,14 @@ public class MateriaService {
 	private MateriaDAO materiaDAO;
 	private CursoDAO cursoDAO;
 	private ProfesorDAO profesorDAO;
+	private UserService userService;
 	@Autowired
-	public MateriaService(MateriaDAO materiaDAO, CursoDAO cursoDAO, ProfesorDAO profesorDAO)
+	public MateriaService(MateriaDAO materiaDAO, CursoDAO cursoDAO, ProfesorDAO profesorDAO, UserService userService)
 	{
 		this.materiaDAO = materiaDAO;
 		this.cursoDAO = cursoDAO;
 		this.profesorDAO = profesorDAO;
+		this.userService = userService;
 	}
 	public List<Materia> get()
 	{
@@ -91,5 +95,13 @@ public class MateriaService {
 		}
 		// Guardar
 		return materiaDAO.save(byId.get());
+	}
+
+	public List<Materia> get(String username)
+	{
+		// Obtener Usuario
+		Optional<Usuario> usuario = userService.get(username);
+		if (usuario.isEmpty()) return new ArrayList<>();
+		return materiaDAO.findByProfesor_Persona_Usuario(usuario.get());
 	}
 }

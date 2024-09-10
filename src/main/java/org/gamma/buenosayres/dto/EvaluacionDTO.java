@@ -1,14 +1,14 @@
 package org.gamma.buenosayres.dto;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class EvaluacionDTO {
 	private UUID id;
 	private String descripcion;
 	private String comentarios;
-	private Date fechaCreacion;
-	private Date fechaVencimiento;
+	private LocalDate fechaCreacion;
+	private LocalDate fechaVencimiento;
 	private UUID idMateria;
 	private UUID idProfesor;
 
@@ -42,22 +42,22 @@ public class EvaluacionDTO {
 		this.comentarios = comentarios;
 	}
 
-	public Date getFechaCreacion()
+	public LocalDate getFechaCreacion()
 	{
 		return fechaCreacion;
 	}
 
-	public void setFechaCreacion(Date fechaCreacion)
+	public void setFechaCreacion(LocalDate fechaCreacion)
 	{
 		this.fechaCreacion = fechaCreacion;
 	}
 
-	public Date getFechaVencimiento()
+	public LocalDate getFechaVencimiento()
 	{
 		return fechaVencimiento;
 	}
 
-	public void setFechaVencimiento(Date fechaVencimiento)
+	public void setFechaVencimiento(LocalDate fechaVencimiento)
 	{
 		this.fechaVencimiento = fechaVencimiento;
 	}

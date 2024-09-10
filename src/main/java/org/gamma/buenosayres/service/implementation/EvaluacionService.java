@@ -11,7 +11,7 @@ import org.gamma.buenosayres.service.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,12 +21,14 @@ public class EvaluacionService {
 	private MateriaDAO materiaDAO;
 	private EvaluacionDAO evaluacionDAO;
 	private ProfesorDAO profesorDAO;
+	private EntregaService entregaService;
 	@Autowired
-	public EvaluacionService(MateriaDAO materiaDAO, EvaluacionDAO evaluacionDAO, ProfesorDAO profesorDAO)
+	public EvaluacionService(MateriaDAO materiaDAO, EvaluacionDAO evaluacionDAO, ProfesorDAO profesorDAO, EntregaService entregaService)
 	{
 		this.materiaDAO = materiaDAO;
 		this.evaluacionDAO = evaluacionDAO;
 		this.profesorDAO = profesorDAO;
+		this.entregaService = entregaService;
 	}
 	public List<Evaluacion> get(UUID idMateria) throws ServiceException
 	{
@@ -48,8 +50,33 @@ public class EvaluacionService {
 		evaluacion.setComentarios(evaluacionDTO.getComentarios());
 		evaluacion.setMateria(materia.get());
 		//evaluacion.setProfesor(profesor.get());
-		evaluacion.setFechaCreacion(new Date());
+		evaluacion.setFechaCreacion(LocalDate.now());
 		evaluacion.setFechaVencimiento(evaluacionDTO.getFechaVencimiento());
 		return evaluacionDAO.save(evaluacion);
+	}
+
+	public Evaluacion create(String username, EvaluacionDTO evaluacionDTO) throws ServiceException
+	{
+		Optional<Materia> materia = materiaDAO.findById(evaluacionDTO.getIdMateria()); //Verificar null
+		if (materia.isEmpty()) throw new ServiceException("Materia inexistente", 404);
+		Optional<Profesor> profesor = profesorDAO.findByPersona_Usuario_Username(username);
+		if (profesor.isEmpty()) throw new ServiceException("Profesor inexistente", 404);
+		if (!profesor.get().getMaterias().contains(materia.get())) throw new ServiceException("Materia no asignada", 403);
+
+		// Crear la evaluacion
+		Evaluacion evaluacion = new Evaluacion();
+		evaluacion.setDescripcion(evaluacionDTO.getDescripcion());
+		evaluacion.setComentarios(evaluacionDTO.getComentarios());
+		evaluacion.setMateria(materia.get());
+		evaluacion.setProfesor(profesor.get());
+		evaluacion.setFechaCreacion(LocalDate.now());
+		evaluacion.setFechaVencimiento(evaluacionDTO.getFechaVencimiento());
+
+		evaluacionDAO.save(evaluacion);
+
+		// Crear los objetos de entrega pendiente
+		entregaService.createPendingDeliveries(evaluacion);
+
+		return evaluacion;
 	}
 }

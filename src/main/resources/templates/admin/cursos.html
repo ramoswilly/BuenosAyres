@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <title>Buenos Ayres - Cursos</title>
+
+  <link rel="shortcut icon" href="../assets/img/favicon.png">
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+          rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
+
+  <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
+
+  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .dataTables_filter {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="main-wrapper">
+
+  <!-- ... (header and sidebar code) ... -->
+  <div class="header">
+
+    <div class="header-left">
+      <a href="index" class="logo">
+        <img src="../assets/img/logo.png" alt="Logo">
+      </a>
+      <a href="index" class="logo logo-small">
+        <img src="../assets/img/logo-small.png" alt="Logo" width="30" height="30">
+      </a>
+    </div>
+
+    <div class="menu-toggle">
+      <a href="javascript:void(0);" id="toggle_btn">
+        <i class="fas fa-bars"></i>
+      </a>
+    </div>
+
+    <a class="mobile_btn" id="mobile_btn">
+      <i class="fas fa-bars"></i>
+    </a>
+
+    <ul class="nav user-menu">
+
+      <li class="nav-item zoom-screen me-2">
+        <a href="#" class="nav-link header-nav-list">
+          <img src="../assets/img/icons/header-icon-04.svg" alt="">
+        </a>
+      </li>
+
+      <li class="nav-item dropdown has-arrow new-user-menus">
+        <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
+                         alt="Soeng Souy">
+                    <div class="user-text">
+                        <h6>Buenos Ayres</h6>
+                        <p class="text-muted mb-0">Administrador</p>
+                    </div>
+                </span>
+        </a>
+        <div class="dropdown-menu">
+          <div class="user-header">
+            <div class="avatar avatar-sm">
+              <img src="../assets/img/profiles/avatar-01.jpg" alt="User Image"
+                   class="avatar-img rounded-circle">
+            </div>
+            <div class="user-text">
+              <h6>Buenos Ayres</h6>
+              <p class="text-muted mb-0">Administrador</p>
+            </div>
+          </div>
+
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
+
+
+  
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-inner slimscroll">
+    <div id="sidebar-menu" class="sidebar-menu">
+      <ul>
+        <li class="menu-title">
+          <span>Menú Principal</span>
+        </li>
+
+        <li class="submenu">
+          <a href="#"><i class="fas fa-graduation-cap"></i> <span> Alumnos</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="alumnos">Lista de alumnos</a></li>
+            <li><a href="agregar-alumno">Agregar alumno</a></li>
+            <li><a href="editar-alumno">Editar alumno</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-home"></i> <span> Padres</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="padres">Lista de Padres</a></li>
+            <li><a href="agregar-padre">Agregar padre</a></li>
+            <li><a href="editar-padre">Editar padre</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-users"></i> <span> Familias</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="familias">Lista de familias</a></li>
+            <li><a href="ver-familias">Detalles de familia</a></li>
+            <li><a href="agregar-familia">Agregar familia</a></li>
+            <li><a href="editar-familia">Editar familia</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu">
+          <a href="#"><i class="fas fa-wrench"></i> <span> Talleres</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="talleres">Lista de talleres</a></li>
+
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-file-invoice-dollar"></i> <span> Conceptos</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="conceptos">Revisar conceptos</a></li>
+
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-comment-dollar"></i> <span>Facturación</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="facturacion">Facturar</a></li>
+            <li><a href="deudas">Deudas</a></li>
+
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Profesores</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="profesores">Lista de profesores</a></li>
+            <li><a href="agregar-profesor">Agregar profesor</a></li>
+            <li><a href="editar-profesor">Editar profesor</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Cursos</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="cursos">Lista de Cursos</a></li>
+
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-book"></i> <span> Materias</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="materias">Lista de Materias</a></li>
+            <li><a href="agregar-materia">Agregar Materia</a></li>
+            <li><a href="editar-materia">Editar Materia</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-clipboard-list"></i> <span> Evaluaciones</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="evaluaciones">Lista de Evaluaciones</a></li>
+            <li><a href="agregar-evaluacion">Agregar Evaluación</a></li>
+            <li><a href="evaluaciones-creadas">Evaluaciones Creadas</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-gavel"></i> <span> Disciplina</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="disciplina">Lista de Sanciones</a></li>
+            <li><a href="agregar-sancion">Agregar Sanción</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-user-clock"></i> <span> Inasistencias</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="inasistencias">Lista de Inasistencias</a></li>
+            <li><a href="agregar-inasistencia">Agregar Inasistencia</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-chart-bar"></i> <span> Reportes</span> <span class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="ver-reportes">Ver Reportes</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+      <div class="student-group-form">
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <label for="nivel">Nivel:</label>
+              <select id="nivel" class="form-control">
+                <!-- Options will be populated here -->
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <label for="turno">Turno:</label>
+              <select id="turno" class="form-control">
+                <!-- Options will be populated here -->
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card card-table comman-shadow">
+            <div class="card-body">
+
+              <div class="page-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h3 class="page-title">Cursos</h3>
+                  </div>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table id="tabla-cursos"
+                       class="table border-0 star-student table-hover table-center mb-0 table-striped">
+                  <thead class="student-thread">
+                  <tr>
+                    <th>Orden</th>
+                    <th>Nivel</th>
+                    <th>Turno</th>
+                    <th id="responsable-header">Responsable</th>
+                    <th>Acciones</th>
+                  </tr>
+                  </thead>
+                </table>
+              </div>
+
+              <footer>
+                <p>Buenos Ayres - Agustín Ramos</p>
+              </footer>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal para seleccionar responsable -->
+<div id="modalSeleccionarResponsable" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="standard-modalLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="standard-modalLabel">Seleccionar <span id="responsable-type-label"></span></h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table id="tabla-responsables" class="table table-striped table-bordered">
+            <thead>
+            <tr>
+              <th>DNI</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>CUIL</th>
+              <th>Seleccionar</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- El contenido de la tabla se llenará dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light"
+                data-bs-dismiss="modal">Descartar</button>
+        <button type="button" class="btn btn-primary" id="btnConfirmarResponsable">Asignar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/jquery-3.6.0.min.js"></script>
+<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/feather.min.js"></script>
+<script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../assets/plugins/datatables/datatables.min.js"></script>
+<script src="../assets/js/script.js"></script>
+
+<script>
+  $(document).ready(function () {
+    const baseUrl = "http://localhost:8080/api/v1";
+
+    // Inicializar filtros
+    const niveles = ["INICIAL", "PRIMARIA", "SECUNDARIA"];
+    const turnos = ["MAÑANA", "TARDE"];
+
+    let cursosData = [];
+
+    $.each(niveles, function (index, nivel) {
+      $("#nivel").append(
+              $("<option></option>").attr("value", nivel).text(nivel)
+      );
+    });
+    $.each(turnos, function (index, turno) {
+      $("#turno").append(
+              $("<option></option>").attr("value", turno).text(turno)
+      );
+    });
+
+    // Inicializar DataTable
+    let tablaCursos = $("#tabla-cursos").DataTable({
+      data: [],
+      columns: [
+        {data: "orden"},
+        {data: "nivel"},
+        {data: "turno"},
+        {
+          data: null,
+          render: function (data, type, row) {
+            if (data.id_responsable) { // Verificar si id_responsable no es null
+              return `<a href="#" class="responsable-link" data-curso-id="${row.id}" style="color: lightblue; text-decoration: underline;">${data.nombre_responsable} ${data.apellido_responsable}</a>`;
+            } else {
+              return `<a href="#" class="responsable-link" data-curso-id="${row.id}" style="color: lightblue; text-decoration: underline;">Asignar</a>`;
+            }
+          },
+        },
+        {
+          data: null,
+          render: function (data, type, row) {
+            return `
+            <a href="editar-curso?id=${row.id}" class="btn btn-sm bg-success-light me-2">
+              <i class="feather-edit"></i>
+            </a>
+          `;
+          },
+        },
+      ],
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
+      },
+    });
+
+    // Cargar cursos al inicio
+    cargarCursos();
+
+    // Manejar filtros
+    $("#nivel, #turno").on("change", function () {
+      filtrarCursos();
+    });
+
+    // Cargar cursos
+    function cargarCursos() {
+      $.ajax({
+        url: `${baseUrl}/cursos`,
+        type: "GET",
+        success: function (data) {
+          cursosData = data;
+          filtrarCursos();
+        },
+        error: function (error) {
+          console.error("Error al cargar cursos:", error);
+        },
+      });
+    }
+
+    // Filtrar cursos
+    function filtrarCursos() {
+      let nivelFiltro = $("#nivel").val();
+      let turnoFiltro = $("#turno").val();
+
+      let cursosFiltrados = cursosData.filter(function (curso) {
+        let nivelMatch = nivelFiltro === "" || curso.nivel === nivelFiltro;
+        let turnoMatch = turnoFiltro === "" || curso.turno === turnoFiltro;
+        return nivelMatch && turnoMatch;
+      });
+
+      tablaCursos.clear().rows.add(cursosFiltrados).draw();
+    }
+
+    // Abrir modal para seleccionar responsable
+    $("#tabla-cursos").on("click", ".responsable-link", function () {
+      let cursoId = $(this).data("curso-id");
+
+      let curso = cursosData.find((c) => c.id === cursoId);
+      let responsableType =
+              curso.nivel === "SECUNDARIA" ? "Preceptor" : "Profesor";
+
+      $("#responsable-type-label").text(responsableType);
+
+      cargarResponsables(responsableType);
+
+      $("#modalSeleccionarResponsable").data("curso-id", cursoId);
+      $("#modalSeleccionarResponsable").modal("show");
+    });
+
+    // Cargar responsables en la tabla del modal
+    function cargarResponsables(responsableType) {
+      let role =
+              responsableType === "Preceptor" ? "ROLE_PRECEPTOR" : "ROLE_PROFESOR";
+      $.ajax({
+        url: `${baseUrl}/profesores?tipo=${role}`,
+        type: "GET",
+        success: function (data) {
+          let tablaResponsables = $("#tabla-responsables").DataTable();
+          tablaResponsables.clear().rows.add(data).draw();
+
+          // Agregar radio buttons a la tabla (corrección aquí)
+          $("#tabla-responsables tbody tr").each(function () {
+            let rowData = tablaResponsables.row(this).data(); // Obtener los datos de la fila
+            let responsableId = rowData.id; // Obtener el ID del responsable
+            let radioButton = `
+          <input type="radio" name="responsableSeleccionado" value="${responsableId}">
+        `;
+            $(this).find("td:eq(4)").html(radioButton); // Agregar el radio button a la última columna
+          });
+        },
+        error: function (error) {
+          console.error("Error al cargar responsables:", error);
+        },
+      });
+    }
+
+    // Asignar responsable al curso
+    $("#btnConfirmarResponsable").on("click", function () {
+      let responsableSeleccionado = $('input[name="responsableSeleccionado"]:checked');
+      if (responsableSeleccionado.length > 0) {
+        let responsableId = responsableSeleccionado.val();
+        let cursoId = $("#modalSeleccionarResponsable").data("curso-id");
+
+        // Hacer la asignación en el backend (API call)
+        $.ajax({
+          url: `${baseUrl}/cursos/${cursoId}/responsable`,
+          type: "PUT",
+          contentType: "application/json", // Asegúrate de que el tipo de contenido sea JSON
+          data: JSON.stringify({id: responsableId}), // Enviar el ID del responsable como entero
+          success: function () {
+            $("#modalSeleccionarResponsable").modal("hide");
+            cargarCursos(); // Recargar la tabla de cursos
+          },
+          error: function (error) {
+            console.error("Error al asignar responsable:", error);
+          },
+        });
+      } else {
+        alert("Por favor, selecciona un responsable.");
+      }
+    });
+
+    // Inicializar DataTable para responsables
+    $("#tabla-responsables").DataTable({
+      columns: [
+        {data: "dni"},
+        {data: "nombre"},
+        {data: "apellido"},
+        {data: "cuil"},
+        {data: null}, // Columna vacía para el radio button
+      ],
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
+      },
+    });
+  });
+</script>
+
+</body>
+
+</html>

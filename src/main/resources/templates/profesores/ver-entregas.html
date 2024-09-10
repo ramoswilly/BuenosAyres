@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <title>Buenos Ayres - Ver Entregas</title>
+
+  <link rel="shortcut icon" href="../assets/img/favicon.png">
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+          rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
+
+  <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
+
+  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .dataTables_filter {
+      display: none;
+    }
+  </style>
+
+
+</head>
+
+<body>
+
+<div class="main-wrapper">
+  <div class="header">
+
+    <div class="header-left">
+      <a href="index" class="logo">
+        <img src="../assets/img/logo.png" alt="Logo">
+      </a>
+      <a href="index" class="logo logo-small">
+        <img src="../assets/img/logo-small.png" alt="Logo" width="30" height="30">
+      </a>
+    </div>
+
+    <div class="menu-toggle">
+      <a href="javascript:void(0);" id="toggle_btn">
+        <i class="fas fa-bars"></i>
+      </a>
+    </div>
+
+
+    <a class="mobile_btn" id="mobile_btn">
+      <i class="fas fa-bars"></i>
+    </a>
+
+
+    <ul class="nav user-menu">
+
+      <li class="nav-item zoom-screen me-2">
+        <a href="#" class="nav-link header-nav-list">
+          <img src="../assets/img/icons/header-icon-04.svg" alt="">
+        </a>
+      </li>
+
+      <li class="nav-item dropdown has-arrow new-user-menus">
+        <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
+                         alt="Soeng Souy">
+                    <div class="user-text">
+                        <h6>Buenos Ayres</h6>
+                        <p class="text-muted mb-0">Administrador</p>
+                    </div>
+                </span>
+        </a>
+        <div class="dropdown-menu">
+          <div class="user-header">
+            <div class="avatar avatar-sm">
+              <img src="../assets/img/profiles/avatar-01.jpg" alt="User Image"
+                   class="avatar-img rounded-circle">
+            </div>
+            <div class="user-text">
+              <h6>Buenos Ayres</h6>
+              <p class="text-muted mb-0">Administrador</p>
+            </div>
+          </div>
+
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
+
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+      <div id="sidebar-menu" class="sidebar-menu">
+        <ul>
+          <li class="menu-title">
+            <span>Menú Principal</span>
+          </li>
+          <li class="submenu">
+            <a href="#"><i class="fas fa-book"></i> <span> Materias</span> <span
+                    class="menu-arrow"></span></a>
+            <ul>
+              <li><a href="materias">Lista de Materias</a></li>
+              <li><a href="agregar-materia">Agregar Materia</a></li>
+              <li><a href="editar-materia">Editar Materia</a></li>
+            </ul>
+          </li>
+          <li class="submenu">
+            <a href="#"><i class="fas fa-clipboard-list"></i> <span> Evaluaciones</span> <span
+                    class="menu-arrow"></span></a>
+            <ul>
+              <li><a href="evaluaciones">Lista de Evaluaciones</a></li>
+              <li><a href="agregar-evaluacion">Agregar Evaluación</a></li>
+              <li><a href="evaluaciones-creadas">Evaluaciones Creadas</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+
+      <div class="page-header">
+        <div class="row">
+          <div class="col-sm-12">
+            <h3 class="page-title">Ver Entregas</h3>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="evaluaciones">Evaluaciones</a></li>
+              <li class="breadcrumb-item active">Ver Entregas</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card card-table comman-shadow">
+            <div class="card-body">
+              <div class="table-responsive">
+                <table id="tabla-entregas"
+                       class="table border-0 star-student table-hover table-center mb-0 table-striped">
+                  <thead class="student-thread">
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Fecha de entrega</th>
+                    <th>Comentarios</th>
+                    <th>Nota</th>
+                  </tr>
+                  </thead>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para ver comentarios -->
+  <div class="modal fade" id="modalComentarios" tabindex="-1" role="dialog" aria-labelledby="modalComentariosLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalComentariosLabel">Comentarios</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body" id="contenidoComentarios">
+          <!-- Aquí se mostrarán los comentarios -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/jquery-3.6.0.min.js"></script>
+
+<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="../assets/js/feather.min.js"></script>
+
+<script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../assets/plugins/datatables/datatables.min.js"></script>
+
+<script src="../assets/js/script.js"></script>
+
+<script>
+  $(document).ready(function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const evaluacionId = urlParams.get('evaluacion');
+
+    var tabla = $('#tabla-entregas').DataTable({
+      processing: true,
+      searching: true,
+      language: {
+        url: '/../assets/plugins/datatables/es-ES.json',
+      },
+      ajax: {
+        url: `http://localhost:8080/api/v1/entregas?evaluacion=${evaluacionId}`, // Ajustar la URL según tu API
+        dataSrc: ''
+      },
+      columns: [
+        { data: 'nombreAlumno' },
+        { data: 'apellidoAlumno' },
+        {
+          data: 'fecha',
+          render: function (data, type, row) {
+            if (data) {
+              const fecha = new Date(data);
+              return fecha.toLocaleDateString(); // Formato de fecha local
+            } else {
+              return '<span class="sin-entregar">Sin entregar</span>';
+            }
+          }
+        },
+        {
+          data: null,
+          render: function (data, type, row) {
+            const icono = data.comentarios ? 'feather-message-circle' : 'feather-minus-circle'; // Icono diferente si no hay comentarios
+            return `
+              <button type="button" class="btn btn-sm bg-info-light ver-comentarios" data-comentarios="${data.comentarios || ''}">
+                <i class="${icono}"></i>
+              </button>`;
+          }
+        },
+        {
+          data: null,
+          render: function (data, type, row) {
+            // Obtener la calificación por separado
+            $.ajax({
+              url: `/api/v1/calificaciones/${evaluacionId}/${data.idAlumno}`,
+              type: 'GET',
+              async: false, // Esperar la respuesta antes de continuar
+              success: function (calificacion) {
+                data.nota = calificacion.nota; // Guardar la nota en el objeto data
+              }
+            });
+
+            return `<div class="input-group input-group-sm">
+  <input type="number" class="form-control nota-input" data-alumno-id="${data.idAlumno}" value="${data.nota || ''}" min="1" max="10" style="width: 20x;" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);" />
+  <div class="input-group-append">
+    <button class="btn btn-sm btn-success confirmar-nota" data-alumno-id="${data.idAlumno}" title="Confirmar Nota">
+      <i class="fas fa-check-circle"></i>
+    </button>
+  </div>
+</div>
+`;
+          }
+        }
+      ]
+    });
+
+    // Manejar clic en "Ver Comentarios"
+    $('#tabla-entregas tbody').on('click', '.ver-comentarios', function () {
+      const comentarios = $(this).data('comentarios');
+      if (comentarios) { // Solo mostrar el modal si hay comentarios
+        $('#contenidoComentarios').text(comentarios);
+        $('#modalComentarios').modal('show');
+      }
+    });
+
+    // Manejar clic en el botón de confirmar
+    $('#tabla-entregas tbody').on('click', '.confirmar-nota', function () {
+      const alumnoId = $(this).data('alumno-id');
+      const nota = $(`.nota-input[data-alumno-id="${alumnoId}"]`).val();
+
+      // Enviar la nota a la API
+      $.ajax({
+        url: `/api/v1/calificaciones`,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify({ nota: nota, idAlumno: alumnoId, idEvaluacion: evaluacionId }),
+        success: function () {
+          // Puedes mostrar un mensaje de éxito o recargar la tabla
+        },
+        error: function (error) {
+          // Mostrar un mensaje de error
+          alert('Error al actualizar la nota: ' + error.responseText);
+        }
+      });
+    });
+  });
+</script>
+</body>
+
+</html>

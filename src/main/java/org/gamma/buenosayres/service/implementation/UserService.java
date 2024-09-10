@@ -57,4 +57,8 @@ public class UserService {
 		if (byAuthority.isEmpty()) return false;
 		return usuario.getRoles().stream().anyMatch(rol -> rol.equals(byAuthority.get()));
 	}
+	public Optional<Usuario> get(String username)
+	{
+		return usuarioDAO.findByUsername(username);
+	}
 }

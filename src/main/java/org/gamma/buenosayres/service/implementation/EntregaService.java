@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 public class EntregaService {
@@ -28,7 +30,19 @@ public class EntregaService {
 		this.evaluacionDAO = evaluacionDAO;
 		this.alumnoDAO = alumnoDAO;
 	}
-
+	public void createPendingDeliveries(Evaluacion evaluacion)
+	{
+		//Crear objetos entrega pendientes
+		evaluacion.getMateria().getCurso().getAlumnos()
+				.stream()
+				.map(alumno -> {
+					Entrega pendiente = new Entrega();
+					pendiente.setEvaluacion(evaluacion);
+					pendiente.setAlumno(alumno);
+					return pendiente;
+				})
+				.forEach(entrega -> entregaDAO.save(entrega));
+	}
 	public Entrega create(EntregaDTO entregaDTO) throws ServiceException {
 		// verificar evaluacion
 		Optional<Evaluacion> evaluacion = evaluacionDAO.findById(entregaDTO.getIdEvaluacion());
@@ -49,6 +63,7 @@ public class EntregaService {
 		if (evaluacion.isEmpty()) {
 			throw new ServiceException("Evaluacion inexistente", 404);
 		}
+		// Entregas de la evaluacion
 		return entregaDAO.findByEvaluacion(evaluacion.get());
 	}
 }
