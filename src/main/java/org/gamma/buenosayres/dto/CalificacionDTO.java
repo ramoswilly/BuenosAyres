@@ -6,7 +6,6 @@ public class CalificacionDTO {
 	private float nota;
 	private UUID idAlumno;
 	private UUID idEvaluacion;
-
 	public float getNota()
 	{
 		return nota;

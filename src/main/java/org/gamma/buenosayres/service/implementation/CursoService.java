@@ -1,28 +1,29 @@
 package org.gamma.buenosayres.service.implementation;
 
+import org.gamma.buenosayres.dao.interfaces.AlumnoDAO;
 import org.gamma.buenosayres.dao.interfaces.CursoDAO;
 import org.gamma.buenosayres.dao.interfaces.ProfesorDAO;
 import org.gamma.buenosayres.dto.ProfesorDTO;
+import org.gamma.buenosayres.model.Alumno;
 import org.gamma.buenosayres.model.Curso;
 import org.gamma.buenosayres.model.Profesor;
 import org.gamma.buenosayres.service.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class CursoService {
 	private final CursoDAO cursoDAO;
 	private final ProfesorDAO profesorDAO;
+	private final AlumnoDAO alumnoDAO;
 	@Autowired
-	public CursoService(CursoDAO cursoDAO, ProfesorDAO profesorDAO)
+	public CursoService(CursoDAO cursoDAO, ProfesorDAO profesorDAO, AlumnoDAO alumnoDAO)
 	{
 		this.cursoDAO = cursoDAO;
 		this.profesorDAO = profesorDAO;
+		this.alumnoDAO = alumnoDAO;
 	}
 	public List<Curso> findAll()
 	{
@@ -49,5 +50,22 @@ public class CursoService {
 		profesorDAO.save(profesor.get());
 		//guardar curso
 		return cursoDAO.save(curso.get());
+	}
+
+	public List<Curso> findByAlumno(String dni) throws ServiceException
+	{
+		Optional<Alumno> alumno = alumnoDAO.findAlumnoByPersona_Dni(dni);
+		if (alumno.isEmpty()) throw new ServiceException("Alumno inexistente", 404);
+		return cursoDAO.findByAlumno(alumno.get());
+	}
+
+	public List<Curso> findByDirector(String username) throws ServiceException {
+		Optional<Profesor> profesor = profesorDAO.findByPersona_Usuario_Username(username);
+		if (profesor.isEmpty()) {
+			throw new ServiceException("Profesor inexistente", 404);
+		}
+		return cursoDAO.findAll().stream()
+				.filter(curso -> curso.getNivel() == profesor.get().getNivel())
+				.toList();
 	}
 }

@@ -9,6 +9,7 @@ import org.gamma.buenosayres.service.exception.ServiceException;
 import org.gamma.buenosayres.service.implementation.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,8 +29,25 @@ public class CursoController {
 	}
 
 	@GetMapping(produces = "application/json")
-	public ResponseEntity<?> getAllCursos()
+	public ResponseEntity<?> getAllCursos(Authentication authentication)
 	{
+		// Obtener cursos del alumno
+		if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ALUMNO"))) {
+			try {
+				return ResponseEntity.ok(service.findByAlumno(authentication.getName()).stream().map(mapper::map));
+			} catch (ServiceException e) {
+				return ResponseEntity.status(e.getCode()).body(e.getMessage());
+			}
+		}
+		// Obtener cursos del director
+		if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_DIRECTOR"))) {
+			try {
+				return ResponseEntity.ok(service.findByDirector(authentication.getName()).stream().map(mapper::map));
+			} catch (ServiceException e) {
+				return ResponseEntity.status(e.getCode()).body(e.getMessage());
+			}
+		}
+		// Generico, todos
 		return ResponseEntity.ok(service.findAll().stream().map(mapper::map));
 	}
 

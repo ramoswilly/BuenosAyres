@@ -24,9 +24,14 @@ public class EvaluacionController {
 		this.evaluacionMapper = evaluacionMapper;
 	}
 	@GetMapping(produces = "application/json")
-	public ResponseEntity<?> get(@RequestParam(value = "materia") UUID idMateria)
+	public ResponseEntity<?> get(Authentication authentication, @RequestParam(value = "materia") UUID idMateria)
 	{
 		try {
+			// Obtener solo evaluaciones entregables // TP // No vencidas
+			if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ALUMNO"))) {
+				return ResponseEntity.ok(evaluacionService.getEntregables(idMateria)
+						.stream().map(evaluacionMapper::map).toList());
+			}
 			return ResponseEntity.ok(evaluacionService.get(idMateria)
 					.stream().map(evaluacionMapper::map).toList());
 		} catch (ServiceException e) {

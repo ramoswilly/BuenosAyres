@@ -50,6 +50,10 @@ public class EntregaService {
 		// verificar alumno
 		Optional<Alumno> alumno = alumnoDAO.findById(entregaDTO.getIdAlumno());
 		if (alumno.isEmpty()) throw new ServiceException("Alumno inexistente", 404);
+		// Verificar si entrega ya existe...
+		Optional<Entrega> entregaExistente = entregaDAO.findByAlumnoAndEvaluacion(alumno.get(), evaluacion.get());
+		if (entregaExistente.isPresent()) throw new ServiceException("Entrega ya realizada", 403);
+
 		// ok crear
 		Entrega entrega = new Entrega();
 		entrega.setEvaluacion(evaluacion.get());

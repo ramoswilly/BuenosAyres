@@ -25,9 +25,17 @@ public class AlumnoController {
 		this.alumnoMapper = alumnoMapper;
 	}
 	@GetMapping(produces = "application/json")
-	public List<AlumnoDTO> getAllAlumnos()
+	public ResponseEntity<?> getAllAlumnos(@RequestParam(value = "curso", required = false) UUID cursoId)
 	{
-		return service.findAll().stream().map(alumnoMapper::map).toList();
+		try {
+			if (cursoId != null) {
+				return ResponseEntity.ok(service.findByCurso(cursoId).stream().map(alumnoMapper::map).toList());
+			} else {
+				return ResponseEntity.ok(service.findAll().stream().map(alumnoMapper::map).toList());
+			}
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
 	}
 	@GetMapping
 	@RequestMapping("/{id}")

@@ -44,6 +44,8 @@ public class SecurityConfig {
 						.requestMatchers("/assets/**").permitAll()
 						.requestMatchers("/admin/**").hasRole("ADMIN")
 						.requestMatchers("/profesores/**").hasRole("PROFESOR")
+						.requestMatchers("/alumnos/**").hasRole("ALUMNO")
+						.requestMatchers("/director/**").hasRole("DIRECTOR")
 						.requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
 						.requestMatchers("/login/**").permitAll()
 						.anyRequest().authenticated()
@@ -69,12 +71,11 @@ public class SecurityConfig {
 
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth, UserDetailsService userDetailsService) throws Exception {
-		auth.userDetailsService(userDetailsService); // No inyectar PasswordEncoder aquí
+		auth.userDetailsService(userDetailsService);
 	}
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		// ¡No usar NoOpPasswordEncoder en producción!
 		return NoOpPasswordEncoder.getInstance();
 	}
 }

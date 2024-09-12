@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -78,5 +79,12 @@ public class EvaluacionService {
 		entregaService.createPendingDeliveries(evaluacion);
 
 		return evaluacion;
+	}
+
+	public List<Evaluacion> getEntregables(UUID idMateria) throws ServiceException
+	{
+		Optional<Materia> materia = materiaDAO.findById(idMateria);
+		if (materia.isEmpty()) throw new ServiceException("Materia inexistente", 404);
+		return evaluacionDAO.findEntregablesByMateria(materia.get(), LocalDate.now());
 	}
 }

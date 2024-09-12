@@ -6,6 +6,7 @@ import org.gamma.buenosayres.service.exception.ServiceException;
 import org.gamma.buenosayres.service.implementation.CalificacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -31,6 +32,23 @@ public class CalificacionController {
 	{
 		try {
 			return ResponseEntity.ok(calificacionMapper.map(calificacionService.get(evaluacionId, alumnoId)));
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
+	@GetMapping("/{cursoId}")
+	public ResponseEntity<?> getByCurso(Authentication authentication, @PathVariable(value = "cursoId") UUID cursoId)
+	{
+		try {
+			return ResponseEntity.ok(calificacionService.getByCurso(authentication.getName(), cursoId));
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
+	@GetMapping("/boletin")
+	public ResponseEntity<?> getBoletin(@RequestParam(value = "alumno") UUID alumnoId, @RequestParam(value = "curso") UUID cursoId) {
+		try {
+			return ResponseEntity.ok(calificacionService.getBoletin(alumnoId, cursoId));
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}

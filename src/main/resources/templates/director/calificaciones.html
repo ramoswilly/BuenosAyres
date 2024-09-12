@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <title>Buenos Ayres - Calificaciones</title>
+
+  <link rel="shortcut icon" href="../assets/img/favicon.png">
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+          rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
+
+  <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
+
+  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .dataTables_filter {
+      display: none;
+    }
+  </style>
+
+
+</head>
+
+<body>
+
+<div class="main-wrapper">
+  <div class="header">
+
+    <div class="header-left">
+      <a href="index" class="logo">
+        <img src="../assets/img/logo.png" alt="Logo">
+      </a>
+      <a href="index" class="logo logo-small">
+        <img src="../assets/img/logo-small.png" alt="Logo" width="30" height="30">
+      </a>
+    </div>
+
+    <div class="menu-toggle">
+      <a href="javascript:void(0);" id="toggle_btn">
+        <i class="fas fa-bars"></i>
+      </a>
+    </div>
+
+
+    <a class="mobile_btn" id="mobile_btn">
+      <i class="fas fa-bars"></i>
+    </a>
+
+
+    <ul class="nav user-menu">
+
+      <li class="nav-item zoom-screen me-2">
+        <a href="#" class="nav-link header-nav-list">
+          <img src="../assets/img/icons/header-icon-04.svg" alt="">
+        </a>
+      </li>
+
+      <li class="nav-item dropdown has-arrow new-user-menus">
+        <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
+                         alt="Soeng Souy">
+                    <div class="user-text">
+                        <h6>Buenos Ayres</h6>
+                        <p class="text-muted mb-0">Director</p>
+                    </div>
+                </span>
+        </a>
+        <div class="dropdown-menu">
+          <div class="user-header">
+            <div class="avatar avatar-sm">
+              <img src="../assets/img/profiles/avatar-01.jpg" alt="User Image"
+                   class="avatar-img rounded-circle">
+            </div>
+            <div class="user-text">
+              <h6>Buenos Ayres</h6>
+              <p class="text-muted mb-0">Director</p>
+            </div>
+          </div>
+
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
+
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+      <div id="sidebar-menu" class="sidebar-menu">
+        <ul>
+          <li class="menu-title">
+            <span>Menú Principal</span>
+          </li>
+          <li class="submenu">
+            <a href="#"><i class="fas fa-graduation-cap"></i> <span> Calificaciones</span> <span
+                    class="menu-arrow"></span></a>
+            <ul>
+              <li><a href="calificaciones-director" class="active">Ver Calificaciones</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+      <div class="student-group-form">
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <label for="select-curso">Seleccionar Curso:</label>
+              <select id="select-curso" class="form-control">
+                <option value="">Seleccione un curso</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card card-table comman-shadow">
+            <div class="card-body">
+
+              <div class="page-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h3 class="page-title">Calificaciones</h3>
+                  </div>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table id="tabla-calificaciones"
+                       class="table border-0 star-student table-hover table-center mb-0 table-striped">
+                  <thead class="student-thread">
+                  <tr>
+                    <th>DNI</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Acciones</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+
+              <footer>
+                <p>Buenos Ayres - Agustín Ramos</p>
+              </footer>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para ver el boletín -->
+  <div class="modal fade" id="modalBoletin" tabindex="-1" role="dialog" aria-labelledby="modalBoletinLabel"
+       aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalBoletinLabel">Boletín de Calificaciones - <span
+                  id="nombreAlumnoModal"></span></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <button type="button" class="btn btn-primary" id="exportarHistoriaAcademica">
+            Exportar Historia Académica
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="student-group-form">
+            <div class="row">
+              <div class="col-lg-3 col-md-6">
+                <div class="form-group">
+                  <label for="select-curso-boletin">Seleccionar Curso:</label>
+                  <select id="select-curso-boletin" class="form-control">
+                    <option value="">Seleccione un curso</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table id="tabla-boletin" class="table border-0 star-student table-hover table-center mb-0 table-striped">
+              <thead>
+              <tr>
+                <th>Materia</th>
+                <th>Primer Trimestre</th>
+                <th>Segundo Trimestre</th>
+                <th>Tercer Trimestre</th>
+                <th>Final</th>
+              </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" id="exportarPDF">Exportar a PDF</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="../assets/js/jquery-3.6.0.min.js"></script>
+
+<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="../assets/js/feather.min.js"></script>
+
+<script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../assets/plugins/datatables/datatables.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.21/jspdf.plugin.autotable.min.js"></script>
+
+<script src="../assets/js/script.js"></script>
+
+<script>
+  $(document).ready(function () {
+
+    // Cargar cursos en el dropdown
+    $.ajax({
+      url: 'http://localhost:8080/api/v1/cursos',
+      success: function (cursos) {
+        cursos.forEach(curso => {
+          $('#select-curso').append(`<option value="${curso.id}">${curso.orden}° - ${curso.nivel} - ${curso.turno}</option>`);
+          $('#select-curso-boletin').append(`<option value="${curso.id}">${curso.orden}° - ${curso.nivel} - ${curso.turno}</option>`);
+        });
+      }
+    });
+
+    // Manejar el cambio de selección de curso
+    $('#select-curso').change(function () {
+      const cursoId = $(this).val();
+      if (cursoId) {
+        cargarAlumnos(cursoId);
+      } else {
+        $('#tabla-calificaciones tbody').empty();
+      }
+    });
+
+    // Cargar alumnos en la tabla
+    function cargarAlumnos(cursoId) {
+      $.ajax({
+        url: `http://localhost:8080/api/v1/alumnos?curso=${cursoId}`,
+        success: function (alumnos) {
+          const tabla = $('#tabla-calificaciones tbody');
+          tabla.empty();
+
+          alumnos.forEach(alumno => {
+            tabla.append(`
+                            <tr>
+                                <td>${alumno.dni}</td>
+                                <td>${alumno.nombre}</td>
+                                <td>${alumno.apellido}</td>
+                                <td>
+                                    <a href="#" class="ver-boletin" data-alumno-id="${alumno.id}" data-alumno-nombre="${alumno.nombre} ${alumno.apellido}">
+                                        <i class="fas fa-book-open"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        `);
+          });
+        }
+      });
+    }
+
+    // Manejar clic en "Ver Boletín"
+    $(document).on('click', '.ver-boletin', function () {
+      const alumnoId = $(this).data('alumno-id');
+      const alumnoNombre = $(this).data('alumno-nombre');
+
+      $('#nombreAlumnoModal').text(alumnoNombre);
+      $('#modalBoletin').modal('show');
+
+      // Cargar calificaciones en la tabla del boletín (inicialmente vacía)
+      $('#tabla-boletin tbody').empty();
+
+      // Manejar el cambio de selección de curso en el modal
+      $('#select-curso-boletin').change(function () {
+        const cursoId = $(this).val();
+        if (cursoId) {
+          cargarBoletin(alumnoId, cursoId);
+        } else {
+          $('#tabla-boletin tbody').empty();
+        }
+      });
+    });
+
+    // Cargar el boletín del alumno
+    function cargarBoletin(alumnoId, cursoId) {
+      $.ajax({
+        url: `http://localhost:8080/api/v1/calificaciones/boletin?alumno=${alumnoId}&curso=${cursoId}`, // Reemplaza con la URL correcta de tu API
+        success: function (data) {
+          const tabla = $('#tabla-boletin tbody');
+          tabla.empty();
+
+          data.forEach(materia => {
+            tabla.append(`
+                            <tr>
+                                <td>${materia.materia}</td>
+                                <td>${materia.primer_trimestre || ""}</td>
+                                <td>${materia.segundo_trimestre || ""}</td>
+                                <td>${materia.tercer_trimestre || ""}</td>
+                                <td>${materia.final || ""}</td>
+                            </tr>
+                        `);
+          });
+        }
+      });
+    }
+
+    // Exportar a PDF
+    document.getElementById('exportarPDF').addEventListener('click', function () {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.autoTable({
+        html: '#tabla-boletin',
+        theme: 'striped',
+        styles: {
+          cellPadding: 3,
+          fontSize: 10,
+        },
+        headStyles: {
+          fillColor: [41, 128, 185],
+          textColor: 255,
+        },
+      });
+
+      doc.save('boletin_calificaciones.pdf');
+    });
+
+    // Exportar Historia Académica
+    document.getElementById('exportarHistoriaAcademica').addEventListener('click', function () {
+      const alumnoId = $('.ver-boletin').data('alumno-id');
+      const alumnoNombre = $('.ver-boletin').data('alumno-nombre');
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Obtener todos los cursos
+      $.ajax({
+        url: 'http://localhost:8080/api/v1/cursos',
+        success: function (cursos) {
+          let promises = [];
+
+          cursos.forEach(curso => {
+            promises.push(
+                    $.ajax({
+                      url: `http://localhost:8080/api/v1/calificaciones/boletin?alumno=${alumnoId}&curso=${curso.id}`,
+                      success: function (data) {
+                        if (data.length > 0) {
+                          // Agregar encabezado del curso
+                          doc.setFontSize(14);
+                          doc.text(`${curso.orden}° - ${curso.nivel} - ${curso.turno}`, 14, doc.lastAutoTable.finalY + 20 || 20);
+
+                          // Agregar tabla de calificaciones del curso (CORREGIDO)
+                          doc.autoTable({
+                            startY: doc.lastAutoTable.finalY + 25 || 25,
+                            theme: 'striped',
+                            styles: {
+                              cellPadding: 3,
+                              fontSize: 10,
+                            },
+                            headStyles: {
+                              fillColor: [41, 128, 185],
+                              textColor: 255,
+                            },
+                            // Se usa body para pasar los datos directamente
+                            body: data.map(materia => [materia.materia, materia.primer_trimestre, materia.segundo_trimestre, materia.tercer_trimestre, materia.final]),
+                          });
+                        }
+                      }
+                    })
+            );
+          });
+
+          Promise.all(promises).then(() => {
+            doc.save(`historia_academica_${alumnoNombre}.pdf`);
+          });
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+
+</html>

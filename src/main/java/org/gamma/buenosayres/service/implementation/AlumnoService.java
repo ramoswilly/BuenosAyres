@@ -95,4 +95,12 @@ public class AlumnoService {
 	{
 		return alumnoDAO.findById(idAlumno).orElseThrow(() -> new ServiceException("No encontrado", 404));
 	}
+
+	public List<Alumno> findByCurso(UUID cursoId) throws ServiceException {
+		Optional<Curso> curso = cursoDAO.findById(cursoId);
+		if (curso.isEmpty()) {
+			throw new ServiceException("Curso inexistente", 404);
+		}
+		return curso.get().getAlumnos();
+	}
 }
