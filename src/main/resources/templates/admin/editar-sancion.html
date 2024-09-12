@@ -323,7 +323,7 @@
 
     // Cargar los datos de la sanción
     $.ajax({
-      url: `http://localhost:8080/api/v1/sanciones/${sancionId}`, // Ajustar la URL de la API
+      url: `/api/v1/sanciones/${sancionId}`, // Ajustar la URL de la API
       type: 'GET',
       success: function (sancion) {
         const fechaAPI = sancion.fecha;
@@ -366,7 +366,7 @@
       };
 
       $.ajax({
-        url: `http://localhost:8080/api/v1/sanciones/${sancionId}`, // Ajustar la URL de la API
+        url: `/api/v1/sanciones/${sancionId}`, // Ajustar la URL de la API
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify(formData),
@@ -384,7 +384,7 @@
     $('#btnDeshabilitar').click(function () {
       if (confirm('¿Estás seguro de que deseas deshabilitar esta sanción?')) {
         $.ajax({
-          url: `http://localhost:8080/api/v1/sanciones/${sancionId}/deshabilitar`, // Ajustar la URL de la API
+          url: `/api/v1/sanciones/${sancionId}/deshabilitar`, // Ajustar la URL de la API
           type: 'PUT',
           success: function () {
             toastr.success('Sanción deshabilitada correctamente.');

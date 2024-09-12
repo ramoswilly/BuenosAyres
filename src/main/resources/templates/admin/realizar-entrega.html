@@ -304,7 +304,7 @@
 
     // Cargar la lista de alumnos en el dropdown
     $.ajax({
-      url: 'http://localhost:8080/api/v1/alumnos', // Ajustar la URL según tu API
+      url: '/api/v1/alumnos', // Ajustar la URL según tu API
       type: 'GET',
       success: function (alumnos) {
         alumnos.forEach(alumno => {
@@ -330,7 +330,7 @@
       };
 
       $.ajax({
-        url: 'http://localhost:8080/api/v1/entregas', // Ajustar la URL según tu API
+        url: '/api/v1/entregas', // Ajustar la URL según tu API
         type: 'POST',
         contentType: 'application/json',
         data: JSON.stringify(nuevaEntrega),

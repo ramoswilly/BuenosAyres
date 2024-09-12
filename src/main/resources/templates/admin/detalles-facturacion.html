@@ -339,7 +339,7 @@
 
   function obtenerDetallesFacturacion(id) {
     $.ajax({
-      url: `http://localhost:8080/api/v1/facturacion/detalles?id=${id}`, // Asegúrate de que esta URL sea correcta
+      url: `/api/v1/facturacion/detalles?id=${id}`, // Asegúrate de que esta URL sea correcta
       type: 'GET',
       dataType: 'json',
       success: function(data) {
@@ -462,7 +462,7 @@
         if (result.isConfirmed) {
           // El usuario confirmó, enviar los datos al servidor
           $.ajax({
-            url: 'http://localhost:8080/api/v1/facturacion/deudas',
+            url: '/api/v1/facturacion/deudas',
             type: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(idsConceptos),

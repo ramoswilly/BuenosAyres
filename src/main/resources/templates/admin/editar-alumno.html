@@ -353,7 +353,7 @@
                 function llenarDropDownCursos(callback) {
                     $.ajax({
                         type: "GET",
-                        url: "http://localhost:8080/api/v1/cursos",
+                        url: "/api/v1/cursos",
                         success: function (cursos) {
                             var dropdownCursos = $('#curso');
                             $.each(cursos, function (i, curso) {
@@ -388,7 +388,7 @@
 
                     $.ajax({
                         type: "PUT",
-                        url: `http://localhost:8080/api/v1/alumnos/${obtenerIdAlumno()}`,
+                        url: `/api/v1/alumnos/${obtenerIdAlumno()}`,
                         contentType: "application/json",
                         data: jsonAlumno,
                         success: function (response) {
@@ -416,7 +416,7 @@
                 function obtenerDatosAlumno() {
                     var idAlumno = obtenerIdAlumno();
 
-                    fetch(`http://localhost:8080/api/v1/alumnos/${idAlumno}`)
+                    fetch(`/api/v1/alumnos/${idAlumno}`)
                         .then(response => response.json())
                         .then(data => {
                             document.getElementById('dni').value = data.dni;

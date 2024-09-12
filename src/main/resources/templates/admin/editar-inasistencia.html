@@ -360,7 +360,7 @@
 
     // Cargar los datos de la inasistencia
     $.ajax({
-      url: `http://localhost:8080/api/v1/inasistencias/${inasistenciaId}`, // Ajustar la URL de la API
+      url: `/api/v1/inasistencias/${inasistenciaId}`, // Ajustar la URL de la API
       type: 'GET',
       dataType: 'json',
       success: function (inasistencia) {
@@ -379,7 +379,7 @@
 
     var tablaAlumnos = $('#tabla-alumnos').DataTable({
       "ajax": {
-        "url": "http://localhost:8080/api/v1/alumnos", // Ajustar la URL de la API
+        "url": "/api/v1/alumnos", // Ajustar la URL de la API
         "dataSrc": ""
       },
       "columns": [
@@ -418,7 +418,7 @@
       const justificada = $('#justificada-select').val();
 
       $.ajax({
-        url: `http://localhost:8080/api/v1/inasistencias/${inasistenciaId}`, // Ajustar la URL de la API
+        url: `/api/v1/inasistencias/${inasistenciaId}`, // Ajustar la URL de la API
         type: 'PUT',
         contentType: 'application/json',
         data: JSON.stringify({

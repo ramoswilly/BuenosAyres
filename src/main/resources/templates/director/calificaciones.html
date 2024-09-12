@@ -248,7 +248,7 @@
 
     // Cargar cursos en el dropdown
     $.ajax({
-      url: 'http://localhost:8080/api/v1/cursos',
+      url: '/api/v1/cursos',
       success: function (cursos) {
         cursos.forEach(curso => {
           $('#select-curso').append(`<option value="${curso.id}">${curso.orden}° - ${curso.nivel} - ${curso.turno}</option>`);
@@ -270,7 +270,7 @@
     // Cargar alumnos en la tabla
     function cargarAlumnos(cursoId) {
       $.ajax({
-        url: `http://localhost:8080/api/v1/alumnos?curso=${cursoId}`,
+        url: `/api/v1/alumnos?curso=${cursoId}`,
         success: function (alumnos) {
           const tabla = $('#tabla-calificaciones tbody');
           tabla.empty();
@@ -318,7 +318,7 @@
     // Cargar el boletín del alumno
     function cargarBoletin(alumnoId, cursoId) {
       $.ajax({
-        url: `http://localhost:8080/api/v1/calificaciones/boletin?alumno=${alumnoId}&curso=${cursoId}`, // Reemplaza con la URL correcta de tu API
+        url: `/api/v1/calificaciones/boletin?alumno=${alumnoId}&curso=${cursoId}`, // Reemplaza con la URL correcta de tu API
         success: function (data) {
           const tabla = $('#tabla-boletin tbody');
           tabla.empty();
@@ -368,14 +368,14 @@
 
       // Obtener todos los cursos
       $.ajax({
-        url: 'http://localhost:8080/api/v1/cursos',
+        url: '/api/v1/cursos',
         success: function (cursos) {
           let promises = [];
 
           cursos.forEach(curso => {
             promises.push(
                     $.ajax({
-                      url: `http://localhost:8080/api/v1/calificaciones/boletin?alumno=${alumnoId}&curso=${curso.id}`,
+                      url: `/api/v1/calificaciones/boletin?alumno=${alumnoId}&curso=${curso.id}`,
                       success: function (data) {
                         if (data.length > 0) {
                           // Agregar encabezado del curso
