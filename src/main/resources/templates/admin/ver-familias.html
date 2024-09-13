@@ -345,7 +345,7 @@
 
     function agregarTitulo() {
         $.ajax({
-            url: `http://localhost:8080/api/v1/familias/${obtenerIdFamilia()}`,
+            url: `/api/v1/familias/${obtenerIdFamilia()}`,
             type: 'GET',
             contentType: 'application/json',
             success: function (data) {
@@ -360,7 +360,7 @@
 
     function eliminarMiembro(id_miembro) {
         $.ajax({
-            url: `http://localhost:8080/api/v1/familias/${obtenerIdFamilia()}/miembros`,
+            url: `/api/v1/familias/${obtenerIdFamilia()}/miembros`,
             type: 'DELETE',
             contentType: 'application/json',
             data: JSON.stringify({ persona: id_miembro }),
@@ -411,7 +411,7 @@
 
     function prepararTabla() {
         $.ajax({
-            url: `http://localhost:8080/api/v1/familias/${obtenerIdFamilia()}/miembros`,
+            url: `/api/v1/familias/${obtenerIdFamilia()}/miembros`,
             type: 'GET',
             success: function (data) {
                 llenarTabla(data);
@@ -436,7 +436,7 @@
         var tablaPersonas = $('#personasTable').DataTable({
             "processing": true,
             "ajax": {
-                "url": "http://localhost:8080/api/v1/personas",
+                "url": "/api/v1/personas",
                 "dataSrc": function (json) {
                     var idFamilia = obtenerIdFamilia();
                     return json.filter(function (persona) {
@@ -475,7 +475,7 @@
 
         $('#sendButton').on('click', function () {
             $.ajax({
-                url: `http://localhost:8080/api/v1/familias/${obtenerIdFamilia()}/miembros`,
+                url: `/api/v1/familias/${obtenerIdFamilia()}/miembros`,
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify({

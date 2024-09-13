@@ -370,7 +370,7 @@
                                     $('#conceptosAdicionalesTable').show();
                                     var table = $('#conceptosAdicionalesTable').DataTable({
                                         "ajax": {
-                                            url: "http://localhost:8080/api/v1/conceptos?type=ADICIONAL",
+                                            url: "/api/v1/conceptos?type=ADICIONAL",
                                             dataSrc: ''
                                         },
                                         "columns": [
@@ -437,7 +437,7 @@
 
                         function llenarDropDownPeriodos() {
                             $.ajax({
-                                url: 'http://localhost:8080/api/v1/facturacion/periodos',
+                                url: '/api/v1/facturacion/periodos',
                                 method: 'GET',
                                 success: function(data) {
                                     var $dropdown = $('#periodo-dropdown');
@@ -459,7 +459,7 @@
                         function iniciarFacturacion(adicionales, matricula, periodo) {
                             const adicionalesIds = adicionales.map(adicional => adicional.id);
                             $.ajax({
-                                url: 'http://localhost:8080/api/v1/facturacion?matricula=' + matricula + '&periodo=' + periodo,
+                                url: '/api/v1/facturacion?matricula=' + matricula + '&periodo=' + periodo,
                                 method: 'POST',
                                 contentType: 'application/json',
                                 data: JSON.stringify({matricula: matricula,  adicionales: adicionalesIds, periodo: periodo }), // Enviar solo adicionalesIds como JSON
@@ -484,7 +484,7 @@
                                 destroy: true,
                                 processing: true,
                                 ajax: {
-                                    url: 'http://localhost:8080/api/v1/facturacion?periodo=' + periodo,
+                                    url: '/api/v1/facturacion?periodo=' + periodo,
                                     dataSrc: ''
                                 },
                                 columns: [

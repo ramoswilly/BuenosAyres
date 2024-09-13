@@ -379,7 +379,7 @@
 
             $.ajax({
                 type: "PUT",
-                url: `http://localhost:8080/api/v1/padres/${obtenerIdPadre()}`,
+                url: `/api/v1/padres/${obtenerIdPadre()}`,
                 contentType: "application/json",
                 data: jsonPadre,
                 success: function (response) {
@@ -408,7 +408,7 @@
             var idPadre = obtenerIdPadre(); // Obtener el ID del alumno, probablemente ya tengas una función para esto
 
             // Hacer la solicitud GET a la API
-            fetch(`http://localhost:8080/api/v1/padres/${idPadre}`)
+            fetch(`/api/v1/padres/${idPadre}`)
                 .then(response => response.json())
                 .then(data => {
                     // Llenar los campos del formulario con los datos obtenidos del alumno

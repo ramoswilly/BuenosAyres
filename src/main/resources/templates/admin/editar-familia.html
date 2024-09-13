@@ -326,7 +326,7 @@
                             var idFamilia = obtenerIdFamilia(); // Obtener el ID del alumno, probablemente ya tengas una función para esto
 
                             // Hacer la solicitud GET a la API
-                            fetch(`http://localhost:8080/api/v1/familias/${idFamilia}`)
+                            fetch(`/api/v1/familias/${idFamilia}`)
                                 .then(response => response.json())
                                 .then(data => {
                                     console.log(data.apellido);
@@ -361,7 +361,7 @@
                             // Enviar la solicitud POST al controlador
                             $.ajax({
                                 type: "PUT",
-                                url: `http://localhost:8080/api/v1/familias/${obtenerIdFamilia()}`,
+                                url: `/api/v1/familias/${obtenerIdFamilia()}`,
                                 contentType: "application/json",
                                 data: jsonFamilia,
                                 success: function (response) {

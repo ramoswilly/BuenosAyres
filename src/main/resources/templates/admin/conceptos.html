@@ -493,7 +493,7 @@
 
             function doGet(type, nivel, limit, action, class_) {
                 $.ajax({
-                    url: `http://localhost:8080/api/v1/conceptos?type=${type}&nivel=${nivel}&limit=${limit}`,
+                    url: `/api/v1/conceptos?type=${type}&nivel=${nivel}&limit=${limit}`,
                     type: 'GET',
                     contentType: 'application/json',
                     success: function (response) {
@@ -524,7 +524,7 @@
 
             function cargarMateriales() {
                 $.ajax({
-                    url: `http://localhost:8080/api/v1/conceptos?type=MATERIALES&limit=1`,
+                    url: `/api/v1/conceptos?type=MATERIALES&limit=1`,
                     type: 'GET',
                     contentType: 'application/json',
                     success: function (response) {
@@ -543,7 +543,7 @@
                 $('#tabla-adicionales').DataTable({ // Inicializa DataTable aquí
                     processing: true,
                     ajax: {
-                        url: `http://localhost:8080/api/v1/conceptos?type=ADICIONAL`,
+                        url: `/api/v1/conceptos?type=ADICIONAL`,
                         dataSrc: ''
                     },
                     columns: [
@@ -602,7 +602,7 @@
             }
 
             function obtenerMontoActual(tipo, nivel = null, taller = null) {
-                let url = `http://localhost:8080/api/v1/conceptos?type=${tipo}`;
+                let url = `/api/v1/conceptos?type=${tipo}`;
                 if (nivel) {
                     url += `&nivel=${nivel}`;
                 }
@@ -650,7 +650,7 @@
                 };
 
                 $.ajax({
-                    url: 'http://localhost:8080/api/v1/conceptos',
+                    url: '/api/v1/conceptos',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(datos),
@@ -683,7 +683,7 @@
                 };
 
                 $.ajax({
-                    url: 'http://localhost:8080/api/v1/conceptos',
+                    url: '/api/v1/conceptos',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(datos),

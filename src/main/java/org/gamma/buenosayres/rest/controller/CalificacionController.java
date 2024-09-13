@@ -46,8 +46,11 @@ public class CalificacionController {
 		}
 	}
 	@GetMapping("/boletin")
-	public ResponseEntity<?> getBoletin(@RequestParam(value = "alumno") UUID alumnoId, @RequestParam(value = "curso") UUID cursoId) {
+	public ResponseEntity<?> getBoletin(@RequestParam(value = "alumno", required = false) UUID alumnoId,
+										@RequestParam(value = "curso", required = true) UUID cursoId) {
 		try {
+			if (alumnoId == null)
+				return ResponseEntity.ok(calificacionService.getBoletin(cursoId));
 			return ResponseEntity.ok(calificacionService.getBoletin(alumnoId, cursoId));
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());

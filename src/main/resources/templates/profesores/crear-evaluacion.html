@@ -214,7 +214,7 @@
 
         // Obtener el nombre de la materia (usando la API o una variable global si la tienes)
         $.ajax({
-            url: `http://localhost:8080/api/v1/materias/${materiaId}`, // Ajustar la URL según tu API
+            url: `/api/v1/materias/${materiaId}`, // Ajustar la URL según tu API
             type: 'GET',
             success: function (materia) {
                 $('#materia-nombre').text(`Crear Evaluación para: ${materia.nombre}`);
@@ -243,7 +243,7 @@
 
             // Enviar los datos a la API (usando AJAX o fetch)
             $.ajax({
-                url: 'http://localhost:8080/api/v1/evaluaciones', // Ajustar la URL según tu API
+                url: '/api/v1/evaluaciones', // Ajustar la URL según tu API
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(nuevaEvaluacion),

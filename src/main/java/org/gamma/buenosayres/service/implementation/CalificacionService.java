@@ -5,6 +5,7 @@ import org.gamma.buenosayres.dao.interfaces.CalificacionRepository;
 import org.gamma.buenosayres.dao.interfaces.EntregaDAO;
 import org.gamma.buenosayres.dao.interfaces.EvaluacionDAO;
 import org.gamma.buenosayres.dto.*;
+import org.gamma.buenosayres.mapper.AlumnoMapper;
 import org.gamma.buenosayres.model.Alumno;
 import org.gamma.buenosayres.model.Calificacion;
 import org.gamma.buenosayres.model.Entrega;
@@ -25,6 +26,8 @@ public class CalificacionService {
 	private EvaluacionDAO evaluacionDAO;
 	@Autowired
 	private AlumnoDAO alumnoDAO;
+	@Autowired
+	private AlumnoMapper alumnoMapper;
 	@Autowired
 	private CalificacionRepository calificacionRepository;
 	public Calificacion update(CalificacionDTO dto) throws ServiceException
@@ -85,6 +88,30 @@ public class CalificacionService {
 		);
 		return historiaAcademicaDTO;
 	}
+	public List<BoletinDTO> getBoletin(UUID cursoId) throws ServiceException
+	{
+		// Obtener todos los alumnos del curso
+		List<Alumno> alumnos = alumnoDAO.findAll().stream()
+				.filter(alumno -> alumno.getCurso() != null && alumno.getCurso().getId().equals(cursoId))
+				.toList();
+
+		// Generar boletines para cada alumno
+		List<BoletinDTO> boletines = alumnos.stream()
+				.map(alumno -> {
+					BoletinDTO boletin = new BoletinDTO();
+					boletin.setAlumno(alumnoMapper.map(alumno));
+					try {
+						boletin.setCalificaciones(getBoletin(alumno.getId(), cursoId));
+					} catch (ServiceException e) {
+						// won't happen
+						System.err.println(e.getMessage());
+					}
+					return boletin;
+				})
+				.collect(Collectors.toList());
+		return boletines;
+	}
+
 	public List<BoletinItemDTO> getBoletin(UUID alumnoId, UUID cursoId) throws ServiceException {
 		Optional<Alumno> alumno = alumnoDAO.findById(alumnoId);
 		if (alumno.isEmpty()) throw new ServiceException("Alumno inexistente", 404);

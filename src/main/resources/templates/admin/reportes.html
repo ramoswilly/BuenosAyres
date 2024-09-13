@@ -470,7 +470,7 @@
 
     // *** Familias más Valiosas ***
     $.ajax({
-      url: 'http://localhost:8080/api/v1/facturacion/familias',
+      url: '/api/v1/facturacion/familias',
       method: 'GET',
       success: function(data) {
         var options = {
@@ -498,7 +498,7 @@
 
     // *** Ingresos Mensuales ***
     $.ajax({
-      url: 'http://localhost:8080/api/v1/facturacion/ingresos', // Ajustar el endpoint
+      url: '/api/v1/facturacion/ingresos', // Ajustar el endpoint
       method: 'GET',
       success: function(data) {
         var options = {

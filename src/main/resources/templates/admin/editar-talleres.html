@@ -371,7 +371,7 @@
                                 tabla = $('#tabla-detalle').DataTable({ // Asignar a la variable global
                                     processing: true,
                                     ajax: {
-                                        url: `http://localhost:8080/api/v1/talleres/${obtenerIdTaller()}/alumnos`,
+                                        url: `/api/v1/talleres/${obtenerIdTaller()}/alumnos`,
                                         dataSrc: ''
                                     },
                                     columns: [
@@ -399,7 +399,7 @@
                                 var tablaPersonas = $('#personasTable').DataTable({
                                     "processing": true,
                                     "ajax": {
-                                        "url": "http://localhost:8080/api/v1/alumnos",
+                                        "url": "/api/v1/alumnos",
                                         "dataSrc": function (json) {
                                             var idFamilia = obtenerIdTaller();
                                             return json.filter(function (alumno) {
@@ -435,7 +435,7 @@
 
                                 $('#sendButton').on('click', function () {
                                     $.ajax({
-                                        url: `http://localhost:8080/api/v1/talleres/${obtenerIdTaller()}/alumnos`,
+                                        url: `/api/v1/talleres/${obtenerIdTaller()}/alumnos`,
                                         type: 'PUT',
                                         contentType: 'application/json',
                                         data: JSON.stringify(datosSeleccionados),
@@ -465,7 +465,7 @@
 
                             function eliminarMiembro(id_miembro) {
                                 $.ajax({
-                                    url: `http://localhost:8080/api/v1/talleres/${obtenerIdTaller()}/alumnos`,
+                                    url: `/api/v1/talleres/${obtenerIdTaller()}/alumnos`,
                                     type: 'DELETE',
                                     contentType: 'application/json',
                                     data: JSON.stringify(id_miembro),
@@ -482,7 +482,7 @@
 
                             function obtenerMontoActual() {
                                 $.ajax({
-                                    url: `http://localhost:8080/api/v1/conceptos?taller=${obtenerIdTaller()}`,
+                                    url: `/api/v1/conceptos?taller=${obtenerIdTaller()}`,
                                     type: 'GET',
                                     contentType: 'application/json',
                                     success: function (data) {
@@ -512,7 +512,7 @@
                                 };
 
                                 $.ajax({
-                                    url: 'http://localhost:8080/api/v1/conceptos',
+                                    url: '/api/v1/conceptos',
                                     type: 'POST',
                                     contentType: 'application/json',
                                     data: JSON.stringify(datos),

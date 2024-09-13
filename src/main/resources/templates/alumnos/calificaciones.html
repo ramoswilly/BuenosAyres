@@ -231,7 +231,7 @@
 
         // Cargar cursos en el dropdown
         $.ajax({
-            url: 'http://localhost:8080/api/v1/cursos',
+            url: '/api/v1/cursos',
             success: function (cursos) {
                 cursos.forEach(curso => {
                     $('#select-curso').append(`<option value="${curso.id}">${curso.orden}° - ${curso.nivel} - ${curso.turno}</option>`);
@@ -252,7 +252,7 @@
         // Cargar calificaciones en la tabla
         function cargarCalificaciones(cursoId) {
             $.ajax({
-                url: `http://localhost:8080/api/v1/calificaciones/${cursoId}`,
+                url: `/api/v1/calificaciones/${cursoId}`,
                 success: function (data) {
                     const tabla = $('#tabla-calificaciones tbody');
                     tabla.empty();
@@ -280,7 +280,7 @@
 
             // Obtener las calificaciones de la materia
             $.ajax({
-                url: `http://localhost:8080/api/v1/calificaciones/${$('#select-curso').val()}`, // Ajustar la URL
+                url: `/api/v1/calificaciones/${$('#select-curso').val()}`, // Ajustar la URL
                 success: function (data) {
                     const materia = data.materias.find(m => m.idMateria === materiaId);
                     const cuerpoTabla = $('#cuerpoTablaCalificaciones');

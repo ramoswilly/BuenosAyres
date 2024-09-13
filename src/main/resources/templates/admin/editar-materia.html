@@ -288,7 +288,7 @@
         const materiaId = urlParams.get('id');
 
         // Cargar cursos en el dropdown
-        $.getJSON('http://localhost:8080/api/v1/cursos', function(cursos) {
+        $.getJSON('/api/v1/cursos', function(cursos) {
             let options = '';
             cursos.forEach(curso => {
                 options += `<option value="${curso.id}">${curso.orden}° ${curso.nivel} - ${curso.turno}</option>`;
@@ -296,7 +296,7 @@
             $('#curso').html(options);
 
             // Cargar datos de la materia
-            $.getJSON(`http://localhost:8080/api/v1/materias/${materiaId}`, function(materia) {
+            $.getJSON(`/api/v1/materias/${materiaId}`, function(materia) {
                 $('#nombre-materia').val(materia.nombre);
                 $('#curso').val(materia.id_curso);
                 $('#habilitada').prop('checked', materia.habilitada);
@@ -328,7 +328,7 @@
 
             // Enviar la solicitud POST
             $.ajax({
-                url: 'http://localhost:8080/api/v1/materias',
+                url: '/api/v1/materias',
                 type: 'PUT',
                 contentType: 'application/json',
                 data: JSON.stringify(data),
