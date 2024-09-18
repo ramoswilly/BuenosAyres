@@ -2,6 +2,7 @@ package org.gamma.buenosayres.repository;
 
 import org.gamma.buenosayres.model.Alumno;
 import org.gamma.buenosayres.model.Curso;
+import org.gamma.buenosayres.model.Nivel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +19,6 @@ public interface CursoDAO extends JpaRepository<Curso, UUID> {
 			"WHERE cal.alumno = :alumno " +
 			"ORDER BY c.nivel DESC, c.orden DESC")
 	List<Curso> findByAlumno(@Param("alumno") Alumno alumno);
+	@Query("SELECT c FROM Curso c WHERE c.nivel IN :niveles")
+	List<Curso> findByNiveles(@Param("niveles") List<Nivel> niveles);
 }

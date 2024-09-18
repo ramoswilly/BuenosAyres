@@ -66,4 +66,21 @@ public class CursoController {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 	}
+
+	@GetMapping("/rendimiento")
+	public ResponseEntity<?> getRendimientoPorCurso() {
+		try {
+			return ResponseEntity.ok(service.getRendimientoPorCurso());
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
+	@GetMapping("/problematicos")
+	public ResponseEntity<?> getCursosProblematicos() {
+		try {
+			return ResponseEntity.ok(service.getCursosProblematicos());
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
 }

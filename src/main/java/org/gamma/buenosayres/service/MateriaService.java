@@ -1,23 +1,21 @@
 package org.gamma.buenosayres.service;
 
 import jakarta.transaction.Transactional;
+import org.gamma.buenosayres.dto.MateriaRendimientoDTO;
+import org.gamma.buenosayres.model.*;
+import org.gamma.buenosayres.repository.CalificacionRepository;
 import org.gamma.buenosayres.repository.CursoDAO;
 import org.gamma.buenosayres.repository.MateriaDAO;
 import org.gamma.buenosayres.repository.ProfesorDAO;
 import org.gamma.buenosayres.dto.MateriaDTO;
 import org.gamma.buenosayres.dto.ProfesorDTO;
-import org.gamma.buenosayres.model.Curso;
-import org.gamma.buenosayres.model.Materia;
-import org.gamma.buenosayres.model.Profesor;
-import org.gamma.buenosayres.model.Usuario;
 import org.gamma.buenosayres.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MateriaService {
@@ -25,13 +23,15 @@ public class MateriaService {
 	private CursoDAO cursoDAO;
 	private ProfesorDAO profesorDAO;
 	private UserService userService;
+	private CalificacionRepository calificacionRepository;
 	@Autowired
-	public MateriaService(MateriaDAO materiaDAO, CursoDAO cursoDAO, ProfesorDAO profesorDAO, UserService userService)
+	public MateriaService(MateriaDAO materiaDAO, CursoDAO cursoDAO, ProfesorDAO profesorDAO, UserService userService, CalificacionRepository calificacionRepository)
 	{
 		this.materiaDAO = materiaDAO;
 		this.cursoDAO = cursoDAO;
 		this.profesorDAO = profesorDAO;
 		this.userService = userService;
+		this.calificacionRepository = calificacionRepository;
 	}
 	public List<Materia> get()
 	{
@@ -103,5 +103,27 @@ public class MateriaService {
 		Optional<Usuario> usuario = userService.get(username);
 		if (usuario.isEmpty()) return new ArrayList<>();
 		return materiaDAO.findByProfesor_Persona_Usuario(usuario.get());
+	}
+
+	public List<MateriaRendimientoDTO> getRendimientoPorMateria() throws ServiceException {
+		int currentYear = LocalDate.now().getYear();
+
+		// Obtener las calificaciones del año actual
+		List<Calificacion> calificaciones = calificacionRepository.findAll().stream()
+				.filter(calificacion -> calificacion.getEvaluacion().getFechaCreacion().getYear() == currentYear)
+				.toList();
+
+		// Agrupar por materia y calcular el promedio
+		Map<Materia, Double> promediosPorMateria = calificaciones.stream()
+				.collect(Collectors.groupingBy(c -> c.getEvaluacion().getMateria(),
+						Collectors.averagingDouble(Calificacion::getNota)));
+
+		// Crear la lista de DTOs
+		return promediosPorMateria.entrySet().stream()
+				.map(entry -> new MateriaRendimientoDTO(
+						entry.getKey().getCurso(),
+						entry.getKey().getNombre(),
+						entry.getValue().floatValue()))
+				.toList();
 	}
 }

@@ -43,4 +43,12 @@ public class ProfesorController {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 	}
+	@GetMapping("/rendimiento")
+	public ResponseEntity<?> getRendimientoPorProfesor() {
+		try {
+			return ResponseEntity.ok(service.getRendimientoPorProfesor());
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
 }

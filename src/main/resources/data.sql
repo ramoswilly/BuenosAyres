@@ -31,7 +31,7 @@ INSERT INTO roles (id, authority) VALUES (7, 'ROLE_PADRE');
 
 insert into personas (id_persona, nombre) values (0x8E4FFF536C6611EF9A0E503EAAE34948, 'Agus');
 insert into users (enabled, id_persona, username, password) values (0x01, 0x8E4FFF536C6611EF9A0E503EAAE34948, '123', '123');
-insert into user_roles (role_id, user_id) values (1, 0x8E4FFF536C6611EF9A0E503EAAE34948)
+insert into user_roles (role_id, user_id) values (1, 0x8E4FFF536C6611EF9A0E503EAAE34948);
 
 
 INSERT INTO patologias (id, nombre_patologia) VALUES

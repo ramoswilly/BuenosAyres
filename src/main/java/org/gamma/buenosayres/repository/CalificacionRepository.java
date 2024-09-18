@@ -22,4 +22,10 @@ public interface CalificacionRepository extends JpaRepository<Calificacion, UUID
 				"WHERE c.alumno.id = :alumnoId " +
 				"AND cu.id = :cursoId")
 	List<Calificacion> findByAlumnoAndCurso(@Param("alumnoId") UUID alumnoId, @Param("cursoId") UUID cursoId);
+	@Query("SELECT c FROM Calificacion c " +
+			"JOIN c.evaluacion e " +
+			"JOIN e.materia m " +
+			"WHERE m.curso.id = :cursoId " +
+			"AND YEAR(e.fechaCreacion) = :anio")
+	List<Calificacion> findByCursoAnual(@Param("cursoId") UUID cursoId, @Param("anio") int anio);
 }

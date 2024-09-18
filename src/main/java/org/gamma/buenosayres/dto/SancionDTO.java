@@ -2,12 +2,13 @@ package org.gamma.buenosayres.dto;
 
 import org.gamma.buenosayres.model.Gravedad;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
 public class SancionDTO {
 	private UUID id;
-	private Date fecha;
+	private LocalDate fecha;
 	private UUID alumnoId;
 	private String nombre_alumno;
 	private String apellido_alumno;
@@ -23,11 +24,11 @@ public class SancionDTO {
 		this.id = id;
 	}
 
-	public Date getFecha() {
+	public LocalDate getFecha() {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha) {
+	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
 	}
 

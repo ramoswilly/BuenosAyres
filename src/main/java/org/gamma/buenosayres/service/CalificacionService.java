@@ -1,21 +1,19 @@
 package org.gamma.buenosayres.service;
 
+import org.gamma.buenosayres.model.*;
 import org.gamma.buenosayres.repository.AlumnoRepository;
 import org.gamma.buenosayres.repository.CalificacionRepository;
+import org.gamma.buenosayres.repository.CursoDAO;
 import org.gamma.buenosayres.repository.EvaluacionDAO;
 import org.gamma.buenosayres.dto.*;
 import org.gamma.buenosayres.mapper.AlumnoMapper;
-import org.gamma.buenosayres.model.Alumno;
-import org.gamma.buenosayres.model.Calificacion;
-import org.gamma.buenosayres.model.Evaluacion;
 import org.gamma.buenosayres.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.Month;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +24,8 @@ public class CalificacionService {
 	private AlumnoRepository alumnoRepository;
 	@Autowired
 	private AlumnoMapper alumnoMapper;
+	@Autowired
+	private CursoDAO cursoDAO;
 	@Autowired
 	private CalificacionRepository calificacionRepository;
 	public Calificacion update(CalificacionDTO dto) throws ServiceException
@@ -146,5 +146,31 @@ public class CalificacionService {
 		Optional<Alumno> alumno = alumnoRepository.findById(alumnoId);
 		if (alumno.isEmpty()) throw new ServiceException("Alumno no encontrado", 404);
 		return getByCurso(alumno.get().getPersona().getDni(), cursoId);
+	}
+	private Optional<MejorPromedioDTO> obtenerMejorPromedioCurso(Curso curso) {
+		// Obtener las calificaciones del año actual para el curso
+		List<Calificacion> calificacionesCurso = calificacionRepository.findByCursoAnual(curso.getId(), LocalDate.now().getYear());
+
+		// Agrupar las calificaciones por alumno y calcular el promedio
+		Map<Alumno, Double> promediosAlumnos = calificacionesCurso.stream()
+				.collect(Collectors.groupingBy(Calificacion::getAlumno, Collectors.averagingDouble(Calificacion::getNota)));
+
+		// Encontrar el alumno con el mejor promedio
+		Optional<Map.Entry<Alumno, Double>> mejorPromedio = promediosAlumnos.entrySet().stream()
+				.max(Comparator.comparingDouble(Map.Entry::getValue));
+
+		// Crear el DTO con la información del mejor promedio
+		return mejorPromedio.map(entry -> new MejorPromedioDTO(curso, entry.getKey().getPersona().getNombre(), entry.getKey().getPersona().getApellido(), entry.getValue()));
+	}
+	public List<MejorPromedioDTO> obtenerMejoresPromediosPorCurso() throws ServiceException {
+		// Obtener todos los cursos de primaria y secundaria
+		List<Curso> cursos = cursoDAO.findByNiveles(List.of(Nivel.PRIMARIA, Nivel.SECUNDARIA));
+
+		// Obtener los mejores promedios por curso
+		return cursos.stream()
+				.map(this::obtenerMejorPromedioCurso)
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.collect(Collectors.toList());
 	}
 }

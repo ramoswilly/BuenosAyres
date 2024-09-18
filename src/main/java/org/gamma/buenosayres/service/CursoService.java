@@ -1,35 +1,58 @@
 package org.gamma.buenosayres.service;
 
-import org.gamma.buenosayres.repository.AlumnoRepository;
-import org.gamma.buenosayres.repository.CursoDAO;
-import org.gamma.buenosayres.repository.ProfesorDAO;
+import org.gamma.buenosayres.dto.CursoProblematicoDTO;
+import org.gamma.buenosayres.dto.CursoRendimientoDTO;
+import org.gamma.buenosayres.model.*;
+import org.gamma.buenosayres.repository.*;
 import org.gamma.buenosayres.dto.ProfesorDTO;
-import org.gamma.buenosayres.model.Alumno;
-import org.gamma.buenosayres.model.Curso;
-import org.gamma.buenosayres.model.Profesor;
 import org.gamma.buenosayres.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CursoService {
 	private final CursoDAO cursoDAO;
 	private final ProfesorDAO profesorDAO;
 	private final AlumnoRepository alumnoRepository;
+	private final CalificacionRepository calificacionRepository;
+	private final SancionDAO sancionDAO;
 	@Autowired
-	public CursoService(CursoDAO cursoDAO, ProfesorDAO profesorDAO, AlumnoRepository alumnoRepository)
+	public CursoService(CursoDAO cursoDAO, ProfesorDAO profesorDAO, AlumnoRepository alumnoRepository, CalificacionRepository calificacionRepository, SancionDAO sancionDAO)
 	{
 		this.cursoDAO = cursoDAO;
 		this.profesorDAO = profesorDAO;
 		this.alumnoRepository = alumnoRepository;
+		this.calificacionRepository = calificacionRepository;
+		this.sancionDAO = sancionDAO;
 	}
 	public List<Curso> findAll()
 	{
 		return cursoDAO.findAll();
 	}
 
+	public List<CursoRendimientoDTO> getRendimientoPorCurso() throws ServiceException {
+		int currentYear = LocalDate.now().getYear();
+
+		// Obtener calificaciones de primaria y secundaria del año actual
+		List<Calificacion> calificaciones = calificacionRepository.findAll().stream()
+				.filter(calificacion -> calificacion.getEvaluacion().getFechaCreacion().getYear() == currentYear
+						&& calificacion.getEvaluacion().getMateria().getCurso().getNivel() != Nivel.INICIAL)
+				.toList();
+
+		// Agrupar por curso y calcular el promedio
+		Map<Curso, Double> promediosPorCurso = calificaciones.stream()
+				.collect(Collectors.groupingBy(c -> c.getEvaluacion().getMateria().getCurso(),
+						Collectors.averagingDouble(Calificacion::getNota)));
+
+		// Crear la lista de DTOs
+		return promediosPorCurso.entrySet().stream()
+				.map(entry -> new CursoRendimientoDTO(entry.getKey(), entry.getValue().floatValue()))
+				.toList();
+	}
 	public Curso asignarProfesor(UUID id, ProfesorDTO dto) throws ServiceException
 	{
 		Optional<Curso> curso = cursoDAO.findById(id);
@@ -74,5 +97,25 @@ public class CursoService {
 		Optional<Alumno> alumno = alumnoRepository.findById(alumnoId);
 		if (alumno.isEmpty()) throw new ServiceException("Alumno inexistente", 404);
 		return cursoDAO.findByAlumno(alumno.get());
+	}
+
+	public List<CursoProblematicoDTO> getCursosProblematicos() throws ServiceException {
+		int currentYear = LocalDate.now().getYear();
+
+		// Obtener sanciones del año actual
+		List<Sancion> sanciones = sancionDAO.findAll().stream()
+				.filter(sancion -> sancion.getFecha().getYear() == currentYear)
+				.toList();
+
+		// Agrupar por curso y contar las sanciones
+		Map<Curso, Long> sancionesPorCurso = sanciones.stream()
+				.collect(Collectors.groupingBy(s -> s.getAlumno().getCurso(), Collectors.counting()));
+
+		// Crear la lista de DTOs ordenados por cantidad de sanciones
+		return sancionesPorCurso.entrySet().stream()
+				.map(entry -> new CursoProblematicoDTO(entry.getKey(), entry.getValue()))
+				.sorted(Comparator.comparingLong(CursoProblematicoDTO::getSanciones).reversed())
+				.limit(5)
+				.toList();
 	}
 }

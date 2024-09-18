@@ -55,4 +55,12 @@ public class SancionController {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 	}
+	@GetMapping("/top10")
+	public ResponseEntity<?> getTop10AlumnosConMasSanciones() {
+		try {
+			return ResponseEntity.ok(sancionService.getTop10AlumnosConMasSanciones());
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
 }

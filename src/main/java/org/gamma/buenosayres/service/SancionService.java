@@ -1,5 +1,6 @@
 package org.gamma.buenosayres.service;
 
+import org.gamma.buenosayres.dto.AlumnoSancionDTO;
 import org.gamma.buenosayres.repository.AlumnoRepository;
 import org.gamma.buenosayres.repository.SancionDAO;
 import org.gamma.buenosayres.dto.SancionDTO;
@@ -9,10 +10,9 @@ import org.gamma.buenosayres.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class SancionService {
@@ -45,7 +45,7 @@ public class SancionService {
 		Sancion sancion = new Sancion();
 		sancion.setAlumno(alumno.get());
 		sancion.setCausa(dto.getCausa());
-		sancion.setFecha(new Date());
+		sancion.setFecha(dto.getFecha());
 		sancion.setGravedad(dto.getGravedad());
 		sancion.setHabilitada(true);
 		return sancionDAO.save(sancion);
@@ -77,5 +77,25 @@ public class SancionService {
 		sancion.get().setHabilitada(dto.isHabilitada());
 		// Guardar
 		return sancionDAO.save(sancion.get());
+	}
+	public List<AlumnoSancionDTO> getTop10AlumnosConMasSanciones() throws ServiceException {
+		int currentYear = LocalDate.now().getYear();
+
+		List<Sancion> sanciones = sancionDAO.findAll().stream()
+				.filter(sancion -> sancion.getFecha().getYear() == currentYear)
+				.toList();
+
+		Map<Alumno, Long> sancionesPorAlumno = sanciones.stream()
+				.collect(Collectors.groupingBy(Sancion::getAlumno, Collectors.counting()));
+
+		return sancionesPorAlumno.entrySet().stream()
+				.map(entry -> new AlumnoSancionDTO(
+						entry.getKey().getCurso(),
+						entry.getKey().getPersona().getNombre(),
+						entry.getKey().getPersona().getApellido(),
+						entry.getValue()))
+				.sorted(Comparator.comparingLong(AlumnoSancionDTO::getCantidadSanciones).reversed())
+				.limit(10)
+				.toList();
 	}
 }

@@ -174,6 +174,6 @@ public class AdminViewController {
         // Reportes
         @GetMapping("/ver-reportes")
         public String verReportes() {
-        return "/admin/ver-reportes";
+        return "/admin/reportes";
     }
 }

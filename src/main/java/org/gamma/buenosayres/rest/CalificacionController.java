@@ -61,4 +61,12 @@ public class CalificacionController {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 	}
+	@GetMapping("/mejores_promedios")
+	public ResponseEntity<?> getMejoresPromedios() {
+		try {
+			return ResponseEntity.ok(calificacionService.obtenerMejoresPromediosPorCurso());
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
 }

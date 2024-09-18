@@ -1,5 +1,7 @@
 package org.gamma.buenosayres.rest;
 
+import org.gamma.buenosayres.dto.AlumnoPerfectoDTO;
+import org.gamma.buenosayres.dto.AlumnoTopDTO;
 import org.gamma.buenosayres.dto.InasistenciaDTO;
 import org.gamma.buenosayres.exception.ServiceException;
 import org.gamma.buenosayres.mapper.InasistenciaMapper;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -29,7 +32,24 @@ public class InasistenciaController {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 	}
-
+	@GetMapping("/perfectas")
+	public ResponseEntity<?> getAlumnosSinInasistencias() {
+		try {
+			List<AlumnoPerfectoDTO> alumnos = inasistenciaService.getAlumnosSinInasistencias();
+			return ResponseEntity.ok(alumnos);
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
+	@GetMapping("/top5")
+	public ResponseEntity<?> getTop5AlumnosConMasInasistencias() {
+		try {
+			List<AlumnoTopDTO> alumnos = inasistenciaService.getTop5AlumnosConMasInasistencias();
+			return ResponseEntity.ok(alumnos);
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getById(@PathVariable("id") UUID id) {
 		try {

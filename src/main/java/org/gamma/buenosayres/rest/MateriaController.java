@@ -73,4 +73,12 @@ public class MateriaController {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 	}
+	@GetMapping("/rendimiento")
+	public ResponseEntity<?> getRendimientoPorMateria() {
+		try {
+			return ResponseEntity.ok(materiaService.getRendimientoPorMateria());
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
 }
