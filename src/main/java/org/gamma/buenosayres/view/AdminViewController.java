@@ -84,6 +84,12 @@ public class AdminViewController {
         return "/admin/facturacion";
     }
 
+        @GetMapping("/detalles-facturacion")
+        public String detallesFacturacion()
+        {
+            return "/admin/detalles-facturacion";
+        }
+
         @GetMapping("/deudas")
         public String deudas() {
         return "/admin/deudas";

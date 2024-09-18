@@ -1,12 +1,11 @@
 package org.gamma.buenosayres.security;
 
 import org.gamma.buenosayres.model.Usuario;
-import org.gamma.buenosayres.dao.interfaces.UsuarioDAO;
+import org.gamma.buenosayres.repository.UsuarioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

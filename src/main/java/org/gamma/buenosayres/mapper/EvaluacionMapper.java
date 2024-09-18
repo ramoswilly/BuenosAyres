@@ -2,7 +2,6 @@ package org.gamma.buenosayres.mapper;
 
 import org.gamma.buenosayres.dto.EvaluacionDTO;
 import org.gamma.buenosayres.model.Evaluacion;
-import org.gamma.buenosayres.service.implementation.EvaluacionService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;

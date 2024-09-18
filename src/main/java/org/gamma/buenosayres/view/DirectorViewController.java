@@ -10,11 +10,16 @@ public class DirectorViewController {
 	@GetMapping("/index")
 	public String index()
 	{
-		return "/director/calificaciones";
+		return "director/calificaciones";
 	}
 	@GetMapping("/calificaciones")
 	public String evaluaciones()
 	{
-		return "/director/calificaciones";
+		return "director/calificaciones";
+	}
+	@GetMapping("/detalle-alumno")
+	public String detalles()
+	{
+		return "director/detalle-alumno";
 	}
 }

@@ -44,9 +44,10 @@ public class SecurityConfig {
 						.requestMatchers("/assets/**").permitAll()
 						.requestMatchers("/admin/**").hasRole("ADMIN")
 						.requestMatchers("/profesores/**").hasRole("PROFESOR")
+						.requestMatchers("/padres/**").hasRole("PADRE")
 						.requestMatchers("/alumnos/**").hasRole("ALUMNO")
 						.requestMatchers("/director/**").hasRole("DIRECTOR")
-						.requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+						.requestMatchers("/preceptores/**").hasRole("PRECEPTOR")
 						.requestMatchers("/login/**").permitAll()
 						.anyRequest().authenticated()
 				)
@@ -54,7 +55,7 @@ public class SecurityConfig {
 						formLogin
 								.loginPage("/login") // Página personalizada de login
 								.loginProcessingUrl("/perform_login") // URL a la cual se envían las credenciales para su validación
-								.defaultSuccessUrl("/home", true) // Página a la que se redirige tras un inicio de sesión exitoso
+								//.defaultSuccessUrl("/home", true) // Página a la que se redirige tras un inicio de sesión exitoso
 								.failureUrl("/login?error=true") // Página a la que se redirige tras un fallo de login
 								.successHandler(successHandler)
 								.permitAll()

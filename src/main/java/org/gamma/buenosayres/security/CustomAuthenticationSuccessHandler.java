@@ -33,5 +33,15 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			// Redirige a la página de alumnos
 			response.sendRedirect("/alumnos/index");
 		}
+		// Verifica si el usuario tiene el rol "PADRE"
+		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_PADRE"))) {
+			// Redirige a la página de alumnos
+			response.sendRedirect("/padres/index");
+		}
+		// Verifica si el usuario tiene el rol "PRECEPTOR"
+		if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_PRECEPTOR"))) {
+			// Redirige a la página de alumnos
+			response.sendRedirect("/preceptores/index");
+		}
 	}
 }

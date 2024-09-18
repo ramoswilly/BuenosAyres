@@ -37,10 +37,10 @@
     <div class="header">
 
         <div class="header-left">
-            <a href="index.html" class="logo">
+            <a href="index" class="logo">
                 <img src="../assets/img/logo.png" alt="Logo">
             </a>
-            <a href="index.html" class="logo logo-small">
+            <a href="index" class="logo logo-small">
                 <img src="../assets/img/logo-small.png" alt="Logo" width="30" height="30">
             </a>
         </div>
@@ -377,7 +377,7 @@
         <tr>
           <td>${periodoFormateado}</td>
           <td>${formatearMoneda(montoTotalFactura)}</td>
-          <td><a href="detalles-facturacion.html?id=${factura.id}" class="btn btn-sm bg-info-light me-2">Detalles</a></td>
+          <td><a href="detalles-facturacion?id=${factura.id}" class="btn btn-sm bg-info-light me-2">Detalles</a></td>
         </tr>`;
 
             $('#tabla-detalles-deuda tbody').append(newRow);

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Buenos Ayres - Agregar Inasistencia</title>
+
+    <link rel="shortcut icon" href="../assets/img/favicon.png">
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+            rel="stylesheet">
+
+    <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
+
+    <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
+
+    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+
+    <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
+
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+
+<body>
+
+<div class="main-wrapper">
+
+    <div class="header">
+
+        <div class="header-left">
+            <a href="index" class="logo">
+                <img src="../assets/img/logo.png" alt="Logo">
+            </a>
+            <a href="index" class="logo logo-small">
+                <img src="../assets/img/logo-small.png" alt="Logo" width="30" height="30">
+            </a>
+        </div>
+
+        <div class="menu-toggle">
+            <a href="javascript:void(0);" id="toggle_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </div>
+
+
+        <a class="mobile_btn" id="mobile_btn">
+            <i class="fas fa-bars"></i>
+        </a>
+
+
+        <ul class="nav user-menu">
+
+            <li class="nav-item zoom-screen me-2">
+                <a href="#" class="nav-link header-nav-list">
+                    <img src="../assets/img/icons/header-icon-04.svg" alt="">
+                </a>
+            </li>
+
+            <li class="nav-item dropdown has-arrow new-user-menus">
+                <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
+                         alt="Soeng Souy">
+                    <div class="user-text">
+                        <h6>Buenos Ayres</h6>
+                        <p class="text-muted mb-0">Administrador</p>
+                    </div>
+                </span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="user-header">
+                        <div class="avatar avatar-sm">
+                            <img src="../assets/img/profiles/avatar-01.jpg" alt="User Image"
+                                 class="avatar-img rounded-circle">
+                        </div>
+                        <div class="user-text">
+                            <h6>Buenos Ayres</h6>
+                            <p class="text-muted mb-0">Administrador</p>
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+
+        </ul>
+
+    </div>
+
+    
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-inner slimscroll">
+    <div id="sidebar-menu" class="sidebar-menu">
+      <ul>
+        <li class="menu-title">
+          <span>Menú Principal</span>
+        </li>
+
+        <li class="submenu">
+          <a href="#"><i class="fas fa-graduation-cap"></i> <span> Alumnos</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="alumnos">Lista de alumnos</a></li>
+            <li><a href="agregar-alumno">Agregar alumno</a></li>
+            <li><a href="editar-alumno">Editar alumno</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-home"></i> <span> Padres</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="padres">Lista de Padres</a></li>
+            <li><a href="agregar-padre">Agregar padre</a></li>
+            <li><a href="editar-padre">Editar padre</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-users"></i> <span> Familias</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="familias">Lista de familias</a></li>
+            <li><a href="ver-familias">Detalles de familia</a></li>
+            <li><a href="agregar-familia">Agregar familia</a></li>
+            <li><a href="editar-familia">Editar familia</a></li>
+          </ul>
+        </li>
+
+        <li class="submenu">
+          <a href="#"><i class="fas fa-wrench"></i> <span> Talleres</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="talleres">Lista de talleres</a></li>
+
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-file-invoice-dollar"></i> <span> Conceptos</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="conceptos">Revisar conceptos</a></li>
+
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-comment-dollar"></i> <span>Facturación</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="facturacion">Facturar</a></li>
+            <li><a href="deudas">Deudas</a></li>
+
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Profesores</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="profesores">Lista de profesores</a></li>
+            <li><a href="agregar-profesor">Agregar profesor</a></li>
+            <li><a href="editar-profesor">Editar profesor</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Cursos</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="cursos">Lista de Cursos</a></li>
+
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-book"></i> <span> Materias</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="materias">Lista de Materias</a></li>
+            <li><a href="agregar-materia">Agregar Materia</a></li>
+            <li><a href="editar-materia">Editar Materia</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-clipboard-list"></i> <span> Evaluaciones</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="evaluaciones">Lista de Evaluaciones</a></li>
+            <li><a href="agregar-evaluacion">Agregar Evaluación</a></li>
+            <li><a href="evaluaciones-creadas">Evaluaciones Creadas</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-gavel"></i> <span> Disciplina</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="disciplina">Lista de Sanciones</a></li>
+            <li><a href="agregar-sancion">Agregar Sanción</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-user-clock"></i> <span> Inasistencias</span> <span
+                  class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="inasistencias">Lista de Inasistencias</a></li>
+            <li><a href="agregar-inasistencia">Agregar Inasistencia</a></li>
+          </ul>
+        </li>
+        <li class="submenu">
+          <a href="#"><i class="fas fa-chart-bar"></i> <span> Reportes</span> <span class="menu-arrow"></span></a>
+          <ul>
+            <li><a href="ver-reportes">Ver Reportes</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+
+            <div class="page-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="page-title">Agregar Inasistencia</h3>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="Inasistencias">Inasistencias</a></li>
+                            <li class="breadcrumb-item active">Agregar Inasistencia</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card comman-shadow">
+                        <div class="card-body">
+                            <form id="agregar-inasistencia-form">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h5 class="form-title"><span>Información de la Inasistencia</span></h5>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group local-forms">
+                                            <label>Alumno <span class="login-danger">*</span></label>
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="alumno-nombre" name="alumno-nombre" readonly>
+                                                <input type="hidden" id="alumno-id" name="alumno-id">
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                        data-bs-target="#modalSeleccionarAlumno">
+                                                    Seleccionar
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group local-forms">
+                                            <label>Fecha <span class="login-danger">*</span></label>
+                                            <input type="date" class="form-control" id="fecha-input">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group local-forms">
+                                            <label>Cantidad <span class="login-danger">*</span></label>
+                                            <input type="number" class="form-control" id="cantidad-input">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group local-forms">
+                                            <label>Justificada <span class="login-danger">*</span></label>
+                                            <select class="form-control select" id="justificada-select">
+                                                <option value="true">Sí</option>
+                                                <option value="false">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="student-submit">
+                                            <button type="submit" class="btn btn-primary">Agregar Inasistencia</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para seleccionar alumno -->
+    <div class="modal fade" id="modalSeleccionarAlumno" tabindex="-1" role="dialog"
+         aria-labelledby="modalSeleccionarAlumnoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalSeleccionarAlumnoLabel">Seleccionar Alumno</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="student-group-form">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="form-group">
+                                    <input id="buscar-alumno-input" type="text" class="form-control"
+                                           placeholder="Buscar Alumnos...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table id="tabla-alumnos" class="table table-striped table-bordered w-100">
+                            <thead>
+                            <tr>
+                                <th>DNI</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Seleccionar</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../assets/js/jquery-3.6.0.min.js"></script>
+
+<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="../assets/js/feather.min.js"></script>
+
+<script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../assets/plugins/datatables/datatables.min.js"></script>
+
+<script src="../assets/js/script.js"></script>
+
+<script>
+    $(document).ready(function () {
+        const fechaActual = new Date().toISOString().split('T')[0];
+
+        // Establecer el atributo max del campo de fecha
+        $('#fecha-input').attr('max', fechaActual);
+        var tablaAlumnos = $('#tabla-alumnos').DataTable({
+            "ajax": {
+                "url": "/api/v1/alumnos", // Ajustar la URL de la API
+                "dataSrc": ""
+            },
+            "columns": [
+                {"data": "dni"},
+                {"data": "nombre"},
+                {"data": "apellido"},
+                {
+                    "data": null,
+                    "render": function (data, type, row) {
+                        return `<button type="button" class="btn btn-primary btn-sm seleccionar-alumno" data-alumno-id="${data.id}" data-alumno-nombre="${data.nombre} ${data.apellido}">Seleccionar</button>`;
+                    }
+                }
+            ]
+        });
+
+        $('#buscar-alumno-input').on('input', function () {
+            tablaAlumnos.search($(this).val()).draw();
+        });
+
+        // Manejar clic en "Seleccionar" alumno
+        $('#tabla-alumnos').on('click', '.seleccionar-alumno', function () {
+            const alumnoId = $(this).data('alumno-id');
+            const alumnoNombre = $(this).data('alumno-nombre');
+            $('#alumno-id').val(alumnoId);
+            $('#alumno-nombre').val(alumnoNombre);
+            $('#modalSeleccionarAlumno').modal('hide');
+        });
+
+        // Manejar el envío del formulario
+        $('#agregar-inasistencia-form').submit(function (event) {
+            event.preventDefault();
+
+            const alumnoId = $('#alumno-id').val();
+            const fecha = $('#fecha-input').val();
+            const cantidad = $('#cantidad-input').val();
+            const justificada = $('#justificada-select').val();
+
+            $.ajax({
+                url: '/api/v1/inasistencias', // Ajustar la URL de la API
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    alumnoId: alumnoId,
+                    fecha: fecha,
+                    cantidad: cantidad,
+                    justificada: justificada
+                }),
+                success: function (response) {
+                    alert('Inasistencia agregada correctamente.');
+                    // Puedes redirigir a la página de inasistencias o limpiar el formulario
+                },
+                error: function (error) {
+                    console.error('Error al agregar la inasistencia:', error);
+                    alert('Error al agregar la inasistencia. Por favor, inténtalo de nuevo.');
+                }
+            });
+        });
+    });
+</script>
+
+</body>
+
+</html>
