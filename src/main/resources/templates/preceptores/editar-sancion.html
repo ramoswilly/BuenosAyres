@@ -281,9 +281,18 @@
                       </select>
                     </div>
                   </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="habilitada" name="habilitada" checked>
+                        <label class="form-check-label" for="habilitada">
+                          Habilitada
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-12">
                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                    <button type="button" class="btn btn-danger" id="btnDeshabilitar">Deshabilitar</button>
                   </div>
                 </div>
               </form>
@@ -326,6 +335,7 @@
       url: `/api/v1/sanciones/${sancionId}`, // Ajustar la URL de la API
       type: 'GET',
       success: function (sancion) {
+        $('#habilitada').prop('checked', sancion.habilitada); // Establecer el estado del checkbox
         const fechaAPI = sancion.fecha;
         const fechaFormateada = fechaAPI.split('T')[0];
         $('#fecha').val(fechaFormateada);
@@ -362,7 +372,7 @@
         alumnoId: $('#alumno-id').val(),
         causa: $('#causa').val(),
         gravedad: $('#gravedad').val(),
-        habilitada: true // Mantener la habilitada como estaba
+        habilitada: $('#habilitada').prop('checked')
       };
 
       $.ajax({
