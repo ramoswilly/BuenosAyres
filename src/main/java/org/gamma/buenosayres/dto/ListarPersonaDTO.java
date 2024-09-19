@@ -1,7 +1,5 @@
 package org.gamma.buenosayres.dto;
 
-import org.gamma.buenosayres.model.TipoPersona;
-
 import java.util.UUID;
 
 public class ListarPersonaDTO {
@@ -10,10 +8,10 @@ public class ListarPersonaDTO {
 	private String nombre;
 	private String apellido;
 	private String direccion;
-	private TipoPersona tipo;
+	private String tipo;
 	private UUID familia;
 
-	public ListarPersonaDTO(UUID id, String dni, String nombre, String apellido, String direccion, TipoPersona tipo, UUID familia)
+	public ListarPersonaDTO(UUID id, String dni, String nombre, String apellido, String direccion, String tipo, UUID familia)
 	{
 		this.id = id;
 		this.dni = dni;
@@ -53,7 +51,7 @@ public class ListarPersonaDTO {
 		return this.direccion;
 	}
 
-	public TipoPersona getTipo()
+	public String getTipo()
 	{
 		return this.tipo;
 	}
@@ -88,7 +86,7 @@ public class ListarPersonaDTO {
 		this.direccion = direccion;
 	}
 
-	public void setTipo(TipoPersona tipo)
+	public void setTipo(String tipo)
 	{
 		this.tipo = tipo;
 	}

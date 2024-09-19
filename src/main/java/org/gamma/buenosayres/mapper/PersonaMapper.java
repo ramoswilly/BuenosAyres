@@ -12,6 +12,7 @@ import org.modelmapper.TypeMap;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class PersonaMapper {
@@ -23,8 +24,18 @@ public class PersonaMapper {
 			mapper.map(src -> src.getFamilia().getId(), ListarPersonaDTO::setFamilia);
 		});
 	}
+	public ListarPersonaDTO map(Persona persona)
+	{
+		ListarPersonaDTO personaDTO = modelMapper.map(persona, ListarPersonaDTO.class);
+		if (persona.getUsuario() != null && persona.getUsuario().getRoles() != null) {
+			personaDTO.setTipo(persona.getUsuario().getRoles().stream().map(rol -> rol.getAuthority().replace("ROLE_", "")).collect(Collectors.joining(" ")));
+			//personaDTO.setTipo(persona.getUsuario().getRoles().stream().findAny().map(rol -> rol.getAuthority().replace("ROLE_", "")).orElse(""));
+		}
+		return personaDTO;
+	}
 	public List<ListarPersonaDTO> map(List<Persona> personas)
 	{
-		return personas.stream().map(persona -> modelMapper.map(persona, ListarPersonaDTO.class)).toList();
+		//return personas.stream().map(persona -> modelMapper.map(persona, ListarPersonaDTO.class)).toList();
+		return personas.stream().map(this::map).toList();
 	}
 }

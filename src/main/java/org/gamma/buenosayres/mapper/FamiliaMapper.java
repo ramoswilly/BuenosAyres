@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class FamiliaMapper {
@@ -79,8 +80,21 @@ public class FamiliaMapper {
 		).toList());
 		return lFamilia;
 	}
+	public MiembrosFamiliaDTO map(Persona persona)
+	{
+		MiembrosFamiliaDTO miembrosFamiliaDTO = new MiembrosFamiliaDTO();
+		miembrosFamiliaDTO.setApellido(persona.getApellido());
+		miembrosFamiliaDTO.setNombre(persona.getNombre());
+		miembrosFamiliaDTO.setId(persona.getId());
+		miembrosFamiliaDTO.setDni(persona.getDni());
+		miembrosFamiliaDTO.setTipo(persona.getUsuario().getRoles().stream().map(rol -> rol.getAuthority().replace("ROLE_", "")).collect(Collectors.joining(" ")));
+		//miembrosFamiliaDTO.setTipo(persona.getUsuario().getRoles().stream().findAny().map(rol -> rol.getAuthority().replace("ROLE_", "")).orElse(""));
+		miembrosFamiliaDTO.setDireccion(persona.getDireccion());
+		return miembrosFamiliaDTO;
+	}
 	public List<MiembrosFamiliaDTO> mapTo(List<Persona> personas)
 	{
-		return personas.stream().map(persona -> modelMapper.map(persona, MiembrosFamiliaDTO.class)).toList();
+		//return personas.stream().map(persona -> modelMapper.map(persona, MiembrosFamiliaDTO.class)).toList();
+		return personas.stream().map(this::map).toList();
 	}
 }
