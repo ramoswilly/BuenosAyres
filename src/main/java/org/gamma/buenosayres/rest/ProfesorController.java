@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/v1/profesores")
 @CrossOrigin(origins = "*")
@@ -21,12 +23,15 @@ public class ProfesorController {
 		this.service = service;
 		this.mapper = mapper;
 	}
-	/*@GetMapping(produces = "application/json")
-	@Deprecated
-	public List<ProfesorDTO> get()
+	@GetMapping("/{idProfesor}")
+	public ResponseEntity<?> get(@PathVariable(value = "idProfesor") UUID idProfesor)
 	{
-		return service.get().stream().map(mapper::map).toList();
-	}*/
+		try {
+			return ResponseEntity.ok(mapper.map(service.get(idProfesor)));
+		} catch (ServiceException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<?> get(@RequestParam(value = "tipo", required = false) String rol,
 						  @RequestParam(value = "nivel", required = false) Nivel nivel
@@ -47,6 +52,16 @@ public class ProfesorController {
 	public ResponseEntity<?> getRendimientoPorProfesor() {
 		try {
 			return ResponseEntity.ok(service.getRendimientoPorProfesor());
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
+	@PutMapping("/{profesorId}")
+	public ResponseEntity<?> update(@PathVariable(value = "profesorId") UUID profesorId, @RequestBody ProfesorDTO dto)
+	{
+		try {
+			dto.setId(profesorId); // Asegurar que el DTO tenga el ID correcto
+			return ResponseEntity.ok(mapper.map(service.update(dto)));
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}

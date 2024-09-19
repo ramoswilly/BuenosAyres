@@ -96,7 +96,7 @@
 
     </div>
 
-        
+
 <div class="sidebar" id="sidebar">
   <div class="sidebar-inner slimscroll">
     <div id="sidebar-menu" class="sidebar-menu">
@@ -269,6 +269,8 @@
                                         <th>CUIL</th>
                                         <th>Teléfono</th>
                                         <th>Email</th>
+                                        <th>Banco</th>
+                                        <th>CBU</th>
                                         <th>Dirección</th>
                                         <th>Nivel</th>
                                         <th>Acciones</th>
@@ -321,6 +323,8 @@
                 { data: 'cuil' },
                 { data: 'telefono' },
                 { data: 'email' },
+                { data: 'banco'},
+                { data: 'cbu'},
                 { data: 'direccion'}, { data: 'nivel' },
                 {
                     data: null,
@@ -334,8 +338,8 @@
                                         <a href="materias?profesor=${data.id}" class="btn btn-sm bg-info-light me-2">
                                             <i class="fas fa-chalkboard"></i>
                                         </a>
-                                        <a href="#" class="btn btn-sm bg-warning-light" data-bs-toggle="modal" data-bs-target="#bancarioModal-${data.id}">
-                                            <i class="fas fa-university"></i>
+                                       <a href="editar-profesor?id=${data.id}" class="btn btn-sm bg-info-light me-2">
+                                            <i class="fas fa-pen"></i>
                                         </a>
                                     </div>
                                 </td>

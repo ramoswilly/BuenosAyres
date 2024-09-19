@@ -24,11 +24,6 @@
   <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 
   <link rel="stylesheet" href="../assets/css/style.css">
-  <style>
-    .dataTables_filter {
-      display: none;
-    }
-  </style>
 </head>
 
 <body>
@@ -96,7 +91,7 @@
   </div>
 
 
-  
+
 <div class="sidebar" id="sidebar">
   <div class="sidebar-inner slimscroll">
     <div id="sidebar-menu" class="sidebar-menu">
@@ -225,24 +220,6 @@
   <div class="page-wrapper">
     <div class="content container-fluid">
       <div class="student-group-form">
-        <div class="row">
-          <div class="col-lg-3 col-md-6">
-            <div class="form-group">
-              <label for="nivel">Nivel:</label>
-              <select id="nivel" class="form-control">
-                <!-- Options will be populated here -->
-              </select>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6">
-            <div class="form-group">
-              <label for="turno">Turno:</label>
-              <select id="turno" class="form-control">
-                <!-- Options will be populated here -->
-              </select>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div class="row">
@@ -332,31 +309,20 @@
 <script>
   $(document).ready(function () {
     const baseUrl = "/api/v1";
-
-    // Inicializar filtros
-    const niveles = ["INICIAL", "PRIMARIA", "SECUNDARIA"];
-    const turnos = ["MAÑANA", "TARDE"];
-
-    let cursosData = [];
-
-    $.each(niveles, function (index, nivel) {
-      $("#nivel").append(
-              $("<option></option>").attr("value", nivel).text(nivel)
-      );
-    });
-    $.each(turnos, function (index, turno) {
-      $("#turno").append(
-              $("<option></option>").attr("value", turno).text(turno)
-      );
-    });
+    // Obtener el ID del profesor de la URL (si existe)
+    const urlParams = new URLSearchParams(window.location.search);
+    const profesorId = urlParams.get('profesor');
 
     // Inicializar DataTable
     let tablaCursos = $("#tabla-cursos").DataTable({
-      data: [],
+      ajax: {
+        url: `${baseUrl}/cursos`,
+        dataSrc: "" // Indica que los datos están en la raíz del JSON
+      },
       columns: [
-        {data: "orden"},
-        {data: "nivel"},
-        {data: "turno"},
+        { data: "orden" },
+        { data: "nivel" },
+        { data: "turno" },
         {
           data: null,
           render: function (data, type, row) {
@@ -382,51 +348,33 @@
         url: "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
       },
     });
-
-    // Cargar cursos al inicio
-    cargarCursos();
-
-    // Manejar filtros
-    $("#nivel, #turno").on("change", function () {
-      filtrarCursos();
-    });
-
-    // Cargar cursos
-    function cargarCursos() {
+    // Si se proporciona un ID de profesor en la URL
+    if (profesorId) {
+      // Obtener información del profesor
       $.ajax({
-        url: `${baseUrl}/cursos`,
+        url: `${baseUrl}/profesores/${profesorId}`,
         type: "GET",
-        success: function (data) {
-          cursosData = data;
-          filtrarCursos();
+        success: function (profesor) {
+          // Mostrar el nombre del profesor en la barra de búsqueda
+          $(".dataTables_filter label input").val(profesor.nombre + " " + profesor.apellido);
+          // Actualizar la tabla con el filtro (usando search())
+          tablaCursos.search(profesor.nombre + " " + profesor.apellido).draw();
         },
         error: function (error) {
-          console.error("Error al cargar cursos:", error);
-        },
+          console.error("Error al obtener información del profesor:", error);
+        }
       });
-    }
-
-    // Filtrar cursos
-    function filtrarCursos() {
-      let nivelFiltro = $("#nivel").val();
-      let turnoFiltro = $("#turno").val();
-
-      let cursosFiltrados = cursosData.filter(function (curso) {
-        let nivelMatch = nivelFiltro === "" || curso.nivel === nivelFiltro;
-        let turnoMatch = turnoFiltro === "" || curso.turno === turnoFiltro;
-        return nivelMatch && turnoMatch;
-      });
-
-      tablaCursos.clear().rows.add(cursosFiltrados).draw();
     }
 
     // Abrir modal para seleccionar responsable
     $("#tabla-cursos").on("click", ".responsable-link", function () {
       let cursoId = $(this).data("curso-id");
 
-      let curso = cursosData.find((c) => c.id === cursoId);
-      let responsableType =
-              curso.nivel === "SECUNDARIA" ? "Preceptor" : "Profesor";
+      // Necesitas obtener los datos del curso desde la API o del caché de DataTable
+      // para determinar el tipo de responsable (Preceptor o Profesor).
+      // Aquí te muestro un ejemplo utilizando el caché de DataTable:
+      let curso = tablaCursos.row($(this).closest('tr')).data();
+      let responsableType = curso.nivel === "SECUNDARIA" ? "Preceptor" : "Profesor";
 
       $("#responsable-type-label").text(responsableType);
 
@@ -438,8 +386,7 @@
 
     // Cargar responsables en la tabla del modal
     function cargarResponsables(responsableType) {
-      let role =
-              responsableType === "Preceptor" ? "ROLE_PRECEPTOR" : "ROLE_PROFESOR";
+      let role = responsableType === "Preceptor" ? "ROLE_PRECEPTOR" : "ROLE_PROFESOR";
       $.ajax({
         url: `${baseUrl}/profesores?tipo=${role}`,
         type: "GET",
@@ -447,14 +394,14 @@
           let tablaResponsables = $("#tabla-responsables").DataTable();
           tablaResponsables.clear().rows.add(data).draw();
 
-          // Agregar radio buttons a la tabla (corrección aquí)
+          // Agregar radio buttons a la tabla
           $("#tabla-responsables tbody tr").each(function () {
-            let rowData = tablaResponsables.row(this).data(); // Obtener los datos de la fila
-            let responsableId = rowData.id; // Obtener el ID del responsable
+            let rowData = tablaResponsables.row(this).data();
+            let responsableId = rowData.id;
             let radioButton = `
-          <input type="radio" name="responsableSeleccionado" value="${responsableId}">
-        `;
-            $(this).find("td:eq(4)").html(radioButton); // Agregar el radio button a la última columna
+              <input type="radio" name="responsableSeleccionado" value="${responsableId}">
+            `;
+            $(this).find("td:eq(4)").html(radioButton);
           });
         },
         error: function (error) {
@@ -474,11 +421,11 @@
         $.ajax({
           url: `${baseUrl}/cursos/${cursoId}/responsable`,
           type: "PUT",
-          contentType: "application/json", // Asegúrate de que el tipo de contenido sea JSON
-          data: JSON.stringify({id: responsableId}), // Enviar el ID del responsable como entero
+          contentType: "application/json",
+          data: JSON.stringify({ id: responsableId }),
           success: function () {
             $("#modalSeleccionarResponsable").modal("hide");
-            cargarCursos(); // Recargar la tabla de cursos
+            tablaCursos.ajax.reload(); // Recargar la tabla de cursos
           },
           error: function (error) {
             console.error("Error al asignar responsable:", error);
@@ -492,11 +439,11 @@
     // Inicializar DataTable para responsables
     $("#tabla-responsables").DataTable({
       columns: [
-        {data: "dni"},
-        {data: "nombre"},
-        {data: "apellido"},
-        {data: "cuil"},
-        {data: null}, // Columna vacía para el radio button
+        { data: "dni" },
+        { data: "nombre" },
+        { data: "apellido" },
+        { data: "cuil" },
+        { data: null }, // Columna vacía para el radio button
       ],
       language: {
         url: "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
@@ -504,7 +451,6 @@
     });
   });
 </script>
-
 </body>
 
 </html>

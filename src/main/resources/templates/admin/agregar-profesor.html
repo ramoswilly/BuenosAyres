@@ -318,6 +318,26 @@
                       </div>
                     </div>
                     <div class="form-group row">
+                      <label for="cbu" class="col-form-label col-lg-2">CBU</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="cbu" name="cbu"
+                               placeholder="CBU" required pattern="[0-9]{22}">
+                        <div class="invalid-feedback">
+                          Por favor, ingrese un CBU valido.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="banco" class="col-form-label col-lg-2">Banco</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="banco" name="banco"
+                               placeholder="Banco del Profesor" required pattern="^[A-Za-z\s]+$">
+                        <div class="invalid-feedback">
+                          Por favor, ingrese un nombre de Banco valido.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
                       <label for="nivel" class="col-form-label col-lg-2">Nivel</label>
                       <div class="col-lg-10">
                         <select class="form-control" id="nivel" name="nivel" required>
@@ -336,9 +356,6 @@
                       <div class="col-lg-10">
                         <select class="form-control" id="tipo" name="tipo" required>
                           <option value="">Seleccione un Tipo</option>
-                          <option value="ROLE_PROFESOR">PROFESOR</option>
-                          <option value="ROLE_PRECEPTOR">PRECEPTOR</option>
-                          <option value="ROLE_DIRECTOR">DIRECTOR</option>
                         </select>
                         <div class="invalid-feedback">
                           Por favor, seleccione un tipo.
@@ -378,6 +395,36 @@
   <script src="../assets/js/script.js"></script>
   <script>
     $(document).ready(function () {
+      // Validar combinaciones tipo - nivel
+      $('#nivel').on('change', function () {
+        var nivelSeleccionado = $(this).val();
+        var opcionesTipo = $('#tipo');
+
+        opcionesTipo.empty(); // Limpiar las opciones existentes
+
+        switch (nivelSeleccionado) {
+          case 'INICIAL':
+            opcionesTipo.append('<option value="">Seleccione un Tipo</option>\n')
+            opcionesTipo.append('<option value="ROLE_PROFESOR">PROFESOR</option>');
+            break;
+          case 'PRIMARIA':
+          case 'SECUNDARIA':
+            opcionesTipo.append('<option value="">Seleccione un Tipo</option>\n')
+            opcionesTipo.append('<option value="ROLE_PROFESOR">PROFESOR</option>');
+            opcionesTipo.append('<option value="ROLE_DIRECTOR">DIRECTOR</option>');
+            break;
+          default:
+                // No hacer nada si no se selecciona un nivel válido
+        }
+
+        if (nivelSeleccionado === 'SECUNDARIA') {
+          opcionesTipo.append('<option value="ROLE_PRECEPTOR">PRECEPTOR</option>');
+        }
+
+        opcionesTipo.val(''); // Restablecer la selección
+      });
+
+
       // Validación del formulario al hacer clic en el botón
       $('#guardarProfesorBtn').on('click', function () {
         var form = $('#form-profesor')[0];
@@ -403,6 +450,8 @@
       var cuil = $('#cuil').val();
       var telefono = $('#telefono').val();
       var email = $('#email').val();
+      var cbu = $('#cbu').val();
+      var banco = $('#banco').val();
       var nivel = $('#nivel').val();
       var tipo = $('#tipo').val()
 
@@ -415,6 +464,8 @@
         cuil: cuil,
         telefono: telefono,
         email: email,
+        cbu: cbu,
+        banco: banco,
         nivel: nivel,
         tipo: tipo
       };

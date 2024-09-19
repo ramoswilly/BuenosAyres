@@ -26,6 +26,17 @@ public class UserService {
 		this.rolDAO = rolDAO;
 		this.personaDAO = personaDAO;
 	}
+	public Usuario update(UUID id) throws ServiceException
+	{
+		Optional<Persona> persona = personaDAO.findById(id);
+		if (persona.isEmpty())
+			throw new ServiceException("Intento de actualizar usuario para persona inexistente", 400);
+		Optional<Usuario> existing = usuarioDAO.findByPersonaId(id);
+		if (existing.isEmpty()) throw new ServiceException("Intento de actualizar usuario inexistente", 500);
+		existing.get().setUsername(persona.get().getDni());
+		existing.get().setPassword(persona.get().getDni());
+		return usuarioDAO.save(existing.get());
+	}
 	@Transactional
 	public Usuario create(UUID id) throws ServiceException //TODO: excepcion
 	{
