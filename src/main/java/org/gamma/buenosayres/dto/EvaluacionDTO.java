@@ -11,6 +11,7 @@ public class EvaluacionDTO {
 	private LocalDate fechaVencimiento;
 	private UUID idMateria;
 	private UUID idProfesor;
+	private boolean habilitada;
 
 	public UUID getId()
 	{
@@ -80,5 +81,15 @@ public class EvaluacionDTO {
 	public void setIdProfesor(UUID idProfesor)
 	{
 		this.idProfesor = idProfesor;
+	}
+
+	public boolean isHabilitada()
+	{
+		return habilitada;
+	}
+
+	public void setHabilitada(boolean habilitada)
+	{
+		this.habilitada = habilitada;
 	}
 }

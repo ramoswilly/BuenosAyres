@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <title>Buenos Ayres - Editar Evaluación</title>
+
+  <link rel="shortcut icon" href="../assets/img/favicon.png">
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+          rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
+
+  <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
+
+  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .dataTables_filter {
+      display: none;
+    }
+  </style>
+
+
+</head>
+
+<body>
+
+<div class="main-wrapper">
+  <!-- ... (Header and Sidebar code same as crear-evaluacion.html) ... -->
+
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+
+      <div class="page-header">
+        <div class="row">
+          <div class="col-sm-12">
+            <h3 class="page-title" id="materia-nombre"></h3>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="evaluaciones">Evaluaciones</a></li>
+              <li class="breadcrumb-item active">Editar Evaluación</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card comman-shadow">
+            <div class="card-body">
+              <form id="formulario-evaluacion">
+                <div class="row">
+                  <div class="col-12">
+                    <h5 class="form-title"><span>Información de la Evaluación</span></h5>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Descripción (Título del trabajo)</label>
+                      <input type="text" class="form-control" id="descripcion" name="descripcion" readonly>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Archivo (opcional)</label>
+                      <input type="file" class="form-control" id="archivo" name="archivo" disabled>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Fecha de vencimiento</label>
+                      <input type="date" class="form-control" id="fecha_vencimiento" name="fecha_vencimiento">
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-group">
+                      <label>Comentarios adicionales</label>
+                      <textarea class="form-control" id="comentarios" name="comentarios" rows="4"></textarea>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="habilitada" name="habilitada">
+                        <label class="form-check-label" for="habilitada">
+                          Habilitada
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="../assets/js/jquery-3.6.0.min.js"></script>
+
+<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="../assets/js/feather.min.js"></script>
+
+<script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../assets/plugins/datatables/datatables.min.js"></script>
+
+<script src="../assets/js/script.js"></script>
+
+<script>
+  $(document).ready(function () {
+    // Obtener el ID de la evaluación de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const evaluacionId = urlParams.get('evaluacion');
+
+    // Cargar los datos de la evaluación
+    $.ajax({
+      url: `/api/v1/evaluaciones/${evaluacionId}`,
+      type: 'GET',
+      success: function (evaluacion) {
+        $('#descripcion').val(evaluacion.descripcion);
+        $('#fecha_vencimiento').val(evaluacion.fechaVencimiento);
+        $('#comentarios').val(evaluacion.comentarios);
+        $('#habilitada').prop('checked', evaluacion.habilitada);
+
+        // Obtener el nombre de la materia (ajusta la URL según tu API)
+        $.ajax({
+          url: `/api/v1/materias/${evaluacion.idMateria}`,
+          type: 'GET',
+          success: function (materia) {
+            $('#materia-nombre').text(`Editar Evaluación para: ${materia.nombre}`);
+          },
+          error: function () {
+            $('#materia-nombre').text('Error al obtener el nombre de la materia');
+          }
+        });
+
+        // Deshabilitar campos si la fecha de vencimiento ya pasó (y no es en aula)
+        const fechaVencimiento = new Date(evaluacion.fechaVencimiento);
+        const hoy = new Date();
+        if (fechaVencimiento < hoy && fechaVencimiento.getTime() !== 0 ) { //0 representa fecha en-aula
+          $('#fecha_vencimiento').prop('disabled', true);
+          $('#comentarios').prop('disabled', true);
+        }
+      },
+      error: function () {
+        alert('Error al cargar los datos de la evaluación');
+      }
+    });
+
+    // Manejar el envío del formulario
+    $('#formulario-evaluacion').submit(function (event) {
+      event.preventDefault();
+
+      // Obtener los datos del formulario
+      const fechaVencimiento = $('#fecha_vencimiento').val();
+      const comentarios = $('#comentarios').val();
+      const habilitada = $('#habilitada').is(':checked');
+
+      // Crear un objeto con los datos actualizados de la evaluación
+      const evaluacionActualizada = {
+        fechaVencimiento: fechaVencimiento,
+        comentarios: comentarios,
+        habilitada: habilitada
+      };
+
+      // Enviar los datos a la API
+      $.ajax({
+        url: `/api/v1/evaluaciones/${evaluacionId}`,
+        type: 'PUT',
+        contentType: 'application/json',
+        data: JSON.stringify(evaluacionActualizada),
+        success: function () {
+          // Redirigir a la página de evaluaciones o mostrar un mensaje de éxito
+          window.location.href = 'evaluaciones-creadas?materia=' + evaluacionId;
+        },
+        error: function (error) {
+          // Mostrar un mensaje de error
+          alert('Error al actualizar la evaluación: ' + error.responseText);
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+
+</html>

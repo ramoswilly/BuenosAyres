@@ -38,6 +38,14 @@ public class EvaluacionController {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 	}
+	@GetMapping("/{id}")
+	public ResponseEntity<?> get(@PathVariable(value = "id") UUID id) {
+		try {
+			return ResponseEntity.ok(evaluacionMapper.map(evaluacionService.getById(id)));
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
 	@PostMapping
 	public ResponseEntity<?> create(Authentication authentication, @RequestBody EvaluacionDTO evaluacionDTO)
 	{

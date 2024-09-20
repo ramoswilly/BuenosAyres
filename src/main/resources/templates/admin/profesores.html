@@ -272,6 +272,7 @@
                                         <th>Banco</th>
                                         <th>CBU</th>
                                         <th>Dirección</th>
+                                        <th>Tipo</th>
                                         <th>Nivel</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -325,7 +326,14 @@
                 { data: 'email' },
                 { data: 'banco'},
                 { data: 'cbu'},
-                { data: 'direccion'}, { data: 'nivel' },
+                { data: 'direccion'},
+                {
+                    data: 'tipo',
+                    render: function(data, type, row) {
+                        return data.replace('ROLE_', '')
+                    }
+                },
+                { data: 'nivel' },
                 {
                     data: null,
                     render: function (data, type, row) {

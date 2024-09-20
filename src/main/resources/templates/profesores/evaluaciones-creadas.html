@@ -236,6 +236,9 @@
           data: 'fechaVencimiento',
           render: function (data, type, row) {
             const fecha = new Date(data);
+            if (fecha.getTime() == 0) {
+              return "En aula";
+            }
             return fecha.toLocaleDateString(); // Formato de fecha local
           }
         },

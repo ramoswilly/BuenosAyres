@@ -207,6 +207,21 @@
   $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const evaluacionId = urlParams.get('evaluacion');
+    let enAula = false;
+    // Saber si evaluacion es en aula
+    $.ajax({
+      url: `/api/v1/evaluaciones/${evaluacionId}`,
+      type: 'GET',
+      contentType: 'application/json',
+      success: function (data) {
+        enAula = data.fechaVencimiento === null;
+      },
+      error: function (error) {
+        // Mostrar un mensaje de error
+        alert('Error al actualizar la nota: ' + error.responseText);
+      }
+    });
+
 
     var tabla = $('#tabla-entregas').DataTable({
       processing: true,
@@ -224,6 +239,7 @@
         {
           data: 'fecha',
           render: function (data, type, row) {
+
             if (data) {
               const fecha = new Date(data);
               return fecha.toLocaleDateString(); // Formato de fecha local

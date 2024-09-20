@@ -36,6 +36,9 @@ public class EvaluacionService {
 		if (materia.isEmpty()) throw new ServiceException("Materia inexistente", 404);
 		return evaluacionDAO.findByMateriaOrderByFechaCreacion(materia.get());
 	}
+	public Evaluacion getById(UUID id) throws ServiceException {
+		return evaluacionDAO.findById(id).orElseThrow(() -> new ServiceException("Evaluacion inexistente", 404));
+	}
 	public Evaluacion create(EvaluacionDTO evaluacionDTO) throws ServiceException
 	{
 		// verificar materia
@@ -71,6 +74,7 @@ public class EvaluacionService {
 		evaluacion.setProfesor(profesor.get());
 		evaluacion.setFechaCreacion(LocalDate.now());
 		evaluacion.setFechaVencimiento(evaluacionDTO.getFechaVencimiento());
+		evaluacion.setHabilitada(true);
 
 		evaluacionDAO.save(evaluacion);
 

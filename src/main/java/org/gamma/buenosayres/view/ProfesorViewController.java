@@ -37,4 +37,9 @@ public class ProfesorViewController {
 	{
 		return "/profesores/ver-entregas";
 	}
+	@GetMapping("/editar-evaluacion")
+	public String editarEvaluacion()
+	{
+		return "/profesores/editar-evaluacion";
+	}
 }
