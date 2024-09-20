@@ -1,0 +1,3 @@
+pom.xml merge=ours
+application.properties merge=ours
+data.sql merge=ours
