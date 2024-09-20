@@ -1,14 +1,12 @@
 package org.gamma.buenosayres.service;
 
 import org.gamma.buenosayres.model.*;
-import org.gamma.buenosayres.repository.AlumnoRepository;
-import org.gamma.buenosayres.repository.CalificacionRepository;
-import org.gamma.buenosayres.repository.CursoDAO;
-import org.gamma.buenosayres.repository.EvaluacionDAO;
+import org.gamma.buenosayres.repository.*;
 import org.gamma.buenosayres.dto.*;
 import org.gamma.buenosayres.mapper.AlumnoMapper;
 import org.gamma.buenosayres.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,6 +18,8 @@ import java.util.stream.Collectors;
 public class CalificacionService {
 	@Autowired
 	private EvaluacionDAO evaluacionDAO;
+	@Autowired
+	private EntregaDAO entregaDAO;
 	@Autowired
 	private AlumnoRepository alumnoRepository;
 	@Autowired
@@ -44,7 +44,28 @@ public class CalificacionService {
 		calificacion.setNota(dto.getNota());
 		return calificacionRepository.save(calificacion);
 	}
+	@Scheduled(cron = "0 0 0 * * ?") // Se ejecuta todos los días a las 00:00
+	public void DesaprobarVencidos()
+	{
+		//Obtener vencidos
+		List<Evaluacion> vencidas = evaluacionDAO.findAllByFechaVencimientoAfter(LocalDate.now());
 
+		for (Evaluacion vencida : vencidas) {
+			vencida.getMateria().getCurso().getAlumnos()
+					.stream()
+					.filter(alumno -> entregaDAO.findByAlumnoAndEvaluacion(alumno, vencida).isPresent())
+					// No entregó 1 (uno)
+					.forEach(
+							alumno -> {
+								Calificacion calificacion = new Calificacion();
+								calificacion.setAlumno(alumno);
+								calificacion.setNota(1);
+								calificacion.setEvaluacion(vencida);
+								calificacionRepository.save(calificacion);
+							}
+					);
+		}
+	}
 	public Calificacion get(UUID evaluacionId, UUID alumnoId) throws ServiceException
 	{
 		Optional<Evaluacion> evaluacion = evaluacionDAO.findById(evaluacionId);

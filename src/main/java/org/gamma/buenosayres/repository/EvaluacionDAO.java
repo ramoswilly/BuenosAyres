@@ -18,4 +18,5 @@ public interface EvaluacionDAO extends JpaRepository<Evaluacion, UUID> {
 			"AND e.fechaVencimiento >= :hoy " + // Filtrar por fecha de vencimiento no vencida
 			"ORDER BY e.fechaCreacion")
 	List<Evaluacion> findEntregablesByMateria(@Param("materia") Materia materia, @Param("hoy") LocalDate hoy);
+	List<Evaluacion> findAllByFechaVencimientoAfter(LocalDate fechaVencimiento);
 }

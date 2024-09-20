@@ -79,7 +79,7 @@ public class EvaluacionService {
 		evaluacionDAO.save(evaluacion);
 
 		// Crear los objetos de entrega pendiente
-		entregaService.createPendingDeliveries(evaluacion);
+		//entregaService.createPendingDeliveries(evaluacion);
 
 		return evaluacion;
 	}

@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Component
 public class EntregaService {
@@ -65,7 +66,27 @@ public class EntregaService {
 		if (evaluacion.isEmpty()) {
 			throw new ServiceException("Evaluacion inexistente", 404);
 		}
+		// Obtener alumnos de la materia
+		List<Alumno> alumnos = evaluacion.get().getMateria().getCurso().getAlumnos();
+
+		// Objetos de entrega
+		List<Entrega> entregasRealizadas = entregaDAO.findByEvaluacion(evaluacion.get()); //Ya entregados
+		//Sin entregar
+		List<Entrega> entregasSinRealizar = alumnos.stream().filter(alumno -> entregasRealizadas
+						.stream()
+						.noneMatch(entrega -> entrega.getAlumno().equals(alumno)))
+				.map(alumno -> {
+					Entrega entregaSinRealizar = new Entrega();
+					entregaSinRealizar.setAlumno(alumno);
+					entregaSinRealizar.setEvaluacion(evaluacion.get());
+					return entregaSinRealizar;
+				})
+				.toList();
+
+		//Mezclar
+		return Stream.concat(entregasRealizadas.stream(), entregasSinRealizar.stream()).toList();
+
 		// Entregas de la evaluacion
-		return entregaDAO.findByEvaluacion(evaluacion.get());
+		//return entregaDAO.findByEvaluacion(evaluacion.get());
 	}
 }
