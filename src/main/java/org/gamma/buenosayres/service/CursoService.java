@@ -118,4 +118,10 @@ public class CursoService {
 				.limit(5)
 				.toList();
 	}
+	public Curso habilitar(UUID idCurso) throws ServiceException
+	{
+		Curso curso = cursoDAO.findById(idCurso).orElseThrow(() -> new ServiceException("Curso inexistente", 404));
+		curso.setHabilitado(!curso.isHabilitado());
+		return cursoDAO.save(curso);
+	}
 }

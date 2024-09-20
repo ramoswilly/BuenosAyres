@@ -66,6 +66,11 @@ public class CursoController {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 	}
+	@PutMapping("/{curso}/toggleHabilitado")
+	public ResponseEntity<?> habilitar(@PathVariable(value = "curso") UUID idCurso) throws ServiceException
+	{
+		return ResponseEntity.ok(mapper.map(service.habilitar(idCurso)));
+	}
 
 	@GetMapping("/rendimiento")
 	public ResponseEntity<?> getRendimientoPorCurso() {

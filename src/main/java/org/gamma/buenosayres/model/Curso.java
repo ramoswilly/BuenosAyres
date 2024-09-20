@@ -2,6 +2,7 @@ package org.gamma.buenosayres.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +25,8 @@ public class Curso {
 	@OneToMany(mappedBy = "curso")
 	@JsonIgnore
 	private List<Alumno> alumnos;
-
+	@ColumnDefault("true")
+	private boolean habilitado;
 	public Curso(UUID id, int orden, Nivel nivel, Turno turno, List<Alumno> alumnos)
 	{
 		this.id = id;
@@ -97,5 +99,15 @@ public class Curso {
 	public void setResponsable(Profesor responsable)
 	{
 		this.responsable = responsable;
+	}
+
+	public boolean isHabilitado()
+	{
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado)
+	{
+		this.habilitado = habilitado;
 	}
 }

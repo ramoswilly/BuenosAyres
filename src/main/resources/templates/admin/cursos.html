@@ -244,6 +244,7 @@
                     <th>Nivel</th>
                     <th>Turno</th>
                     <th id="responsable-header">Responsable</th>
+                    <th>Habilitado</th>
                     <th>Acciones</th>
                   </tr>
                   </thead>
@@ -297,6 +298,27 @@
     </div>
   </div>
 </div>
+<!-- Modal para confirmar habilitación/deshabilitación -->
+<div id="modalConfirmarHabilitacion" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="confirmarHabilitacionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="confirmarHabilitacionLabel">Confirmar</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="mensajeConfirmacion"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light"
+                data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btnConfirmarHabilitacion">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -334,12 +356,18 @@
           },
         },
         {
+          data: "habilitado",
+          render: function (data, type, row) {
+            return data ? '<span class="badge bg-success">Sí</span>' : '<span class="badge bg-danger">No</span>';
+          }
+        },
+        {
           data: null,
           render: function (data, type, row) {
             return `
-            <a href="editar-curso?id=${row.id}" class="btn btn-sm bg-success-light me-2">
-              <i class="feather-edit"></i>
-            </a>
+            <button class="btn btn-sm bg-danger-light btn-toggle-habilitacion" data-curso-id="${row.id}" data-habilitado="${row.habilitado}">
+              <i class="feather-power"></i>
+            </button>
           `;
           },
         },
@@ -449,8 +477,39 @@
         url: "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
       },
     });
+
+    // Abrir modal para confirmar habilitación/deshabilitación
+    $("#tabla-cursos").on("click", ".btn-toggle-habilitacion", function () {
+      let cursoId = $(this).data("curso-id");
+      let habilitado = $(this).data("habilitado");
+
+      // Corrección: Invertir la lógica del mensaje
+      let mensaje = "¿Desea habilitar/deshabilitar el curso?";
+
+      $("#mensajeConfirmacion").text(mensaje);
+      $("#modalConfirmarHabilitacion").data("curso-id", cursoId);
+      $("#modalConfirmarHabilitacion").modal("show");
+    });
+
+    // Confirmar habilitación/deshabilitación
+    $("#btnConfirmarHabilitacion").on("click", function () {
+      let cursoId = $("#modalConfirmarHabilitacion").data("curso-id");
+
+      $.ajax({
+        url: `${baseUrl}/cursos/${cursoId}/toggleHabilitado`,
+        type: "PUT",
+        success: function () {
+          $("#modalConfirmarHabilitacion").modal("hide");
+          tablaCursos.ajax.reload(); // Recargar la tabla de cursos
+        },
+        error: function (error) {
+          console.error("Error al cambiar la habilitación del curso:", error);
+        },
+      });
+    });
   });
 </script>
+
 </body>
 
 </html>
