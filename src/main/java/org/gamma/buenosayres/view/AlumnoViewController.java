@@ -9,26 +9,26 @@ public class AlumnoViewController {
 	@GetMapping("/index")
 	public String index()
 	{
-		return "/alumnos/calificaciones";
+		return "alumnos/calificaciones";
 	}
 	@GetMapping("/evaluaciones")
 	public String materias()
 	{
-		return "/alumnos/evaluaciones";
+		return "alumnos/evaluaciones";
 	}
 	@GetMapping("/calificaciones")
 	public String evaluaciones()
 	{
-		return "/alumnos/calificaciones";
+		return "alumnos/calificaciones";
 	}
 	@GetMapping("/evaluaciones-creadas")
 	public String evaluacionesCreadas()
 	{
-		return "/alumnos/evaluaciones-creadas";
+		return "alumnos/evaluaciones-creadas";
 	}
 	@GetMapping("/realizar-entrega")
 	public String realizarEntrega()
 	{
-		return "/alumnos/realizar-entrega";
+		return "alumnos/realizar-entrega";
 	}
 }

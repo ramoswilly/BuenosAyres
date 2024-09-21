@@ -90,4 +90,39 @@ public class EvaluacionService {
 		if (materia.isEmpty()) throw new ServiceException("Materia inexistente", 404);
 		return evaluacionDAO.findEntregablesByMateria(materia.get(), LocalDate.now());
 	}
+	public Evaluacion update(UUID id, EvaluacionDTO dto) throws ServiceException {
+		// Obtener la evaluación existente
+		Evaluacion evaluacionExistente = getById(id);
+
+		// Actualizar campos si es necesario
+		boolean updated = false;
+		EvaluacionDTO responseDTO = new EvaluacionDTO();
+		if (dto.getDescripcion() != null) {
+			evaluacionExistente.setDescripcion(dto.getDescripcion());
+			responseDTO.setDescripcion(dto.getDescripcion());
+			updated = true;
+		}
+		if (dto.getComentarios() != null) {
+			evaluacionExistente.setComentarios(dto.getComentarios());
+			responseDTO.setComentarios(dto.getComentarios());
+			updated = true;
+		}
+		if (dto.getFechaVencimiento() != null) {
+			evaluacionExistente.setFechaVencimiento(dto.getFechaVencimiento());
+			responseDTO.setFechaVencimiento(dto.getFechaVencimiento());
+			updated = true;
+		}
+		if (dto.isHabilitada() != evaluacionExistente.isHabilitada()) { // Comparar booleanos
+			evaluacionExistente.setHabilitada(dto.isHabilitada());
+			responseDTO.setHabilitada(dto.isHabilitada());
+			updated = true;
+		}
+		// Guardar la evaluación actualizada solo si hubo cambios
+		if (updated) {
+			evaluacionDAO.save(evaluacionExistente);
+		}
+
+		return evaluacionExistente;
+	}
+
 }

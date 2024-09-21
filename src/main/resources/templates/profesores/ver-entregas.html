@@ -239,7 +239,9 @@
         {
           data: 'fecha',
           render: function (data, type, row) {
-
+            if (enAula) {
+              return "En aula";
+            }
             if (data) {
               const fecha = new Date(data);
               return fecha.toLocaleDateString(); // Formato de fecha local

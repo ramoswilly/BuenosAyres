@@ -155,17 +155,9 @@
                   </div>
                   <div class="col-12 col-sm-6">
                     <div class="form-group">
-                      <label>Alumno</label>
-                      <select class="form-control" id="alumno" name="alumno" required>
-                        <!-- Las opciones se cargarán dinámicamente -->
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-12 col-sm-6">
-                    <div class="form-group">
-                      <label>Archivo adjunto (opcional)</label>
+                      <label>Archivo adjunto</label>
                       <input type="file" class="form-control" id="archivo" name="archivo">
-                      <small class="text-muted">Archivo adicional.</small>
+                      <small class="text-muted">Archivo de entrega.</small>
                     </div>
                   </div>
                   <div class="col-12">
@@ -205,18 +197,26 @@
   $(document).ready(function () {
     const urlParams = new URLSearchParams(window.location.search);
     const evaluacionId = urlParams.get('evaluacion');
-
-    // Cargar la lista de alumnos en el dropdown
+    // Verificar si la entrega ya fue realizada
     $.ajax({
-      url: '/api/v1/alumnos', // Ajustar la URL según tu API
+      url: `/api/v1/entregas/${evaluacionId}`, // Ajustar la URL según tu API
       type: 'GET',
-      success: function (alumnos) {
-        alumnos.forEach(alumno => {
-          $('#alumno').append(`<option value="${alumno.id}">${alumno.nombre} ${alumno.apellido}</option>`);
-        });
+      success: function (entrega) {
+        // Rellenar los campos y deshabilitarlos
+        $('#alumno').val(entrega.idAlumno).prop('disabled', true);
+        $('#comentarios').val(entrega.comentarios).prop('disabled', true);
+        $('#archivo').prop('disabled', false);
+        $('#archivo').parent().find('label').text('Revisar archivo'); // Cambiar el texto del label
+
+        // Deshabilitar el botón de entrega y mostrar la fecha de entrega
+        const fechaEntrega = new Date(entrega.fechaEntrega).toLocaleDateString();
+        $('#formulario-entrega button[type="submit"]').prop('disabled', true).text(`Entrega ya realizada el ${fechaEntrega}`);
       },
-      error: function () {
-        alert('Error al cargar la lista de alumnos.');
+      error: function (error) {
+        // Si la entrega no existe (404), la página se mantiene tal cual
+        if (error.status !== 404) {
+          alert('Error al verificar la entrega: ' + error.responseText);
+        }
       }
     });
 

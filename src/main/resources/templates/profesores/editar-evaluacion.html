@@ -79,6 +79,7 @@
                     <div class="form-group">
                       <label>Fecha de vencimiento</label>
                       <input type="date" class="form-control" id="fecha_vencimiento" name="fecha_vencimiento">
+                      <input type="text" class="form-control" id="en-aula-message" value="En aula" readonly disabled style="display: none;">
                     </div>
                   </div>
                   <div class="col-12">
@@ -140,6 +141,17 @@
         $('#fecha_vencimiento').val(evaluacion.fechaVencimiento);
         $('#comentarios').val(evaluacion.comentarios);
         $('#habilitada').prop('checked', evaluacion.habilitada);
+
+        // Mostrar "En aula" si no hay fecha de vencimiento
+        if (evaluacion.fechaVencimiento === null) {
+          $('#fecha_vencimiento').hide();
+          $('#en-aula-message').show();
+
+          // Deshabilitar el formulario si es "En aula"
+          //$('#formulario-evaluacion input, #formulario-evaluacion textarea, #formulario-evaluacion button').prop('disabled', true);
+        } else {
+          $('#fecha_vencimiento').val(evaluacion.fechaVencimiento);
+        }
 
         // Obtener el nombre de la materia (ajusta la URL según tu API)
         $.ajax({
