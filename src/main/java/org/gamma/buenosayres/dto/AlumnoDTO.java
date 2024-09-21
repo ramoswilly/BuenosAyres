@@ -1,5 +1,6 @@
 package org.gamma.buenosayres.dto;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,6 +12,8 @@ public class AlumnoDTO {
     private String dni;
 	private String nombre;
 	private String apellido;
+	private LocalDate fechaNacimiento;
+	private boolean habilitado;
 	private String direccion;
 	private String email;
 	private Curso curso;
@@ -93,5 +96,25 @@ public class AlumnoDTO {
 	public void setEmail(String email)
 	{
 		this.email = email;
+	}
+
+	public LocalDate getFechaNacimiento()
+	{
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(LocalDate fechaNacimiento)
+	{
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public boolean isHabilitado()
+	{
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado)
+	{
+		this.habilitado = habilitado;
 	}
 }

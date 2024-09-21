@@ -62,6 +62,13 @@ public class UserService {
 		return usuarioDAO.save(usuario);
 	}
 	@Transactional
+	public boolean enable(Usuario usuario, boolean enable)
+	{
+		usuario.setEnabled(enable);
+		usuarioDAO.save(usuario);
+		return enable;
+	}
+	@Transactional
 	public boolean hasRole(Usuario usuario, String name)
 	{
 		Optional<Rol> byAuthority = rolDAO.findByAuthority(String.valueOf(name));

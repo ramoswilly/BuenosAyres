@@ -21,6 +21,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 		if (usuario.isEmpty()) {
 			throw new UsernameNotFoundException("Usuario no encontrado");
 		}
+		if (!usuario.get().isEnabled()) {
+			throw new UsernameNotFoundException("Usuario no habilitado");
+		}
 		return new CustomUserDetails(usuario.get());
 	}
 }
