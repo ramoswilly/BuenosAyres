@@ -283,6 +283,12 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
+                                                <div class="form-group">
+                                                    <label>Fecha de nacimiento</label>
+                                                    <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
                                                 <label for="direccion" class="col-form-label col-lg-2">Dirección</label>
                                                 <div class="col-lg-10">
                                                     <input type="text" class="form-control" id="direccion"
@@ -292,6 +298,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="form-group row">
                                                 <label for="curso" class="col-form-label col-lg-2">Curso</label>
                                                 <div class="col-lg-10">
@@ -377,7 +384,7 @@
                     var nombre = $('#nombre').val();
                     var apellido = $('#apellido').val();
                     var direccion = $('#direccion').val();
-
+                    var fechaNacimiento = $('#fecha_nacimiento').val()
                     var curso = $('#curso').val(); // Obtener el ID del curso seleccionado
 
 
@@ -386,6 +393,7 @@
                         dni: dni,
                         nombre: nombre,
                         apellido: apellido,
+                        fechaNacimiento: fechaNacimiento,
                         direccion: direccion,
                         curso: { id: curso } // Asegúrate de que el valor de curso sea el ID del curso seleccionado
                     };

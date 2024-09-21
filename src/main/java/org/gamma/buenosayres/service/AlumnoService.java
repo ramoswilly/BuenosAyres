@@ -52,6 +52,8 @@ public class AlumnoService {
 		alumno.getPersona().setUsuario(usuario);
 		// Agregar rol..
 		userService.giveRole(usuario, "ROLE_ALUMNO");
+		// Habilitado..
+		alumno.setHabilitado(true);
 		return alumnoRepository.save(alumno);
 	}
 
@@ -67,6 +69,12 @@ public class AlumnoService {
 		}
 
 		Alumno existingAlumno = alumnoOptional.get();
+
+		// Se está habilitando/deshabilitando
+		if (updatedAlumno.isHabilitado() != existingAlumno.isHabilitado()) {
+			existingAlumno.setHabilitado(updatedAlumno.isHabilitado());
+			userService.enable(existingAlumno.getPersona().getUsuario(), updatedAlumno.isHabilitado());
+		}
 
 		if (existingAlumno.getPersona() != null) {
 			Optional<Alumno> alumnoByPersonaDni = alumnoRepository.findAlumnoByPersona_Dni(updatedAlumno.getPersona().getDni());

@@ -1,8 +1,9 @@
 package org.gamma.buenosayres.model;
 
 import jakarta.persistence.*;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,10 +19,11 @@ public class Alumno {
 	@JoinColumn(name = "id_persona")
 	private Persona persona;
 	@Column(name = "fecha_de_nacimiento")
-	private Date fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	@ManyToOne
 	@JoinColumn(name = "id_curso")
 	private Curso curso;
+	private boolean habilitado;
 	@ManyToMany
 	@JoinTable(
 			name = "alumnos-talleres",
@@ -71,5 +73,25 @@ public class Alumno {
 	public void setTalleres(List<Taller> talleres)
 	{
 		this.talleres = talleres;
+	}
+
+	public LocalDate getFechaNacimiento()
+	{
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(LocalDate fechaNacimiento)
+	{
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public boolean isHabilitado()
+	{
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado)
+	{
+		this.habilitado = habilitado;
 	}
 }

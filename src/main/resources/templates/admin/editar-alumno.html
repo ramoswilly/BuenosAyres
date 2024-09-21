@@ -278,6 +278,12 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
+                                                <div class="form-group">
+                                                    <label>Fecha de nacimiento</label>
+                                                    <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" required>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
                                                 <label for="direccion" class="col-form-label col-lg-2">Dirección</label>
                                                 <div class="col-lg-10">
                                                     <input type="text" class="form-control" id="direccion"
@@ -295,6 +301,16 @@
                                                     </select>
                                                     <div class="invalid-feedback">
                                                         Por favor, seleccione un curso.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-sm-6">
+                                                <div class="form-group">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="habilitado" name="habilitado">
+                                                        <label class="form-check-label" for="habilitado">
+                                                            Habilitado
+                                                        </label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -373,14 +389,18 @@
                     var dni = $('#dni').val();
                     var nombre = $('#nombre').val();
                     var apellido = $('#apellido').val();
+                    var fechaNacimiento = $('#fecha_nacimiento').val()
                     var direccion = $('#direccion').val();
                     var curso = $('#curso').val();
+                    var habilitado = $('#habilitado').is(':checked');
 
                     var alumnoActualizado = {
                         dni: dni,
                         nombre: nombre,
                         apellido: apellido,
                         direccion: direccion,
+                        fechaNacimiento: fechaNacimiento,
+                        habilitado: habilitado,
                         curso: { id: curso }
                     };
 
@@ -424,6 +444,8 @@
                             document.getElementById('apellido').value = data.apellido;
                             document.getElementById('direccion').value = data.direccion;
                             document.getElementById('curso').value = data.curso.id;
+                            document.getElementById('habilitado').checked = data.habilitado;
+                            document.getElementById('fecha_nacimiento').value = data.fechaNacimiento;
                         })
                         .catch(error => {
                             console.error('Error al obtener los datos del alumno:', error);
