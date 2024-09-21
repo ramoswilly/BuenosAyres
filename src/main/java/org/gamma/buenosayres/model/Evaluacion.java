@@ -17,18 +17,20 @@ public class Evaluacion {
 	private LocalDate fechaCreacion;
 	@Column(name = "fecha_vencimiento")
 	private LocalDate fechaVencimiento;
+	private boolean habilitada;
 	@ManyToOne
 	private Materia materia;
 	@ManyToOne
 	private Profesor profesor;
-	public void setId(UUID id)
-	{
-		this.id = id;
-	}
 
 	public UUID getId()
 	{
 		return id;
+	}
+
+	public void setId(UUID id)
+	{
+		this.id = id;
 	}
 
 	public String getDescripcion()
@@ -89,5 +91,15 @@ public class Evaluacion {
 	public void setProfesor(Profesor profesor)
 	{
 		this.profesor = profesor;
+	}
+
+	public boolean isHabilitada()
+	{
+		return habilitada;
+	}
+
+	public void setHabilitada(boolean habilitada)
+	{
+		this.habilitada = habilitada;
 	}
 }

@@ -2,6 +2,7 @@ package org.gamma.buenosayres.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,7 +12,7 @@ public class Sancion {
 	@Id
 	@GeneratedValue
 	private UUID id;
-	private Date fecha;
+	private LocalDate fecha;
 	@ManyToOne
 	private Alumno alumno;
 	private String causa;
@@ -27,12 +28,12 @@ public class Sancion {
 		this.id = id;
 	}
 
-	public Date getFecha()
+	public LocalDate getFecha()
 	{
 		return fecha;
 	}
 
-	public void setFecha(Date fecha)
+	public void setFecha(LocalDate fecha)
 	{
 		this.fecha = fecha;
 	}

@@ -15,6 +15,8 @@ public class ProfesorDTO {
 	private String telefono;
 	private String email;
 	private Nivel nivel;
+	private String banco;
+	private String cbu;
 	private TipoEmpleado tipo;
 	public ProfesorDTO()
 	{
@@ -118,5 +120,25 @@ public class ProfesorDTO {
 	public void setTipo(TipoEmpleado tipo)
 	{
 		this.tipo = tipo;
+	}
+
+	public String getBanco()
+	{
+		return banco;
+	}
+
+	public void setBanco(String banco)
+	{
+		this.banco = banco;
+	}
+
+	public String getCbu()
+	{
+		return cbu;
+	}
+
+	public void setCbu(String cbu)
+	{
+		this.cbu = cbu;
 	}
 }

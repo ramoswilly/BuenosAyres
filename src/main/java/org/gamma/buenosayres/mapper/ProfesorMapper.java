@@ -24,6 +24,7 @@ public class ProfesorMapper {
 			mapper.map(src -> src.getTelefono(), ProfesorDTO::setTelefono);
 			mapper.map(src -> src.getEmail(), ProfesorDTO::setEmail);
 			mapper.map(src -> src.getNivel(), ProfesorDTO::setNivel);
+			mapper.map(Profesor::getCBU, ProfesorDTO::setCbu);
 		});
 		inverseMapping.addMappings(mapper -> {
 			mapper.map(ProfesorDTO::getDni, (dest, value) -> dest.getPersona().setDni((String) value));
@@ -34,6 +35,7 @@ public class ProfesorMapper {
 			mapper.map(ProfesorDTO::getTelefono, Profesor::setTelefono);
 			mapper.map(ProfesorDTO::getEmail, Profesor::setEmail);
 			mapper.map(ProfesorDTO::getNivel, Profesor::setNivel);
+			mapper.map(ProfesorDTO::getCbu, Profesor::setCBU);
 		});
 	}
 	public ProfesorDTO map(Profesor profesor)

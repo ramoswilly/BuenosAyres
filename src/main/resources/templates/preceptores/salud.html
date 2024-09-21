@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <title>Buenos Ayres - Salud</title>
+
+  <link rel="shortcut icon" href="../assets/img/favicon.png">
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+          rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
+
+  <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
+
+  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .dataTables_filter {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="main-wrapper">
+  <div class="header">
+
+    <div class="header-left">
+      <a href="index" class="logo">
+        <img src="../assets/img/logo.png" alt="Logo">
+      </a>
+      <a href="index" class="logo logo-small">
+        <img src="../assets/img/logo-small.png" alt="Logo" width="30" height="30">
+      </a>
+    </div>
+
+    <div class="menu-toggle">
+      <a href="javascript:void(0);" id="toggle_btn">
+        <i class="fas fa-bars"></i>
+      </a>
+    </div>
+
+
+    <a class="mobile_btn" id="mobile_btn">
+      <i class="fas fa-bars"></i>
+    </a>
+
+
+    <ul class="nav user-menu">
+
+      <li class="nav-item zoom-screen me-2">
+        <a href="#" class="nav-link header-nav-list">
+          <img src="../assets/img/icons/header-icon-04.svg" alt="">
+        </a>
+      </li>
+
+      <li class="nav-item dropdown has-arrow new-user-menus">
+        <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
+                         alt="Soeng Souy">
+                    <div class="user-text">
+                        <h6>Buenos Ayres</h6>
+                        <p class="text-muted mb-0">Administrador</p>
+                    </div>
+                </span>
+        </a>
+        <div class="dropdown-menu">
+          <div class="user-header">
+            <div class="avatar avatar-sm">
+              <img src="../assets/img/profiles/avatar-01.jpg" alt="User Image"
+                   class="avatar-img rounded-circle">
+            </div>
+            <div class="user-text">
+              <h6>Buenos Ayres</h6>
+              <p class="text-muted mb-0">Administrador</p>
+            </div>
+          </div>
+
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
+
+
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-inner slimscroll">
+      <div id="sidebar-menu" class="sidebar-menu">
+        <ul>
+          <li class="menu-title">
+            <span>Menú Principal</span>
+          </li>
+          <li class="submenu">
+            <a href="#"><i class="fas fa-user-md"></i> <span> Salud</span> <span
+                    class="menu-arrow"></span></a>
+            <ul>
+              <li><a href="salud">Información de Salud</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+      <div class="student-group-form">
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <div class="form-group">
+              <input id="buscar-input" type="text" class="form-control"
+                     placeholder="Buscar Personas...">
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card card-table comman-shadow">
+            <div class="card-body">
+
+              <div class="page-header">
+                <div class="row align-items-center">
+                  <div class="col">
+                    <h3 class="page-title">Información de Salud</h3>
+                  </div>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table id="tabla-salud"
+                       class="table border-0 star-student table-hover table-center mb-0 table-striped">
+                  <thead class="student-thread">
+                  <tr>
+                    <th>DNI</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Acciones</th>
+                  </tr>
+                  </thead>
+                </table>
+              </div>
+
+              <footer>
+                <p>Buenos Ayres - Agustín Ramos</p>
+              </footer>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Modal para ver patologías -->
+  <div class="modal fade" id="modalPatologias" tabindex="-1" role="dialog"
+       aria-labelledby="modalPatologiasLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalPatologiasLabel">Información de Salud</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <strong>Obra Social:</strong> <span id="obra-social"></span>
+            </div>
+            <div class="col-md-6">
+              <strong>Número de Afiliado:</strong> <span id="numero-afiliado"></span>
+            </div>
+          </div>
+          <hr>
+          <h5>Patologías:</h5>
+          <ul id="lista-patologias"></ul>
+
+          <div class="modal-footer">
+            <a id="editar-salud-link" href="#" class="btn btn-sm bg-danger-light">
+              <i class="feather-edit"></i> Editar
+            </a>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <script src="../assets/js/jquery-3.6.0.min.js"></script>
+
+  <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <script src="../assets/js/feather.min.js"></script>
+
+  <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+  <script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../assets/plugins/datatables/datatables.min.js"></script>
+
+  <script src="../assets/js/script.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      var tabla = $('#tabla-salud').DataTable({
+        processing: true,
+        searching: true,
+        language: {
+          url: '/../assets/plugins/datatables/es-ES.json',
+        },
+        ajax: {
+          url: '/api/v1/salud', // Ajustar la URL de la API
+          dataSrc: ''
+        },
+        columns: [
+          {data: 'dni'},
+          {data: 'nombre'},
+          {data: 'apellido'},
+          {
+            data: null,
+            render: function (data, type, row) {
+              return `<td class="text-end"><div class="actions"><a href="#" class="btn btn-sm bg-danger-light ver-patologias" data-id="${data.id}"><i class="fas fa-stethoscope"></i></a></div></td>`;
+            }
+          }
+        ]
+      });
+
+      $('#buscar-input').on('input', function () {
+        tabla.search($(this).val()).draw();
+      });
+
+
+      // Manejar clic en "Ver Patologías"
+      $('#tabla-salud').on('click', '.ver-patologias', function () {
+        const personaId = $(this).data('id');
+
+        // Obtener la información de salud de la persona desde la API
+        $.ajax({
+          url: `/api/v1/salud/${personaId}`, // Ajustar la URL de la API
+          type: 'GET',
+          dataType: 'json',
+          success: function (salud) {
+            // Mostrar la información en el modal
+            $('#obra-social').text(salud.obraSocial);
+            $('#numero-afiliado').text(salud.numeroAfiliado);
+
+            // Limpiar la lista de patologías y agregar las nuevas
+            $('#lista-patologias').empty();
+            salud.patologias.forEach(function (patologia) {
+              $('#lista-patologias').append(`<li>${patologia.nombre}</li>`);
+            });
+
+            // Actualizar el enlace "Editar" con el ID de la persona
+            $('#editar-salud-link').attr('href', `editar-informacion-salud?id=${personaId}`);
+
+            // Mostrar el modal
+            $('#modalPatologias').modal('show');
+          },
+          error: function (error) {
+            console.error('Error al cargar la información de salud:', error);
+            alert('Error al cargar la información de salud. Por favor, inténtalo de nuevo.');
+          }
+        });
+      });
+
+
+    });
+  </script>
+
+</body>
+
+</html>

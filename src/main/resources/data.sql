@@ -41,3 +41,4 @@ INSERT INTO roles (id, authority) VALUES (7, 'ROLE_PADRE');
 insert into personas (id_persona, nombre) values ('8e4fff53-6c66-11ef-9a0e-503eaae34948', 'Agus');
 insert into users (enabled, id_persona, username, password) values (true, '8e4fff53-6c66-11ef-9a0e-503eaae34948', 'admin', 'guillermo31');
 insert into user_roles (role_id, user_id) values (1, '8e4fff53-6c66-11ef-9a0e-503eaae34948');
+

@@ -2,61 +2,63 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-  <title>Reportes</title>
-  <link rel="shortcut icon" href="../assets/img/favicon.png">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"rel="stylesheet">
-  <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
-  <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
-  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
-  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
-  <link rel="stylesheet" href="../assets/css/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <title>Reportes</title>
+    <link rel="shortcut icon" href="../assets/img/favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
+    <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
+    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 </head>
 
 <body>
 
 <div class="main-wrapper">
 
-  <!-- Header (similar al dashboard) -->
-  <!-- ... (código del header del dashboard) ... -->
+    <!-- Header (similar al dashboard) -->
+    <!-- ... (código del header del dashboard) ... -->
 
-  <!-- Sidebar (similar al dashboard) -->
-  <!-- ... (código del sidebar del dashboard, pero modificando el elemento "Reportes" para que esté activo) ... -->
-  <div class="header">
+    <!-- Sidebar (similar al dashboard) -->
+    <!-- ... (código del sidebar del dashboard, pero modificando el elemento "Reportes" para que esté activo) ... -->
+    <div class="header">
 
-    <div class="header-left">
-      <a href="index" class="logo">
-        <img src="../assets/img/logo.png" alt="Logo">
-      </a>
-      <a href="index" class="logo logo-small">
-        <img src="../assets/img/logo-small.png" alt="Logo" width="30" height="30">
-      </a>
-    </div>
+        <div class="header-left">
+            <a href="index" class="logo">
+                <img src="../assets/img/logo.png" alt="Logo">
+            </a>
+            <a href="index" class="logo logo-small">
+                <img src="../assets/img/logo-small.png" alt="Logo" width="30" height="30">
+            </a>
+        </div>
 
-    <div class="menu-toggle">
-      <a href="javascript:void(0);" id="toggle_btn">
-        <i class="fas fa-bars"></i>
-      </a>
-    </div>
-
-
-    <a class="mobile_btn" id="mobile_btn">
-      <i class="fas fa-bars"></i>
-    </a>
+        <div class="menu-toggle">
+            <a href="javascript:void(0);" id="toggle_btn">
+                <i class="fas fa-bars"></i>
+            </a>
+        </div>
 
 
-    <ul class="nav user-menu">
-
-      <li class="nav-item zoom-screen me-2">
-        <a href="#" class="nav-link header-nav-list">
-          <img src="../assets/img/icons/header-icon-04.svg" alt="">
+        <a class="mobile_btn" id="mobile_btn">
+            <i class="fas fa-bars"></i>
         </a>
-      </li>
 
-      <li class="nav-item dropdown has-arrow new-user-menus">
-        <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+
+        <ul class="nav user-menu">
+
+            <li class="nav-item zoom-screen me-2">
+                <a href="#" class="nav-link header-nav-list">
+                    <img src="../assets/img/icons/header-icon-04.svg" alt="">
+                </a>
+            </li>
+
+            <li class="nav-item dropdown has-arrow new-user-menus">
+                <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                 <span class="user-img">
                     <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
                          alt="Soeng Souy">
@@ -65,393 +67,396 @@
                         <p class="text-muted mb-0">Administrador</p>
                     </div>
                 </span>
-        </a>
-        <div class="dropdown-menu">
-          <div class="user-header">
-            <div class="avatar avatar-sm">
-              <img src="../assets/img/profiles/avatar-01.jpg" alt="User Image"
-                   class="avatar-img rounded-circle">
-            </div>
-            <div class="user-text">
-              <h6>Buenos Ayres</h6>
-              <p class="text-muted mb-0">Administrador</p>
-            </div>
-          </div>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="user-header">
+                        <div class="avatar avatar-sm">
+                            <img src="../assets/img/profiles/avatar-01.jpg" alt="User Image"
+                                 class="avatar-img rounded-circle">
+                        </div>
+                        <div class="user-text">
+                            <h6>Buenos Ayres</h6>
+                            <p class="text-muted mb-0">Administrador</p>
+                        </div>
+                    </div>
 
-        </div>
-      </li>
+                </div>
+            </li>
 
-    </ul>
-
-  </div>
-
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-inner slimscroll">
-      <div id="sidebar-menu" class="sidebar-menu">
-        <ul>
-          <li class="menu-title">
-            <span>Menú Principal</span>
-          </li>
-
-          <li class="submenu">
-            <a href="#"><i class="fas fa-graduation-cap"></i> <span> Alumnos</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="alumnos">Lista de alumnos</a></li>
-              <li><a href="agregar-alumno">Agregar alumno</a></li>
-              <li><a href="editar-alumno">Editar alumno</a></li>
-            </ul>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-home"></i> <span> Padres</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="padres">Lista de Padres</a></li>
-              <li><a href="agregar-padre">Agregar padre</a></li>
-              <li><a href="editar-padre">Editar padre</a></li>
-            </ul>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-users"></i> <span> Familias</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="familias">Lista de familias</a></li>
-              <li><a href="ver-familias">Detalles de familia</a></li>
-              <li><a href="agregar-familia">Agregar familia</a></li>
-              <li><a href="editar-familia">Editar familia</a></li>
-            </ul>
-          </li>
-
-          <li class="submenu">
-            <a href="#"><i class="fas fa-wrench"></i> <span> Talleres</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="talleres">Lista de talleres</a></li>
-
-            </ul>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-file-invoice-dollar"></i> <span> Conceptos</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="conceptos">Revisar conceptos</a></li>
-
-            </ul>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-comment-dollar"></i> <span>Facturación</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="facturacion">Facturar</a></li>
-              <li><a href="deudas">Deudas</a></li>
-
-            </ul>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Profesores</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="profesores">Lista de profesores</a></li>
-              <li><a href="agregar-profesor">Agregar profesor</a></li>
-              <li><a href="editar-profesor">Editar profesor</a></li>
-            </ul>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Cursos</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="cursos">Lista de Cursos</a></li>
-
-            </ul>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-book"></i> <span> Materias</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="materias">Lista de Materias</a></li>
-              <li><a href="agregar-materia">Agregar Materia</a></li>
-              <li><a href="editar-materia">Editar Materia</a></li>
-            </ul>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-clipboard-list"></i> <span> Evaluaciones</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="evaluaciones">Lista de Evaluaciones</a></li>
-              <li><a href="agregar-evaluacion">Agregar Evaluación</a></li>
-              <li><a href="evaluaciones-creadas">Evaluaciones Creadas</a></li>
-            </ul>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-gavel"></i> <span> Disciplina</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="disciplina">Lista de Sanciones</a></li>
-              <li><a href="agregar-sancion">Agregar Sanción</a></li>
-            </ul>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-user-clock"></i> <span> Inasistencias</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="inasistencias">Lista de Inasistencias</a></li>
-              <li><a href="agregar-inasistencia">Agregar Inasistencia</a></li>
-            </ul>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-chart-bar"></i> <span> Reportes</span> <span class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="ver-reportes">Ver Reportes</a></li>
-            </ul>
-          </li>
         </ul>
-      </div>
-    </div>
-  </div>
-  <div class="page-wrapper">
-    <div class="content container-fluid">
-
-      <div class="page-header">
-        <div class="row">
-          <div class="col-sm-12">
-            <div class="page-sub-header">
-              <h3 class="page-title">Reportes</h3>
-              <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                <li class="breadcrumb-item active">Reportes</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- Mejores Promedios -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h5 class="card-title">Mejores Promedios</h5>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-striped custom-table mb-0 datatable">
-                  <thead>
-                  <tr>
-                    <th>Curso</th>
-                    <th>Alumno</th>
-                    <th>Promedio</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <!-- Datos de mejores promedios (se cargarán dinámicamente) -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Asistencias Perfectas -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h5 class="card-title">Asistencias Perfectas</h5>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-striped custom-table mb-0 datatable">
-                  <thead>
-                  <tr>
-                    <th>Curso</th>
-                    <th>Alumno</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <!-- Datos de asistencias perfectas (se cargarán dinámicamente) -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Familias más Valiosas -->
-      <div class="row">
-        <div class="col-md-12 col-lg-6">
-          <div class="card card-chart">
-            <div class="card-header">
-              <h5 class="card-title">Familias más Valiosas</h5>
-            </div>
-            <div class="card-body">
-              <div id="familiasMasValiosasChart"></div>
-              <!-- Gráfico de barras horizontales -->
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Ingresos Mensuales -->
-      <div class="row">
-        <div class="col-md-12 col-lg-6">
-          <div class="card card-chart">
-            <div class="card-header">
-              <h5 class="card-title">Ingresos Mensuales</h5>
-            </div>
-            <div class="card-body">
-              <div id="ingresosMensualesChart"></div>
-              <!-- Gráfico de líneas -->
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Alumnos con Faltas -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h5 class="card-title">Alumnos con Faltas</h5>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-striped custom-table mb-0 datatable">
-                  <thead>
-                  <tr>
-                    <th>Curso</th>
-                    <th>Alumno</th>
-                    <th>Cantidad de Faltas</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <!-- Datos de alumnos con faltas (se cargarán dinámicamente) -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Alumnos Problemáticos -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h5 class="card-title">Alumnos Problemáticos</h5>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-striped custom-table mb-0 datatable">
-                  <thead>
-                  <tr>
-                    <th>Alumno</th>
-                    <th>Sanciones</th>
-                    <!-- Podría ser una lista o un conteo -->
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <!-- Datos de alumnos problemáticos (se cargarán dinámicamente) -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Rendimiento por Curso -->
-      <div class="row">
-        <div class="col-md-12 col-lg-6">
-          <div class="card card-chart">
-            <div class="card-header">
-              <h5 class="card-title">Rendimiento por Curso</h5>
-            </div>
-            <div class="card-body">
-              <div id="rendimientoPorCursoChart"></div>
-              <!-- Gráfico de barras -->
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Rendimiento por Materia -->
-      <div class="row">
-        <div class="col-md-12 col-lg-6">
-          <div class="card card-chart">
-            <div class="card-header">
-              <h5 class="card-title">Rendimiento por Materia</h5>
-            </div>
-            <div class="card-body">
-              <div id="rendimientoPorMateriaChart"></div>
-              <!-- Gráfico de barras agrupadas (por materia y curso) -->
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Rendimiento de Profesor -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h5 class="card-title">Rendimiento de Profesor</h5>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-striped custom-table mb-0 datatable">
-                  <thead>
-                  <tr>
-                    <th>Profesor</th>
-                    <th>Materia</th>
-                    <th>Calificación Promedio</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <!-- Datos de rendimiento de profesor (se cargarán dinámicamente) -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Cursos Problemáticos -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card">
-            <div class="card-header">
-              <h5 class="card-title">Cursos Problemáticos</h5>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-striped custom-table mb-0 datatable">
-                  <thead>
-                  <tr>
-                    <th>Curso</th>
-                    <th>Cantidad de Sanciones</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <!-- Datos de cursos problemáticos (se cargarán dinámicamente) -->
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
 
     </div>
-    <footer>
-      <p>Agustín Ramos</p>
-    </footer>
-  </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-inner slimscroll">
+            <div id="sidebar-menu" class="sidebar-menu">
+                <ul>
+                    <li class="menu-title">
+                        <span>Menú Principal</span>
+                    </li>
+
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-graduation-cap"></i> <span> Alumnos</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="alumnos">Lista de alumnos</a></li>
+                            <li><a href="agregar-alumno">Agregar alumno</a></li>
+                            <li><a href="editar-alumno">Editar alumno</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-home"></i> <span> Padres</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="padres">Lista de Padres</a></li>
+                            <li><a href="agregar-padre">Agregar padre</a></li>
+                            <li><a href="editar-padre">Editar padre</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-users"></i> <span> Familias</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="familias">Lista de familias</a></li>
+                            <li><a href="ver-familias">Detalles de familia</a></li>
+                            <li><a href="agregar-familia">Agregar familia</a></li>
+                            <li><a href="editar-familia">Editar familia</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-wrench"></i> <span> Talleres</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="talleres">Lista de talleres</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-file-invoice-dollar"></i> <span> Conceptos</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="conceptos">Revisar conceptos</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-comment-dollar"></i> <span>Facturación</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="facturacion">Facturar</a></li>
+                            <li><a href="deudas">Deudas</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Profesores</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="profesores">Lista de profesores</a></li>
+                            <li><a href="agregar-profesor">Agregar profesor</a></li>
+                            <li><a href="editar-profesor">Editar profesor</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Cursos</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="cursos">Lista de Cursos</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-book"></i> <span> Materias</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="materias">Lista de Materias</a></li>
+                            <li><a href="agregar-materia">Agregar Materia</a></li>
+                            <li><a href="editar-materia">Editar Materia</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-clipboard-list"></i> <span> Evaluaciones</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="evaluaciones">Lista de Evaluaciones</a></li>
+                            <li><a href="agregar-evaluacion">Agregar Evaluación</a></li>
+                            <li><a href="evaluaciones-creadas">Evaluaciones Creadas</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-gavel"></i> <span> Disciplina</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="disciplina">Lista de Sanciones</a></li>
+                            <li><a href="agregar-sancion">Agregar Sanción</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-user-clock"></i> <span> Inasistencias</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="inasistencias">Lista de Inasistencias</a></li>
+                            <li><a href="agregar-inasistencia">Agregar Inasistencia</a></li>
+                        </ul>
+                    </li>
+                    <li class="submenu">
+                        <a href="#"><i class="fas fa-chart-bar"></i> <span> Reportes</span> <span
+                                class="menu-arrow"></span></a>
+                        <ul>
+                            <li><a href="ver-reportes">Ver Reportes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="page-wrapper">
+        <div class="content container-fluid">
+
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="page-sub-header">
+                            <h3 class="page-title">Reportes</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="index">Home</a></li>
+                                <li class="breadcrumb-item active">Reportes</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Mejores Promedios -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Mejores Promedios</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="mejoresPromediosTable"
+                                       class="table table-striped custom-table mb-0 datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>Curso</th>
+                                        <th>Alumno</th>
+                                        <th>Promedio</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- Datos de mejores promedios (se cargarán dinámicamente) -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asistencias Perfectas -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Asistencias Perfectas</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="asistenciasPerfectasTable" class="table table-striped custom-table mb-0 datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>Curso</th>
+                                        <th>Alumno</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- Datos de asistencias perfectas (se cargarán dinámicamente) -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Familias más Valiosas -->
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <h5 class="card-title">Familias más Valiosas</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="familiasMasValiosasChart"></div>
+                            <!-- Gráfico de barras horizontales -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ingresos Mensuales -->
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <h5 class="card-title">Ingresos Mensuales</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="ingresosMensualesChart"></div>
+                            <!-- Gráfico de líneas -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alumnos con Faltas -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Alumnos con Faltas</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="alumnosFaltasTable" class="table table-striped custom-table mb-0 datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>Curso</th>
+                                        <th>Alumno</th>
+                                        <th>Cantidad de Faltas</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- Datos de alumnos con faltas (se cargarán dinámicamente) -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alumnos Problemáticos -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Alumnos Problemáticos</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="alumnosProblematicosTable" class="table table-striped custom-table mb-0 datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>Alumno</th>
+                                        <th>Curso</th>
+                                        <th>Sanciones</th>
+                                        <!-- Podría ser una lista o un conteo -->
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- Datos de alumnos problemáticos (se cargarán dinámicamente) -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rendimiento por Curso -->
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <h5 class="card-title">Rendimiento por Curso</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="rendimientoPorCursoChart"></div>
+                            <!-- Gráfico de barras -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rendimiento por Materia -->
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <h5 class="card-title">Rendimiento por Materia</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="rendimientoPorMateriaChart"></div>
+                            <!-- Gráfico de barras agrupadas (por materia y curso) -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rendimiento de Profesor -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Rendimiento de Profesor</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="rendimientoProfesorTable" class="table table-striped custom-table mb-0 datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>Profesor</th>
+                                        <th>Materia</th>
+                                        <th>Calificación Promedio</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- Datos de rendimiento de profesor (se cargarán dinámicamente) -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cursos Problemáticos -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title">Cursos Problemáticos</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="cursosProblematicosTable" class="table table-striped custom-table mb-0 datatable">
+                                    <thead>
+                                    <tr>
+                                        <th>Curso</th>
+                                        <th>Cantidad de Sanciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- Datos de cursos problemáticos (se cargarán dinámicamente) -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <footer>
+            <p>Agustín Ramos</p>
+        </footer>
+    </div>
 </div>
 
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
@@ -459,210 +464,261 @@
 <script src="../assets/js/feather.min.js"></script>
 <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 <script src="../assets/plugins/apexchart/apexcharts.min.js"></script>
+<script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../assets/plugins/datatables/datatables.min.js"></script>
 <!-- <script src="../assets/plugins/apexchart/chart-data.js"></script> -->
 <!-- Reemplazar con datos dinámicos -->
 <script src="../assets/js/script.js"></script>
 
 <script>
-  // --- reportes.js ---
+    $(document).ready(function () {
 
-  $(document).ready(function() {
-
-    // *** Familias más Valiosas ***
-    $.ajax({
-      url: '/api/v1/facturacion/familias',
-      method: 'GET',
-      success: function(data) {
-        var options = {
-          chart: {
-            type: 'bar',
-            height: 350
-          },
-          series: [{
-            name: 'Valor',
-            data: data.map(item => item.montoFinal)
-          }],
-          xaxis: {
-            categories: data.map(item => item.apellido_familia)
-          }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#familiasMasValiosasChart"), options);
-        chart.render();
-      },
-      error: function(error) {
-        console.error("Error al obtener datos de familias más valiosas:", error);
-        // Mostrar mensaje de error al usuario (opcional)
-      }
-    });
-
-    // *** Ingresos Mensuales ***
-    $.ajax({
-      url: '/api/v1/facturacion/ingresos', // Ajustar el endpoint
-      method: 'GET',
-      success: function(data) {
-        var options = {
-          chart: {
-            type: 'line',
-            height: 350
-          },
-          series: [{
-            name: 'Ingresos',
-            data: data.map(item => item.total)
-          }],
-          xaxis: {
-            categories: data.map(item => item.periodo) // Asumiendo que 'fecha' es una string legible
-          }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#ingresosMensualesChart"), options);
-        chart.render();
-      },
-      error: function(error) {
-        console.error("Error al obtener datos de ingresos mensuales:", error);
-      }
-    });
-
-
-    // *** Mejores Promedios ***
-    $.ajax({
-      url: '/api/v1/mejores/promedios', // Ajustar el endpoint
-      method: 'GET',
-      success: function(data) {
-        var tbody = $("#mejoresPromediosTable tbody"); // Referencia al tbody de la tabla
-        data.forEach(function(item) {
-          tbody.append("<tr><td>" + item.curso + "</td><td>" + item.alumno + "</td><td>" + item.promedio + "</td></tr>");
+        // *** Mejores Promedios ***
+        $('#mejoresPromediosTable').DataTable({
+            destroy: true,
+            ajax: {
+                url: '/api/v1/calificaciones/mejores_promedios',
+                dataSrc: ''
+            },
+            columns: [
+                {
+                    data: 'curso', render: function (data) {
+                        return data.orden + '° - ' + data.nivel + ' - ' + data.turno;
+                    }
+                },
+                {
+                    data: null, render: function (data) {
+                        return data.nombre + ' ' + data.apellido;
+                    }
+                },
+                {data: 'promedio'}
+            ]
         });
-      },
-      error: function(error) {
-        console.error("Error al obtener datos de mejores promedios:", error);
-      }
-    });
 
-
-    // *** Asistencias Perfectas ***
-    $.ajax({
-      url: '/api/v1/asistencias/perfectas', // Ajustar el endpoint
-      method: 'GET',
-      success: function(data) {
-        var tbody = $("#asistenciasPerfectasTable tbody");
-        data.forEach(function(item) {
-          tbody.append("<tr><td>" + item.curso + "</td><td>" + item.alumno + "</td></tr>");
+        // *** Asistencias Perfectas ***
+        $('#asistenciasPerfectasTable').DataTable({
+            destroy: true,
+            ajax: {
+                url: '/api/v1/inasistencias/perfectas',
+                dataSrc: ''
+            },
+            columns: [
+                {
+                    data: 'curso', render: function (data) {
+                        return data.orden + '° - ' + data.nivel + ' - ' + data.turno;
+                    }
+                },
+                {
+                    data: null, render: function (data) {
+                        return data.nombre + ' ' + data.apellido;
+                    }
+                }
+            ]
         });
-      },
-      error: function(error) {
-        console.error("Error al obtener datos de asistencias perfectas:", error);
-      }
-    });
 
-
-    // *** Alumnos con Faltas ***
-    $.ajax({
-      url: '/api/v1/alumnos/faltas', // Ajustar el endpoint
-      method: 'GET',
-      success: function(data) {
-        var tbody = $("#alumnosFaltasTable tbody");
-        data.forEach(function(item) {
-          tbody.append("<tr><td>" + item.curso + "</td><td>" + item.alumno + "</td><td>" + item.cantidadFaltas + "</td></tr>");
+        // *** Alumnos con Faltas ***
+        $('#alumnosFaltasTable').DataTable({
+            destroy: true,
+            ajax: {
+                url: '/api/v1/inasistencias/top5',
+                dataSrc: ''
+            },
+            columns: [
+                {
+                    data: 'curso', render: function (data) {
+                        return data.orden + '° - ' + data.nivel + ' - ' + data.turno;
+                    }
+                },
+                {
+                    data: null, render: function (data) {
+                        return data.nombre + ' ' + data.apellido;
+                    }
+                },
+                {
+                    data: 'cantidadFaltas'
+                }
+            ]
         });
-      },
-      error: function(error) {
-        console.error("Error al obtener datos de alumnos con faltas:", error);
-      }
-    });
 
-
-    // *** Alumnos Problemáticos ***
-    $.ajax({
-      url: '/api/v1/alumnos/problematicos', // Ajustar el endpoint
-      method: 'GET',
-      success: function(data) {
-        var tbody = $("#alumnosProblematicosTable tbody");
-        data.forEach(function(item) {
-          tbody.append("<tr><td>" + item.alumno + "</td><td>" + item.sanciones + "</td></tr>"); // Ajustar según la estructura de 'sanciones'
+        // *** Alumnos Problemáticos ***
+        $('#alumnosProblematicosTable').DataTable({
+            destroy: true,
+            ajax: {
+                url: '/api/v1/sanciones/top10',
+                dataSrc: ''
+            },
+            columns: [
+                {
+                    data: null, render: function (data) {
+                        return data.nombre + ' ' + data.apellido;
+                    }
+                },
+                {
+                    data: 'curso', render: function (data) {
+                        return data.orden + '° - ' + data.nivel + ' - ' + data.turno;
+                    }
+                },
+                {
+                    data: 'cantidadSanciones'
+                }
+            ]
         });
-      },
-      error: function(error) {
-        console.error("Error al obtener datos de alumnos problemáticos:", error);
-      }
-    });
 
-
-    // *** Rendimiento por Curso ***
-    $.ajax({
-      url: '/api/v1/rendimiento/curso', // Ajustar el endpoint
-      method: 'GET',
-      success: function(data) {
-        var options = {
-          chart: {
-            type: 'bar',
-            height: 350
-          },
-          series: [{
-            name: 'Promedio',
-            data: data.map(item => item.promedio)
-          }],
-          xaxis: {
-            categories: data.map(item => item.curso)
-          }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#rendimientoPorCursoChart"), options);
-        chart.render();
-      },
-      error: function(error) {
-        console.error("Error al obtener datos de rendimiento por curso:", error);
-      }
-    });
-
-
-    // *** Rendimiento por Materia ***
-    $.ajax({
-      url: '/api/v1/rendimiento/materia', // Ajustar el endpoint
-      method: 'GET',
-      success: function(data) {
-        // Adaptar la lógica para crear un gráfico de barras agrupadas con ApexCharts
-        // (la estructura de 'data' dependerá de la API)
-      },
-      error: function(error) {
-        console.error("Error al obtener datos de rendimiento por materia:", error);
-      }
-    });
-
-
-    // *** Rendimiento de Profesor ***
-    $.ajax({
-      url: '/api/v1/rendimiento/profesor', // Ajustar el endpoint
-      method: 'GET',
-      success: function(data) {
-        var tbody = $("#rendimientoProfesorTable tbody");
-        data.forEach(function(item) {
-          tbody.append("<tr><td>" + item.profesor + "</td><td>" + item.materia + "</td><td>" + item.promedio + "</td></tr>");
+        // *** Rendimiento de Profesor ***
+        $('#rendimientoProfesorTable').DataTable({
+            destroy: true,
+            ajax: {
+                url: '/api/v1/profesores/rendimiento',
+                dataSrc: ''
+            },
+            columns: [
+                {
+                    data: null, render: function (data) {
+                        return data.nombreProfesor + ' ' + data.apellidoProfesor;
+                    }
+                },
+                {
+                    data: null, render: function (data) {
+                        return data.materia + ' - ' + data.curso.orden + '° - ' + data.curso.nivel + ' - ' + data.curso.turno;
+                    }
+                },
+                {
+                    data: 'promedio'
+                }
+            ]
         });
-      },
-      error: function(error) {
-        console.error("Error al obtener datos de rendimiento de profesor:", error);
-      }
-    });
 
-
-    // *** Cursos Problemáticos ***
-    $.ajax({
-      url: '/api/v1/cursos/problematicos', // Ajustar el endpoint
-      method: 'GET',
-      success: function(data) {
-        var tbody = $("#cursosProblematicosTable tbody");
-        data.forEach(function(item) {
-          tbody.append("<tr><td>" + item.curso + "</td><td>" + item.cantidadSanciones + "</td></tr>");
+        // *** Cursos Problemáticos ***
+        $('#cursosProblematicosTable').DataTable({
+            destroy: true,
+            ajax: {
+                url: '/api/v1/cursos/problematicos',
+                dataSrc: ''
+            },
+            columns: [
+                {
+                    data: null, render: function (data) {
+                        return data.curso.orden + '° - ' + data.curso.nivel + ' - ' + data.curso.turno;
+                    }
+                },
+                {
+                    data: 'sanciones'
+                }
+            ]
         });
-      },
-      error: function(error) {
-        console.error("Error al obtener datos de cursos problemáticos:", error);
-      }
-    });
+        // *** Familias más Valiosas ***
+        $.ajax({
+            url: '/api/v1/facturacion/familias',
+            method: 'GET',
+            success: function (data) {
+                var options = {
+                    chart: {
+                        type: 'bar',
+                        height: 350
+                    },
+                    series: [{
+                        name: 'Valor',
+                        data: data.map(item => item.montoFinal)
+                    }],
+                    xaxis: {
+                        categories: data.map(item => item.apellido_familia)
+                    }
+                };
 
-  });
+                var chart = new ApexCharts(document.querySelector("#familiasMasValiosasChart"), options);
+                chart.render();
+            },
+            error: function (error) {
+                console.error("Error al obtener datos de familias más valiosas:", error);
+            }
+        });
+
+        // *** Ingresos Mensuales ***
+        $.ajax({
+            url: '/api/v1/facturacion/ingresos', // Ajustar el endpoint
+            method: 'GET',
+            success: function (data) {
+                var options = {
+                    chart: {
+                        type: 'line',
+                        height: 350
+                    },
+                    series: [{
+                        name: 'Ingresos',
+                        data: data.map(item => item.total)
+                    }],
+                    xaxis: {
+                        categories: data.map(item => item.periodo)
+                    }
+                };
+
+                var chart = new ApexCharts(document.querySelector("#ingresosMensualesChart"), options);
+                chart.render();
+            },
+            error: function (error) {
+                console.error("Error al obtener datos de ingresos mensuales:", error);
+            }
+        });
+
+        // *** Rendimiento por Curso ***
+        $.ajax({
+            url: '/api/v1/cursos/rendimiento',
+            method: 'GET',
+            success: function (data) {
+                var options = {
+                    chart: {
+                        type: 'bar',
+                        height: 350
+                    },
+                    series: [{
+                        name: 'Promedio',
+                        data: data.map(item => item.promedio)
+                    }],
+                    xaxis: {
+                        categories: data.map(item => `${item.curso.orden}° - ${item.curso.nivel} - ${item.curso.turno}`)
+                    }
+                };
+
+                var chart = new ApexCharts(document.querySelector("#rendimientoPorCursoChart"), options);
+                chart.render();
+            },
+            error: function (error) {
+                console.error("Error al obtener datos de rendimiento por curso:", error);
+            }
+        });
+
+        // *** Rendimiento por Materia ***
+        $.ajax({
+            url: '/api/v1/materias/rendimiento',
+            method: 'GET',
+            success: function (data) {
+                var options = {
+                    chart: {
+                        type: 'bar',
+                        height: 350
+                    },
+                    series: [{
+                        name: 'Promedio',
+                        data: data.map(item => item.promedio)
+                    }],
+                    xaxis: {
+                        categories: data.map(item => `${item.materia} ${item.curso.orden}° - ${item.curso.nivel} - ${item.curso.turno}`)
+                    }
+                };
+
+                var chart = new ApexCharts(document.querySelector("#rendimientoPorMateriaChart"), options);
+                chart.render();
+            },
+            error: function (error) {
+                console.error("Error al obtener datos de rendimiento por curso:", error);
+            }
+        });
+
+
+
+    });
 </script>
+
 
 </body>
 

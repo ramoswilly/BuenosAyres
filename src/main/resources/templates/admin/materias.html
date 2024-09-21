@@ -336,9 +336,11 @@
 
 <script>
   $(document).ready(function () {
-    // Obtener el ID del curso de la URL (si existe)
+    const baseUrl = "/api/v1";
+
+    // Obtener el ID del profesor de la URL (si existe)
     const urlParams = new URLSearchParams(window.location.search);
-    const cursoId = urlParams.get('curso');
+    const profesorId = urlParams.get('profesor');
 
     var tabla = $('#tabla-materias').DataTable({
       processing: true,
@@ -347,7 +349,7 @@
         url: '/../assets/plugins/datatables/es-ES.json',
       },
       ajax: {
-        url: '/api/v1/materias' + (cursoId ? `?curso=${cursoId}` : ''),
+        url: '/api/v1/materias',
         dataSrc: ''
       },
       columns: [
@@ -380,6 +382,7 @@
     $('#buscar-input').on('input', function () {
       tabla.search($(this).val()).draw();
     });
+
     // Cargar profesores en el modal
     function cargarProfesores(materiaId) {
       // Inicializar la tabla de DataTables}
@@ -448,9 +451,25 @@
       $('#modalSeleccionarProfesor').modal('show');
     });
 
+    // Si se proporciona un ID de profesor en la URL
+    if (profesorId) {
+      // Obtener información del profesor
+      $.ajax({
+        url: `${baseUrl}/profesores/${profesorId}`,
+        type: "GET",
+        success: function (profesor) {
+          // Mostrar el nombre del profesor en la barra de búsqueda
+          $("#buscar-input").val(profesor.nombre + " " + profesor.apellido);
+          // Actualizar la tabla con el filtro (usando search())
+          tabla.search(profesor.nombre + " " + profesor.apellido).draw();
+        },
+        error: function (error) {
+          console.error("Error al obtener información del profesor:", error);
+        }
+      });
+    }
   });
 </script>
-
 </body>
 
 </html>

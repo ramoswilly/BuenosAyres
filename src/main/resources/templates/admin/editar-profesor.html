@@ -22,8 +22,10 @@
   <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
 
   <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
-  <link rel="stylesheet" href="../assets/plugins/toastr/toatr.css">
+
   <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/plugins/toastr/toatr.css">
+
 </head>
 
 <body>
@@ -48,8 +50,6 @@
     </div>
 
 
-
-
     <a class="mobile_btn" id="mobile_btn">
       <i class="fas fa-bars"></i>
     </a>
@@ -65,14 +65,14 @@
 
       <li class="nav-item dropdown has-arrow new-user-menus">
         <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                        <span class="user-img">
-                            <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
-                                 alt="Soeng Souy">
-                            <div class="user-text">
-                                <h6>Buenos Ayres</h6>
-                                <p class="text-muted mb-0">Administrador</p>
-                            </div>
-                        </span>
+                <span class="user-img">
+                    <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
+                         alt="Soeng Souy">
+                    <div class="user-text">
+                        <h6>Buenos Ayres</h6>
+                        <p class="text-muted mb-0">Administrador</p>
+                    </div>
+                </span>
         </a>
         <div class="dropdown-menu">
           <div class="user-header">
@@ -94,141 +94,13 @@
   </div>
 
 
-  
-<div class="sidebar" id="sidebar">
-  <div class="sidebar-inner slimscroll">
-    <div id="sidebar-menu" class="sidebar-menu">
-      <ul>
-        <li class="menu-title">
-          <span>Menú Principal</span>
-        </li>
-
-        <li class="submenu">
-          <a href="#"><i class="fas fa-graduation-cap"></i> <span> Alumnos</span> <span
-                  class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="alumnos">Lista de alumnos</a></li>
-            <li><a href="agregar-alumno">Agregar alumno</a></li>
-            <li><a href="editar-alumno">Editar alumno</a></li>
-          </ul>
-        </li>
-        <li class="submenu">
-          <a href="#"><i class="fas fa-home"></i> <span> Padres</span> <span
-                  class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="padres">Lista de Padres</a></li>
-            <li><a href="agregar-padre">Agregar padre</a></li>
-            <li><a href="editar-padre">Editar padre</a></li>
-          </ul>
-        </li>
-        <li class="submenu">
-          <a href="#"><i class="fas fa-users"></i> <span> Familias</span> <span
-                  class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="familias">Lista de familias</a></li>
-            <li><a href="ver-familias">Detalles de familia</a></li>
-            <li><a href="agregar-familia">Agregar familia</a></li>
-            <li><a href="editar-familia">Editar familia</a></li>
-          </ul>
-        </li>
-
-        <li class="submenu">
-          <a href="#"><i class="fas fa-wrench"></i> <span> Talleres</span> <span
-                  class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="talleres">Lista de talleres</a></li>
-
-          </ul>
-        </li>
-        <li class="submenu">
-          <a href="#"><i class="fas fa-file-invoice-dollar"></i> <span> Conceptos</span> <span
-                  class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="conceptos">Revisar conceptos</a></li>
-
-          </ul>
-        </li>
-        <li class="submenu">
-          <a href="#"><i class="fas fa-comment-dollar"></i> <span>Facturación</span> <span
-                  class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="facturacion">Facturar</a></li>
-            <li><a href="deudas">Deudas</a></li>
-
-          </ul>
-        </li>
-        <li class="submenu">
-          <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Profesores</span> <span
-                  class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="profesores">Lista de profesores</a></li>
-            <li><a href="agregar-profesor">Agregar profesor</a></li>
-            <li><a href="editar-profesor">Editar profesor</a></li>
-          </ul>
-        </li>
-        <li class="submenu">
-          <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Cursos</span> <span
-                  class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="cursos">Lista de Cursos</a></li>
-
-          </ul>
-        </li>
-        <li class="submenu">
-          <a href="#"><i class="fas fa-book"></i> <span> Materias</span> <span
-                  class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="materias">Lista de Materias</a></li>
-            <li><a href="agregar-materia">Agregar Materia</a></li>
-            <li><a href="editar-materia">Editar Materia</a></li>
-          </ul>
-        </li>
-        <li class="submenu">
-          <a href="#"><i class="fas fa-clipboard-list"></i> <span> Evaluaciones</span> <span
-                  class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="evaluaciones">Lista de Evaluaciones</a></li>
-            <li><a href="agregar-evaluacion">Agregar Evaluación</a></li>
-            <li><a href="evaluaciones-creadas">Evaluaciones Creadas</a></li>
-          </ul>
-        </li>
-        <li class="submenu">
-          <a href="#"><i class="fas fa-gavel"></i> <span> Disciplina</span> <span
-                  class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="disciplina">Lista de Sanciones</a></li>
-            <li><a href="agregar-sancion">Agregar Sanción</a></li>
-          </ul>
-        </li>
-        <li class="submenu">
-          <a href="#"><i class="fas fa-user-clock"></i> <span> Inasistencias</span> <span
-                  class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="inasistencias">Lista de Inasistencias</a></li>
-            <li><a href="agregar-inasistencia">Agregar Inasistencia</a></li>
-          </ul>
-        </li>
-        <li class="submenu">
-          <a href="#"><i class="fas fa-chart-bar"></i> <span> Reportes</span> <span class="menu-arrow"></span></a>
-          <ul>
-            <li><a href="ver-reportes">Ver Reportes</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-
-
-
-
   <div class="page-wrapper">
     <div class="content container-fluid">
 
       <div class="page-header">
         <div class="row">
           <div class="col">
+
             <ul class="breadcrumb">
               <li class="breadcrumb-item"><a href="index">Profesores</a></li>
               <li class="breadcrumb-item active">Editar Profesor</li>
@@ -321,13 +193,34 @@
                       </div>
                     </div>
                     <div class="form-group row">
+                      <label for="cbu" class="col-form-label col-lg-2">CBU</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="cbu" name="cbu"
+                               placeholder="CBU" required pattern="[0-9]{22}">
+                        <div class="invalid-feedback">
+                          Por favor, ingrese un CBU valido.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="banco" class="col-form-label col-lg-2">Banco</label>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="banco" name="banco"
+                               placeholder="Banco del Profesor" required
+                               pattern="^[A-Za-z\s]+$">
+                        <div class="invalid-feedback">
+                          Por favor, ingrese un nombre de Banco valido.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
                       <label for="nivel" class="col-form-label col-lg-2">Nivel</label>
                       <div class="col-lg-10">
                         <select class="form-control" id="nivel" name="nivel" required>
                           <option value="">Seleccione un Nivel</option>
-                          <option value="INICIAL">Inicial</option>
-                          <option value="PRIMARIO">Primario</option>
-                          <option value="SECUNDARIO">Secundario</option>
+                          <option value="INICIAL">INICIAL</option>
+                          <option value="PRIMARIA">PRIMARIA</option>
+                          <option value="SECUNDARIA">SECUNDARIA</option>
                         </select>
                         <div class="invalid-feedback">
                           Por favor, seleccione un nivel.
@@ -339,9 +232,6 @@
                       <div class="col-lg-10">
                         <select class="form-control" id="tipo" name="tipo" required>
                           <option value="">Seleccione un Tipo</option>
-                          <option value="PROFESOR">PROFESOR</option>
-                          <option value="PRECEPTOR">PRECEPTOR</option>
-                          <option value="DIRECTOR">DIRECTOR</option>
                         </select>
                         <div class="invalid-feedback">
                           Por favor, seleccione un tipo.
@@ -350,7 +240,8 @@
                     </div>
                     <div class="form-group row mb-0">
                       <div class="col-lg-10 offset-lg-2">
-                        <button type="button" class="btn btn-primary" id="guardarProfesorBtn">Guardar</button>
+                        <button type="button" class="btn btn-primary"
+                                id="guardarProfesorBtn">Guardar</button>
                       </div>
                     </div>
                   </form>
@@ -364,115 +255,188 @@
   </div>
 </div>
 
+  <script src="../assets/js/jquery-3.6.0.min.js"></script>
 
-<script src="../assets/js/jquery-3.6.0.min.js"></script>
+  <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/feather.min.js"></script>
 
-<script src="../assets/js/feather.min.js"></script>
+  <script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-<script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+  <script src="../assets/plugins/select2/js/select2.min.js"></script>
 
-<script src="../assets/plugins/select2/js/select2.min.js"></script>
+  <script src="../assets/plugins/moment/moment.min.js"></script>
+  <script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
+  <script src="../assets/plugins/toastr/toastr.min.js"></script>
+  <script src="../assets/plugins/toastr/toastr.js"></script>
+  <script src="../assets/js/script.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Validar combinaciones tipo - nivel
+      $('#nivel').on('change', function () {
+        var nivelSeleccionado = $(this).val();
+        var opcionesTipo = $('#tipo');
 
-<script src="../assets/plugins/moment/moment.min.js"></script>
-<script src="../assets/js/bootstrap-datetimepicker.min.js"></script>
-<script src="../assets/plugins/toastr/toastr.min.js"></script>
-<script src="../assets/plugins/toastr/toastr.js"></script>
-<script src="../assets/js/script.js"></script>
-<script>
-  $(document).ready(function () {
-    obtenerDatosProfesor();
+        opcionesTipo.empty(); // Limpiar las opciones existentes
 
-    $('#guardarProfesorBtn').on('click', function (event) {
-      var form = $('#form-profesor')[0];
+        switch (nivelSeleccionado) {
+          case 'INICIAL':
+            opcionesTipo.append('<option value="">Seleccione un Tipo</option>\n')
+            opcionesTipo.append('<option value="ROLE_PROFESOR">PROFESOR</option>');
+            break;
+          case 'PRIMARIA':
+          case 'SECUNDARIA':
+            opcionesTipo.append('<option value="">Seleccione un Tipo</option>\n')
+            opcionesTipo.append('<option value="ROLE_PROFESOR">PROFESOR</option>');
+            opcionesTipo.append('<option value="ROLE_DIRECTOR">DIRECTOR</option>');
+            break;
+          default:
+                // No hacer nada si no se selecciona un nivel válido
+        }
 
-      if (form.checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
-        form.classList.add('was-validated');
-      } else {
-        guardarProfesor();
-      }
+        if (nivelSeleccionado === 'SECUNDARIA') {
+          opcionesTipo.append('<option value="ROLE_PRECEPTOR">PRECEPTOR</option>');
+        }
+
+        opcionesTipo.val(''); // Restablecer la selección
+      });
+
+
+      // Validación del formulario al hacer clic en el botón
+      $('#guardarProfesorBtn').on('click', function () {
+        var form = $('#form-profesor')[0];
+
+        if (form.checkValidity() === false) {
+          // La validación falla, muestra los mensajes de error
+          event.preventDefault();
+          event.stopPropagation();
+          form.classList.add('was-validated');
+        } else {
+          // La validación es exitosa, continúa con guardarProfesor()
+          guardarProfesor();
+        }
+      });
+
+      obtenerDatosProfesor();
+
     });
-  });
 
-  function guardarProfesor() {
-    var dni = $('#dni').val();
-    var nombre = $('#nombre').val();
-    var apellido = $('#apellido').val();
-    var direccion = $('#direccion').val();
-    var cuil = $('#cuil').val();
-    var telefono = $('#telefono').val();
-    var email = $('#email').val();
-    var nivel = $('#nivel').val();
-    var tipo = $('#tipo').val();
+    function guardarProfesor() {
+      // Obtener los valores de los campos
+      var dni = $('#dni').val();
+      var nombre = $('#nombre').val();
+      var apellido = $('#apellido').val();
+      var direccion = $('#direccion').val();
+      var cuil = $('#cuil').val();
+      var telefono = $('#telefono').val();
+      var email = $('#email').val();
+      var cbu = $('#cbu').val();
+      var banco = $('#banco').val();
+      var nivel = $('#nivel').val();
+      var tipo = $('#tipo').val();
 
-    var profesorActualizado = {
-      persona: {
+      // Crear un objeto con los datos del nuevo profesor
+      var profesorActualizado = {
         dni: dni,
         nombre: nombre,
         apellido: apellido,
-        direccion: direccion
-      },
-      CUIL: cuil,
-      telefono: telefono,
-      email: email,
-      nivel: nivel,
-      tipo: tipo
-    };
+        direccion: direccion,
+        cuil: cuil,
+        telefono: telefono,
+        email: email,
+        cbu: cbu,
+        banco: banco,
+        nivel: nivel,
+        tipo: tipo
+      };
 
-    var jsonProfesor = JSON.stringify(profesorActualizado);
+      // Convertir el objeto a formato JSON
+      var jsonProfesor = JSON.stringify(profesorActualizado);
 
-    $.ajax({
-      type: "PUT",
-      url: `/api/v1/profesores/${obtenerIdProfesor()}`,
-      contentType: "application/json",
-      data: jsonProfesor,
-      success: function (response) {
-        toastr.success('Profesor actualizado exitosamente.', 'Éxito', {
-          timeOut: 3000
-        });
-        //$('#form-profesor')[0].reset();
-        $('#form-profesor').removeClass('was-validated');
-      },
-      error: function (xhr, status, error) {
-        toastr.error('Error al actualizar el profesor. Por favor, inténtelo de nuevo.', 'Error', {
-          timeOut: 5000
-        });
-        console.error("Error al actualizar el profesor:", error);
-      }
-    });
-  }
+      // Enviar la solicitud POST al controlador
+      $.ajax({
+        type: "PUT",
+        url: `/api/v1/profesores/${obtenerIdProfesor()}`,
+        contentType: "application/json",
+        data: jsonProfesor,
+        success: function (response) {
+          toastr.success('Profesor actualizado exitosamente.', 'Éxito', {
+            timeOut: 3000 // Duración del mensaje en milisegundos
+          });
 
-  function obtenerIdProfesor() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const idProfesor = urlParams.get('id');
-    return idProfesor;
-  }
+          // Manejar la respuesta del servidor, si es necesario
+          console.log("Profesor actualizado exitosamente:", response);
+          // Aquí puedes realizar alguna acción adicional, como recargar la tabla de profesores o mostrar un mensaje de éxito
+          //$('#form-profesor')[0].reset();
+          $('#form-profesor').removeClass('was-validated'); // Eliminar las clases de validación
+          // Puedes mostrar un mensaje de éxito al usuario si lo deseas
+        },
+        error: function (xhr, status, error) {
+          // Manejar errores en la solicitud
+          toastr.error(
+                  'Error al actualizar el profesor. Por favor, inténtelo de nuevo.',
+                  'Error', {
+                    timeOut: 5000
+                  });
+          console.error("Error al actualizar el profesor:", error);
+          // Aquí puedes mostrar un mensaje de error al usuario o realizar alguna otra acción
+        }
+      });
+    }
 
-  function obtenerDatosProfesor() {
-    var idProfesor = obtenerIdProfesor();
+    function obtenerIdProfesor() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const IdProfesor = urlParams.get('id');
+      return IdProfesor;
+    }
 
-    fetch(`/api/v1/profesores/${idProfesor}`)
-            .then(response => response.json())
-            .then(data => {
-              document.getElementById('dni').value = data.persona.dni;
-              document.getElementById('nombre').value = data.persona.nombre;
-              document.getElementById('apellido').value = data.persona.apellido;
-              document.getElementById('direccion').value = data.persona.direccion;
-              document.getElementById('cuil').value = data.CUIL;
-              document.getElementById('telefono').value = data.telefono;
-              document.getElementById('email').value = data.email;
-              document.getElementById('nivel').value = data.nivel;
-              document.getElementById('tipo').value = data.tipo;
-            })
-            .catch(error => {
-              console.error('Error al obtener los datos del profesor:', error);
-            });
-  }
+    function obtenerDatosProfesor() {
+      var idProfesor = obtenerIdProfesor();
 
-</script>
+      fetch(`/api/v1/profesores/${idProfesor}`)
+              .then(response => response.json())
+              .then(data => {
+                document.getElementById('dni').value = data.dni;
+                document.getElementById('nombre').value = data.nombre;
+                document.getElementById('apellido').value = data.apellido;
+                document.getElementById('direccion').value = data.direccion;
+                document.getElementById('cuil').value = data.cuil;
+                document.getElementById('telefono').value = data.telefono;
+                document.getElementById('email').value = data.email;
+                document.getElementById('cbu').value = data.cbu;
+                document.getElementById('banco').value = data.banco;
+                document.getElementById('nivel').value = data.nivel;
+
+                // Llenar las opciones de tipo según el nivel
+                var nivelSeleccionado = data.nivel;
+                var opcionesTipo = $('#tipo');
+                opcionesTipo.empty();
+
+                switch (nivelSeleccionado) {
+                  case 'INICIAL':
+                    opcionesTipo.append('<option value="ROLE_PROFESOR">PROFESOR</option>');
+                    break;
+                  case 'PRIMARIA':
+                  case 'SECUNDARIA':
+                    opcionesTipo.append('<option value="ROLE_PROFESOR">PROFESOR</option>');
+                    opcionesTipo.append('<option value="ROLE_DIRECTOR">DIRECTOR</option>');
+                    break;
+                  default:
+                        // No hacer nada si no se selecciona un nivel válido
+                }
+
+                if (nivelSeleccionado === 'SECUNDARIA') {
+                  opcionesTipo.append('<option value="ROLE_PRECEPTOR">PRECEPTOR</option>');
+                }
+
+                document.getElementById('tipo').value = data.tipo;
+              })
+              .catch(error => {
+                console.error('Error al obtener los datos del profesor:', error);
+              });
+    }
+
+  </script>
 </body>
 
 </html>

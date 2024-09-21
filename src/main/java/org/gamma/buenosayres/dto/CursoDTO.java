@@ -13,6 +13,7 @@ public class CursoDTO {
 	private String id_responsable;
 	private String nombre_responsable;
 	private String apellido_responsable;
+	private boolean habilitado;
 
 	public UUID getId()
 	{
@@ -82,5 +83,15 @@ public class CursoDTO {
 	public void setApellido_responsable(String apellido_responsable)
 	{
 		this.apellido_responsable = apellido_responsable;
+	}
+
+	public boolean isHabilitado()
+	{
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado)
+	{
+		this.habilitado = habilitado;
 	}
 }

@@ -23,6 +23,8 @@ public class Profesor {
 	private boolean habilitado;
 	private Nivel nivel;
 	private Date fechaNacimiento;
+	private String banco;
+	private String CBU;
 	@Enumerated(EnumType.STRING)
 	private TipoEmpleado tipo;
 	@OneToMany(mappedBy = "responsable")
@@ -137,5 +139,25 @@ public class Profesor {
 	public void setTipo(TipoEmpleado tipo)
 	{
 		this.tipo = tipo;
+	}
+
+	public String getBanco()
+	{
+		return banco;
+	}
+
+	public void setBanco(String banco)
+	{
+		this.banco = banco;
+	}
+
+	public String getCBU()
+	{
+		return CBU;
+	}
+
+	public void setCBU(String CBU)
+	{
+		this.CBU = CBU;
 	}
 }
