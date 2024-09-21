@@ -10,7 +10,7 @@ public class ProfesorViewController {
 	@GetMapping("/index")
 	public String index()
 	{
-		return "/profesores/evaluaciones";
+		return "profesores/evaluaciones";
 	}
 	@GetMapping("/materias")
 	public String materias()
@@ -20,26 +20,26 @@ public class ProfesorViewController {
 	@GetMapping("/evaluaciones")
 	public String evaluaciones()
 	{
-		return "/profesores/evaluaciones";
+		return "profesores/evaluaciones";
 	}
 	@GetMapping("/crear-evaluacion")
 	public String crearEvaluacion()
 	{
-		return "/profesores/crear-evaluacion";
+		return "profesores/crear-evaluacion";
 	}
 	@GetMapping("/evaluaciones-creadas")
 	public String evaluacionesCreadas()
 	{
-		return "/profesores/evaluaciones-creadas";
+		return "profesores/evaluaciones-creadas";
 	}
 	@GetMapping("/ver-entregas")
 	public String verEntregas()
 	{
-		return "/profesores/ver-entregas";
+		return "profesores/ver-entregas";
 	}
 	@GetMapping("/editar-evaluacion")
 	public String editarEvaluacion()
 	{
-		return "/profesores/editar-evaluacion";
+		return "profesores/editar-evaluacion";
 	}
 }

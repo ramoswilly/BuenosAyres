@@ -9,6 +9,7 @@ import org.gamma.buenosayres.model.Entrega;
 import org.gamma.buenosayres.model.Evaluacion;
 import org.gamma.buenosayres.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -42,12 +43,14 @@ public class EntregaService {
 				})
 				.forEach(entrega -> entregaDAO.save(entrega));
 	}
-	public Entrega create(EntregaDTO entregaDTO) throws ServiceException {
+	public Entrega create(Authentication authentication, EntregaDTO entregaDTO) throws ServiceException {
 		// verificar evaluacion
 		Optional<Evaluacion> evaluacion = evaluacionDAO.findById(entregaDTO.getIdEvaluacion());
 		if (evaluacion.isEmpty()) throw new ServiceException("Evaluacion inexistente", 404);
 		// verificar alumno
-		Optional<Alumno> alumno = alumnoRepository.findById(entregaDTO.getIdAlumno());
+		if (authentication.getAuthorities().stream().noneMatch(auth -> auth.getAuthority().equals("ROLE_ALUMNO")))
+			throw new ServiceException("Accion no permitida", 403);
+		Optional<Alumno> alumno = alumnoRepository.findAlumnoByPersona_Dni(authentication.getName());
 		if (alumno.isEmpty()) throw new ServiceException("Alumno inexistente", 404);
 		// Verificar si entrega ya existe...
 		Optional<Entrega> entregaExistente = entregaDAO.findByAlumnoAndEvaluacion(alumno.get(), evaluacion.get());
@@ -88,5 +91,28 @@ public class EntregaService {
 
 		// Entregas de la evaluacion
 		//return entregaDAO.findByEvaluacion(evaluacion.get());
+	}
+
+
+	public Entrega getEntregaAlumno(String dniAlumno, UUID evaluacionId) throws ServiceException {
+		// Obtener el alumno a partir del DNI
+		Optional<Alumno> alumno = alumnoRepository.findAlumnoByPersona_Dni(dniAlumno);
+		if (alumno.isEmpty()) {
+			throw new ServiceException("Alumno no encontrado", 404);
+		}
+
+		// Obtener la evaluación
+		Evaluacion evaluacion = evaluacionDAO.findById(evaluacionId)
+				.orElseThrow(() -> new ServiceException("Evaluación no encontrada", 404));
+
+		// Buscar la entrega del alumno
+		Optional<Entrega> entregaOptional = entregaDAO.findByAlumnoAndEvaluacion(alumno.get(), evaluacion);
+		if (entregaOptional.isPresent()) {
+			// Devolver la entrega si existe
+			return entregaOptional.get();
+		} else {
+			// No se encontró la entrega
+			throw new ServiceException("Entrega no encontrada para el alumno", 404);
+		}
 	}
 }

@@ -56,4 +56,13 @@ public class EvaluacionController {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 	}
+	@PutMapping("/{id}")
+	public ResponseEntity<?> update(@PathVariable(value = "id") UUID id, @RequestBody EvaluacionDTO dto) {
+		try {
+			// Actualizar la evaluacion y obtener solo los cambios
+			return ResponseEntity.ok(evaluacionMapper.map(evaluacionService.update(id, dto)));
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
 }
