@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <title>Buenos Ayres - Agregar Taller</title>
+
+  <link rel="shortcut icon" href="../assets/img/favicon.png">
+
+  <link
+          href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700&display=swap"
+          rel="stylesheet">
+
+  <link rel="stylesheet" href="../assets/plugins/bootstrap/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/feather/feather.css">
+
+  <link rel="stylesheet" href="../assets/plugins/icons/flags/flags.css">
+
+  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/fontawesome.min.css">
+  <link rel="stylesheet" href="../assets/plugins/fontawesome/css/all.min.css">
+
+  <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
+
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .dataTables_filter {
+      display: none;
+    }
+  </style>
+
+
+</head>
+
+<body>
+
+<div class="main-wrapper">
+  <!-- Header -->
+  <div class="header">
+
+    <div class="header-left">
+      <a href="index" class="logo">
+        <img src="../assets/img/logo.png" alt="Logo">
+      </a>
+      <a href="index" class="logo logo-small">
+        <img src="../assets/img/logo-small.png" alt="Logo" width="30" height="30">
+      </a>
+    </div>
+
+    <div class="menu-toggle">
+      <a href="javascript:void(0);" id="toggle_btn">
+        <i class="fas fa-bars"></i>
+      </a>
+    </div>
+
+
+    <a class="mobile_btn" id="mobile_btn">
+      <i class="fas fa-bars"></i>
+    </a>
+
+
+    <ul class="nav user-menu">
+
+      <li class="nav-item zoom-screen me-2">
+        <a href="#" class="nav-link header-nav-list">
+          <img src="../assets/img/icons/header-icon-04.svg" alt="">
+        </a>
+      </li>
+
+      <li class="nav-item dropdown has-arrow new-user-menus">
+        <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <span class="user-img">
+                    <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
+                         alt="Soeng Souy">
+                    <div class="user-text">
+                        <h6>Buenos Ayres</h6>
+                        <p class="text-muted mb-0">Administrador</p>
+                    </div>
+                </span>
+        </a>
+        <div class="dropdown-menu">
+          <div class="user-header">
+            <div class="avatar avatar-sm">
+              <img src="../assets/img/profiles/avatar-01.jpg" alt="User Image"
+                   class="avatar-img rounded-circle">
+            </div>
+            <div class="user-text">
+              <h6>Buenos Ayres</h6>
+              <p class="text-muted mb-0">Administrador</p>
+            </div>
+          </div>
+
+        </div>
+      </li>
+
+    </ul>
+
+  </div>
+  <!-- /Header -->
+
+  <div class="page-wrapper">
+    <div class="content container-fluid">
+
+      <div class="page-header">
+        <div class="row">
+          <div class="col-sm-12">
+            <h3 class="page-title">Agregar Taller</h3>
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="talleres">Talleres</a></li>
+              <li class="breadcrumb-item active">Agregar Taller</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="card comman-shadow">
+            <div class="card-body">
+              <form id="agregar-taller-form">
+                <div class="row">
+                  <div class="col-12">
+                    <h5 class="form-title">Información del Taller</h5>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Nombre</label>
+                      <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Nivel</label>
+                      <select class="form-control" id="nivel" name="nivel" required>
+                        <option value="INICIAL">INICIAL</option>
+                        <option value="PRIMARIA">PRIMARIA</option>
+                        <option value="SECUNDARIA">SECUNDARIA</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Profesor</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="profesor-nombre" name="profesor-nombre" readonly>
+                        <input type="hidden" id="profesor-id" name="profesor-id">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalSeleccionarProfesor">
+                          Seleccionar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Agregar Taller</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal para seleccionar profesor -->
+  <div class="modal fade" id="modalSeleccionarProfesor" tabindex="-1" role="dialog"
+       aria-labelledby="modalSeleccionarProfesorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalSeleccionarProfesorLabel">Seleccionar Profesor</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="student-group-form">
+            <div class="row">
+              <div class="col-lg-3 col-md-6">
+                <div class="form-group">
+                  <input id="buscar-profesor-input" type="text" class="form-control"
+                         placeholder="Buscar Profesores...">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table id="tabla-profesores" class="table table-striped table-bordered w-100">
+              <thead>
+              <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Habilitado</th>
+                <th>Seleccionar</th>
+              </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../assets/js/jquery-3.6.0.min.js"></script>
+
+<script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<script src="../assets/js/feather.min.js"></script>
+
+<script src="../assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+
+<script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../assets/plugins/datatables/datatables.min.js"></script>
+
+<script src="../assets/js/script.js"></script>
+
+<script>
+  $(document).ready(function () {
+    var tablaProfesores = $('#tabla-profesores').DataTable({
+      "ajax": {
+        "url": "/api/v1/profesores", // Ajustar la URL de la API
+        "dataSrc": ""
+      },
+      "columns": [
+        {"data": "dni"},
+        {"data": "nombre"},
+        {"data": "apellido"},
+        {
+          data: "habilitado",
+          render: function (data, type, row) {
+            return data ? '<span class="badge bg-success">Habilitado</span>' : '<span class="badge bg-danger">Deshabilitado</span>';
+          }
+        },
+        {
+          "data": null,
+          "render": function (data, type, row) {
+            return `<button type="button" class="btn btn-primary btn-sm seleccionar-profesor" data-profesor-id="${data.id}" data-profesor-nombre="${data.nombre} ${data.apellido}">Seleccionar</button>`;
+          }
+        }
+      ]
+    });
+
+    $('#buscar-profesor-input').on('input', function () {
+      tablaProfesores.search($(this).val()).draw();
+    });
+
+    // Manejar clic en "Seleccionar" profesor
+    $('#tabla-profesores').on('click', '.seleccionar-profesor', function () {
+      const profesorId = $(this).data('profesor-id');
+      const profesorNombre = $(this).data('profesor-nombre');
+      $('#profesor-id').val(profesorId);
+      $('#profesor-nombre').val(profesorNombre);
+      $('#modalSeleccionarProfesor').modal('hide');
+    });
+
+    // Manejar el envío del formulario
+    $('#agregar-taller-form').submit(function (event) {
+      event.preventDefault(); // Evitar el envío por defecto del formulario
+
+      const formData = {
+        nombre: $('#nombre').val(),
+        nivel: $('#nivel').val(),
+        profesorId: $('#profesor-id').val()
+      };
+
+      $.ajax({
+        url: '/api/v1/talleres', // Ajustar la URL de la API
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function () {
+          toastr.success('Taller agregado correctamente.');
+          // Limpiar el formulario o redirigir a la lista de talleres, según sea necesario
+        },
+        error: function (error) {
+          toastr.error(error.responseText);
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+
+</html>

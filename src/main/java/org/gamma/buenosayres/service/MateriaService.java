@@ -115,6 +115,7 @@ public class MateriaService {
 
 		// Obtener las calificaciones del año actual
 		List<Calificacion> calificaciones = calificacionRepository.findAll().stream()
+				.filter(calificacion -> calificacion.getEvaluacion().getMateria().isHabilitada())
 				.filter(calificacion -> calificacion.getEvaluacion().getFechaCreacion().getYear() == currentYear)
 				.toList();
 

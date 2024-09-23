@@ -111,6 +111,7 @@ public class CalificacionService {
 	{
 		// Obtener todos los alumnos del curso
 		List<Alumno> alumnos = alumnoRepository.findAll().stream()
+				.filter(Alumno::isHabilitado)
 				.filter(alumno -> alumno.getCurso() != null && alumno.getCurso().getId().equals(cursoId))
 				.toList();
 
@@ -170,7 +171,11 @@ public class CalificacionService {
 	}
 	private Optional<MejorPromedioDTO> obtenerMejorPromedioCurso(Curso curso) {
 		// Obtener las calificaciones del año actual para el curso
-		List<Calificacion> calificacionesCurso = calificacionRepository.findByCursoAnual(curso.getId(), LocalDate.now().getYear());
+		List<Calificacion> calificacionesCurso = calificacionRepository
+				.findByCursoAnual(curso.getId(), LocalDate.now().getYear())
+				.stream()
+				.filter(calificacion -> calificacion.getAlumno().isHabilitado())
+				.toList();
 
 		// Agrupar las calificaciones por alumno y calcular el promedio
 		Map<Alumno, Double> promediosAlumnos = calificacionesCurso.stream()

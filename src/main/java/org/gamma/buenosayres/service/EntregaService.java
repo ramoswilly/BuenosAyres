@@ -30,19 +30,6 @@ public class EntregaService {
 		this.evaluacionDAO = evaluacionDAO;
 		this.alumnoRepository = alumnoRepository;
 	}
-	public void createPendingDeliveries(Evaluacion evaluacion)
-	{
-		//Crear objetos entrega pendientes
-		evaluacion.getMateria().getCurso().getAlumnos()
-				.stream()
-				.map(alumno -> {
-					Entrega pendiente = new Entrega();
-					pendiente.setEvaluacion(evaluacion);
-					pendiente.setAlumno(alumno);
-					return pendiente;
-				})
-				.forEach(entrega -> entregaDAO.save(entrega));
-	}
 	public Entrega create(Authentication authentication, EntregaDTO entregaDTO) throws ServiceException {
 		// verificar evaluacion
 		Optional<Evaluacion> evaluacion = evaluacionDAO.findById(entregaDTO.getIdEvaluacion());
