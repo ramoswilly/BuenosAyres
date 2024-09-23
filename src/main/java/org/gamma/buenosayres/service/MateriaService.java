@@ -11,6 +11,7 @@ import org.gamma.buenosayres.dto.MateriaDTO;
 import org.gamma.buenosayres.dto.ProfesorDTO;
 import org.gamma.buenosayres.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -102,10 +103,16 @@ public class MateriaService {
 		return materiaDAO.save(byId.get());
 	}
 
-	public List<Materia> get(String username)
+	public List<Materia> get(Authentication authentication)
 	{
+		// ¿Es profe de primaria?
+		Optional<Profesor> profesor = profesorDAO.findByPersonaDni(authentication.getName());
+		if (profesor.isEmpty()) return new ArrayList<>();
+		if (profesor.get().getNivel().equals(Nivel.PRIMARIA)) {
+			return materiaDAO.findAllByCurso_Responsable(profesor.get());
+		}
 		// Obtener Usuario
-		Optional<Usuario> usuario = userService.get(username);
+		Optional<Usuario> usuario = userService.get(authentication.getName());
 		if (usuario.isEmpty()) return new ArrayList<>();
 		return materiaDAO.findByProfesor_Persona_Usuario(usuario.get());
 	}
