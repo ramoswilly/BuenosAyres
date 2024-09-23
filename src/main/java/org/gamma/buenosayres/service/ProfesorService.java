@@ -8,12 +8,12 @@ import org.gamma.buenosayres.repository.CalificacionRepository;
 import org.gamma.buenosayres.repository.ProfesorDAO;
 import org.gamma.buenosayres.exception.ServiceException;
 import org.gamma.buenosayres.repository.SaludDAO;
+import org.gamma.buenosayres.repository.UsuarioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,14 +25,18 @@ public class ProfesorService {
 	PersonaService personaService;
 	UserService userService;
 	CalificacionRepository calificacionRepository;
+	UsuarioDAO usuarioDAO;
+	RolService rolService;
 	@Autowired
-	public ProfesorService(ProfesorDAO profesorDAO, PersonaService personaService, SaludDAO saludDAO, UserService userService, CalificacionRepository calificacionRepository)
+	public ProfesorService(ProfesorDAO profesorDAO, PersonaService personaService, SaludDAO saludDAO, UserService userService, CalificacionRepository calificacionRepository, UsuarioDAO usuarioDAO, RolService rolService)
 	{
 		this.profesorDAO = profesorDAO;
 		this.personaService = personaService;
 		this.saludDAO = saludDAO;
 		this.userService = userService;
 		this.calificacionRepository = calificacionRepository;
+		this.usuarioDAO = usuarioDAO;
+		this.rolService = rolService;
 	}
 
 	public List<Profesor> get()
@@ -56,6 +60,8 @@ public class ProfesorService {
 		// Obtener usuario/crearlo
 		Usuario usuario = userService.create(profesor.getPersona().getId());
 		profesor.getPersona().setUsuario(usuario);
+		//Habilitar
+		profesor.setHabilitado(true);
 		// Agregar rol..
 		userService.giveRole(usuario, profesor.getTipo().name());
 		return profesorDAO.save(profesor);
@@ -108,6 +114,13 @@ public class ProfesorService {
 			if (profesorByPersonaDni.isPresent() && profesorByPersonaDni.get().getId() != profesor.getId())
 				throw new ServiceException("No se puede actualizar el DNI, corresponde a otro profesor", 400);
 			toUpdate.getPersona().setDni(profesor.getDni());
+			toUpdate.getPersona().getUsuario().setUsername(profesor.getDni());
+			toUpdate.getPersona().getUsuario().setPassword(profesor.getDni());
+			usuarioDAO.save(toUpdate.getPersona().getUsuario());
+		}
+		if (profesor.isHabilitado() != toUpdate.isHabilitado()) {
+			toUpdate.setHabilitado(profesor.isHabilitado());
+			userService.enable(toUpdate.getPersona().getUsuario(), toUpdate.isHabilitado());
 		}
 		if (profesor.getNombre() != null) {
 			toUpdate.getPersona().setNombre(profesor.getNombre());
@@ -142,7 +155,9 @@ public class ProfesorService {
 			// Actualizar rol del usuario
 			Usuario usuario = toUpdate.getPersona().getUsuario();
 			if (usuario != null) {
-				usuario.getRoles().clear(); //TODO: Alto bug
+				Rol rol = rolService.find(toUpdate.getTipo());
+				toUpdate.getPersona().getUsuario().getRoles().remove(rol);
+				//usuario.getRoles().clear(); //TODO: Alto bug
 				userService.giveRole(usuario, profesor.getTipo().name());
 			}
 		}

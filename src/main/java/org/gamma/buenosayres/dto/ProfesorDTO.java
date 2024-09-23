@@ -17,6 +17,7 @@ public class ProfesorDTO {
 	private Nivel nivel;
 	private String banco;
 	private String cbu;
+	private boolean habilitado;
 	private TipoEmpleado tipo;
 	public ProfesorDTO()
 	{
@@ -140,5 +141,15 @@ public class ProfesorDTO {
 	public void setCbu(String cbu)
 	{
 		this.cbu = cbu;
+	}
+
+	public boolean isHabilitado()
+	{
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado)
+	{
+		this.habilitado = habilitado;
 	}
 }

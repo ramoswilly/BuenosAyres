@@ -160,4 +160,5 @@ public class Profesor {
 	{
 		this.CBU = CBU;
 	}
+
 }
