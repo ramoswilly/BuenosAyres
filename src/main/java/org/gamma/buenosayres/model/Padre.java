@@ -17,6 +17,7 @@ public class Padre {
 	private Persona persona;
 	private String telefono;
 	private String email;
+	private boolean habilitado;
 	@Column(name = "es_responsable_facturacion")
 	private boolean responsableFacturacion;
 
@@ -29,29 +30,14 @@ public class Padre {
 		return this.id;
 	}
 
-	public Persona getPersona()
-	{
-		return this.persona;
-	}
-
-	public String getTelefono()
-	{
-		return this.telefono;
-	}
-
-	public String getEmail()
-	{
-		return this.email;
-	}
-
-	public boolean isResponsableFacturacion()
-	{
-		return this.responsableFacturacion;
-	}
-
 	public void setId(UUID id)
 	{
 		this.id = id;
+	}
+
+	public Persona getPersona()
+	{
+		return this.persona;
 	}
 
 	public void setPersona(Persona persona)
@@ -59,9 +45,19 @@ public class Padre {
 		this.persona = persona;
 	}
 
+	public String getTelefono()
+	{
+		return this.telefono;
+	}
+
 	public void setTelefono(String telefono)
 	{
 		this.telefono = telefono;
+	}
+
+	public String getEmail()
+	{
+		return this.email;
 	}
 
 	public void setEmail(String email)
@@ -69,8 +65,23 @@ public class Padre {
 		this.email = email;
 	}
 
+	public boolean isResponsableFacturacion()
+	{
+		return this.responsableFacturacion;
+	}
+
 	public void setResponsableFacturacion(boolean responsableFacturacion)
 	{
 		this.responsableFacturacion = responsableFacturacion;
+	}
+
+	public boolean isHabilitado()
+	{
+		return habilitado;
+	}
+
+	public void setHabilitado(boolean habilitado)
+	{
+		this.habilitado = habilitado;
 	}
 }

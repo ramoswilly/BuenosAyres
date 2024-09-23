@@ -36,7 +36,7 @@ public class PadreController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody PadreDTO padreDTO) {
         try {
-            return ResponseEntity.ok(padreService.create(padreMapper.map(padreDTO)));
+            return ResponseEntity.ok(padreMapper.map(padreService.create(padreMapper.map(padreDTO))));
         } catch (ServiceException e) {
             return ResponseEntity.status(e.getCode()).body(e.getMessage());
         }
@@ -55,6 +55,10 @@ public class PadreController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update(@PathVariable(value = "id") UUID idPadre, @RequestBody PadreDTO padreDTO) {
         padreDTO.setId(idPadre);
-        return ResponseEntity.ok(padreService.update(padreMapper.map(padreDTO)));
+        try {
+            return ResponseEntity.ok(padreMapper.map(padreService.update(padreMapper.map(padreDTO))));
+        } catch (ServiceException e) {
+            return ResponseEntity.status(e.getCode()).body(e.getMessage());
+        }
     }
 }

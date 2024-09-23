@@ -275,6 +275,7 @@
                                                 <th>Teléfono</th>
                                                 <th>Email</th>
                                                 <th>Facturar</th>
+                                                <th>Habilitado</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -330,11 +331,18 @@
                                     }
                                 },
                                 {
+                                    data: "habilitado",
+                                    render: function (data, type, row) {
+                                        return data ? '<span class="badge bg-success">Habilitado</span>' : '<span class="badge bg-danger">Deshabilitado</span>';
+                                    }
+                                },
+                                {
                                     data: null,
                                     render: function (data, type, row) {
                                         return `<td class="text-end"><div class="actions"><a href="editar-padre?id=${data.id}" class="btn btn-sm bg-danger-light"><i class="feather-edit"></i></a></div></td>`;
                                     }
                                 }
+
                             ]
                         });
                         $('#buscar-input').on('input', function () {

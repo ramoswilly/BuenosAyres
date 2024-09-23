@@ -310,6 +310,16 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-12 col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="habilitado" name="habilitado">
+                                                <label class="form-check-label" for="habilitado">
+                                                    Habilitado
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="form-group row mb-0">
                                         <div class="col-lg-10 offset-lg-2">
                                             <button type="button" class="btn btn-primary"
@@ -364,6 +374,7 @@
             var telefono = $('#telefono').val();
             var email = $('#email').val();
             var responsableFacturacion = $('input[name="facturar"]:checked').val() === 'si';
+            var habilitado = $('#habilitado').is(':checked');
 
             var nuevoPadre = {
                 dni: dni,
@@ -372,6 +383,7 @@
                 direccion: direccion,
                 telefono: telefono,
                 email: email,
+                habilitado: habilitado,
                 responsableFacturacion: responsableFacturacion
             };
 
@@ -418,6 +430,7 @@
                     document.getElementById('direccion').value = data.direccion;
                     document.getElementById('telefono').value = data.telefono;
                     document.getElementById('email').value = data.email;
+                    document.getElementById('habilitado').checked = data.habilitado;
                     if (data.responsableFacturacion) {
                         $('input[name="facturar"][value="si"]').prop('checked', true);
                     } else {

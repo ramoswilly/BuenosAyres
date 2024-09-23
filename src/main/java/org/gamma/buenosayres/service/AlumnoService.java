@@ -6,6 +6,7 @@ import org.gamma.buenosayres.repository.AlumnoRepository;
 import org.gamma.buenosayres.repository.CursoDAO;
 import org.gamma.buenosayres.exception.ServiceException;
 import org.gamma.buenosayres.repository.SaludDAO;
+import org.gamma.buenosayres.repository.UsuarioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +21,16 @@ public class AlumnoService {
 	private final PersonaService personaService;
 	private final UserService userService;
 	private final SaludDAO saludDAO;
+	private final UsuarioDAO usuarioDAO;
 	@Autowired
-	public AlumnoService(AlumnoRepository alumnoRepository, CursoDAO cursoDAO, PersonaService personaService, UserService userService, SaludDAO saludDAO)
+	public AlumnoService(AlumnoRepository alumnoRepository, CursoDAO cursoDAO, PersonaService personaService, UserService userService, SaludDAO saludDAO, UsuarioDAO usuarioDAO)
 	{
 		this.alumnoRepository = alumnoRepository;
 		this.cursoDAO = cursoDAO;
 		this.personaService = personaService;
 		this.userService = userService;
 		this.saludDAO = saludDAO;
+		this.usuarioDAO = usuarioDAO;
 	}
 	@Transactional
 	public Alumno newAlumno(Alumno alumno) throws ServiceException
@@ -91,6 +94,9 @@ public class AlumnoService {
 		if (updatedAlumno.getPersona() != null) {
 			Persona updatedPersona = updatedAlumno.getPersona();
 			if (updatedPersona.getDni() != null) {
+				existingAlumno.getPersona().getUsuario().setUsername(updatedPersona.getDni());
+				existingAlumno.getPersona().getUsuario().setPassword(updatedPersona.getDni());
+				usuarioDAO.save(existingAlumno.getPersona().getUsuario());
 				existingAlumno.getPersona().setDni(updatedPersona.getDni());
 			}
 			if (updatedPersona.getNombre() != null) {
