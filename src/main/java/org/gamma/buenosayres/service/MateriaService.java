@@ -52,6 +52,7 @@ public class MateriaService {
 
 		Materia materia = new Materia();
 		materia.setNombre(dto.getNombre());
+		materia.setHabilitada(true);
 		materia.setCurso(curso.get());
 		//materia.setProfesor(profesor.get());
 		return materiaDAO.save(materia);
@@ -88,6 +89,10 @@ public class MateriaService {
 			Optional<Curso> curso = cursoDAO.findById(materia.getId_curso());
 			if (curso.isEmpty()) throw new ServiceException("Curso inexistente", 404);
 			byId.get().setCurso(curso.get());
+		}
+		//Está habilitada
+		if (materia.isHabilitada() != byId.get().isHabilitada()) {
+			byId.get().setHabilitada(materia.isHabilitada());
 		}
 		// Actualizar nombre
 		if (materia.getNombre() != null) {

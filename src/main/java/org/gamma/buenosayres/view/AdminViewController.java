@@ -152,7 +152,7 @@ public class AdminViewController {
         // Disciplina
         @GetMapping("/disciplina")
         public String disciplina() {
-        return "admin/disciplina";
+        return "admin/sanciones";
     }
 
         @GetMapping("/agregar-sancion")

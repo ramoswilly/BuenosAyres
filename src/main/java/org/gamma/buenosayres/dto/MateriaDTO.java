@@ -16,6 +16,7 @@ public class MateriaDTO {
 	private String nombre_profesor;
 	private String apellido_profesor;
 	private boolean habilitada;
+
 	public UUID getId()
 	{
 		return id;
@@ -104,5 +105,15 @@ public class MateriaDTO {
 	public void setTurno_curso(Turno turno_curso)
 	{
 		this.turno_curso = turno_curso;
+	}
+
+	public boolean isHabilitada()
+	{
+		return habilitada;
+	}
+
+	public void setHabilitada(boolean habilitada)
+	{
+		this.habilitada = habilitada;
 	}
 }

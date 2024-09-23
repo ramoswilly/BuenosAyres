@@ -265,6 +265,7 @@
                     <th>Nombre</th>
                     <th>Curso</th>
                     <th>Profesor</th>
+                    <th>Habilitada</th>
                     <th>Acciones</th>
                   </tr>
                   </thead>
@@ -368,6 +369,12 @@
             } else {
               return `<a href="#" class="asignar-profesor" data-materia-id="${data.id}" style="color: lightblue; text-decoration: underline;">Asignar</a>`;
             }
+          }
+        },
+        {
+          data: "habilitada",
+          render: function (data, type, row) {
+            return data ? '<span class="badge bg-success">Habilitada</span>' : '<span class="badge bg-danger">Deshabilitada</span>';
           }
         },
         {
