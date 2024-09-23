@@ -238,6 +238,16 @@
                         </div>
                       </div>
                     </div>
+                    <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="habilitado" name="habilitado">
+                          <label class="form-check-label" for="habilitado">
+                            Habilitado
+                          </label>
+                        </div>
+                      </div>
+                    </div>
                     <div class="form-group row mb-0">
                       <div class="col-lg-10 offset-lg-2">
                         <button type="button" class="btn btn-primary"
@@ -334,6 +344,7 @@
       var banco = $('#banco').val();
       var nivel = $('#nivel').val();
       var tipo = $('#tipo').val();
+      var habilitado = $('#habilitado').is(':checked');
 
       // Crear un objeto con los datos del nuevo profesor
       var profesorActualizado = {
@@ -347,6 +358,7 @@
         cbu: cbu,
         banco: banco,
         nivel: nivel,
+        habilitado: habilitado,
         tipo: tipo
       };
 
@@ -405,6 +417,7 @@
                 document.getElementById('email').value = data.email;
                 document.getElementById('cbu').value = data.cbu;
                 document.getElementById('banco').value = data.banco;
+                document.getElementById('habilitado').checked = data.habilitado;
                 document.getElementById('nivel').value = data.nivel;
 
                 // Llenar las opciones de tipo según el nivel
