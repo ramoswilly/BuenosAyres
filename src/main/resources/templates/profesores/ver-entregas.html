@@ -244,7 +244,7 @@
             }
             if (data) {
               const fecha = new Date(data);
-              return fecha.toLocaleDateString(); // Formato de fecha local
+              return fecha.toISOString().split('T')[0];
             } else {
               return '<span class="sin-entregar">Sin entregar</span>';
             }

@@ -446,7 +446,7 @@
                                     data.forEach(function(periodo) {
                                         var date = new Date(periodo);
                                         var options = { year: 'numeric', month: 'long' };
-                                        var formattedDate = date.toLocaleDateString('es-ES', options);
+                                        var formattedDate = date.toISOString().split('T')[0];
                                         formattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
                                         $dropdown.append('<option value="' + periodo + '">' + formattedDate + '</option>');
                                     });

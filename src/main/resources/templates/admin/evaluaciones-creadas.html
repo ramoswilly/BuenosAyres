@@ -318,7 +318,7 @@
           data: 'fechaCreacion',
           render: function (data, type, row) {
             const fecha = new Date(data);
-            return fecha.toLocaleDateString(); // Formato de fecha local
+            return fecha.toISOString().split('T')[0];
           }
         },
         { data: 'descripcion' },
@@ -326,7 +326,7 @@
           data: 'fechaVencimiento',
           render: function (data, type, row) {
             const fecha = new Date(data);
-            return fecha.toLocaleDateString(); // Formato de fecha local
+            return fecha.toISOString().split('T')[0];
           }
         },
         { data: 'entregas' }, // Puedes personalizar cómo se muestran las entregas

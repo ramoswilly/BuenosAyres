@@ -266,7 +266,7 @@
         familia.facturas.forEach(factura => {
             const fecha = new Date(factura.periodo);
             const options = {year: 'numeric', month: 'long'};
-            var periodoFormateado = fecha.toLocaleDateString('es-ES', options);
+            var periodoFormateado = fecha.toISOString().split('T')[0];
             periodoFormateado = periodoFormateado.charAt(0).toUpperCase() + periodoFormateado.slice(1);
 
             // Calcular monto total de la factura sin los detalles abonados

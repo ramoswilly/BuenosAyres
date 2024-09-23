@@ -320,7 +320,7 @@
           data: 'fecha',
           render: function (data, type, row) {
             const fecha = new Date(data);
-            return fecha.toLocaleDateString(); // Formato de fecha local
+            return fecha.toISOString().split('T')[0];
           }
         },
         {

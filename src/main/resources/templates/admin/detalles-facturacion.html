@@ -355,7 +355,7 @@
   function mostrarDetallesFacturacion(data) {
     var periodo = new Date(data.periodo);
     var options = { year: 'numeric', month: 'long' };
-    var periodo = periodo.toLocaleDateString('es-ES', options);
+    var periodo = periodo.toISOString().split('T')[0];
     periodo = periodo.charAt(0).toUpperCase() + periodo.slice(1);
     $('#titulo').text(`Familia ${data.apellido_familia} - ${periodo}`);
     //$('#total').text(`TOTAL: $${data.montoFinal}`)

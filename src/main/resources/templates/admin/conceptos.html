@@ -550,7 +550,7 @@
                         { data: 'descripcion' },
                         { data: 'nivel' },
                         { data: 'monto', render: function (data) { return `${formatearMoneda(data)}`; } },
-                        { data: 'fechaActualizacion', render: function (data) { return new Date(data).toLocaleDateString('es-AR'); } }
+                        { data: 'fechaActualizacion', render: function (data) { return new Date(data).toISOString().split('T')[0]; }}
                     ],
                     destroy: true // Destruye la instancia anterior de DataTable si existe
                 });

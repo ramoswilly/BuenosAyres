@@ -209,7 +209,7 @@
         $('#archivo').parent().find('label').text('Revisar archivo'); // Cambiar el texto del label
 
         // Deshabilitar el botón de entrega y mostrar la fecha de entrega
-        const fechaEntrega = new Date(entrega.fechaEntrega).toLocaleDateString();
+        const fechaEntrega = new Date(entrega.fechaEntrega).toISOString().split('T')[0];
         $('#formulario-entrega button[type="submit"]').prop('disabled', true).text(`Entrega ya realizada el ${fechaEntrega}`);
       },
       error: function (error) {
