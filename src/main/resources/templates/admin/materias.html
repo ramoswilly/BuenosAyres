@@ -247,9 +247,17 @@
                   <div class="col">
                     <h3 class="page-title">Materias</h3>
                   </div>
-                  <div class="col-auto text-end float-end ms-auto download-grp">
-                    <a href="materias" class="btn btn-outline-gray me-2 active"><i
-                            class="feather-list"></i></a>
+                  <div class="col-auto ms-auto d-flex align-items-center download-grp">
+                    <div class="dropdown me-2">
+                      <a href="#" class="btn btn-outline-primary dropdown-toggle" id="btn-descargar" data-bs-toggle="dropdown">
+                        <i class="fas fa-download"></i> Descargar
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="btn-descargar">
+                        <li><a class="dropdown-item" href="#" id="download-pdf">Descargar PDF</a></li>
+                        <li><a class="dropdown-item" href="#" id="download-excel">Descargar Excel</a></li>
+                        <li><a class="dropdown-item" href="#" id="download-csv">Descargar CSV</a></li>
+                      </ul>
+                    </div>
 
                     <a href="agregar-materia" class="btn btn-primary"><i
                             class="fas fa-plus"></i></a>
@@ -334,6 +342,7 @@
 <script src="../assets/plugins/datatables/datatables.min.js"></script>
 
 <script src="../assets/js/script.js"></script>
+<script src="../assets/js/datatables_buttons.js"></script>
 
 <script>
   $(document).ready(function () {
@@ -363,6 +372,30 @@
     const profesorId = urlParams.get('profesor');
 
     var tabla = $('#tabla-materias').DataTable({
+      dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
+      buttons: [
+        {
+          extend: 'csvHtml5',
+          text: 'Descargar CSV',
+          exportOptions: {
+            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+          }
+        },
+        {
+          extend: 'excelHtml5',
+          text: 'Descargar Excel',
+          exportOptions: {
+            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+          }
+        },
+        {
+          extend: 'pdfHtml5',
+          text: 'Descargar PDF',
+          exportOptions: {
+            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+          }
+        }
+      ],
       processing: true,
       searching: true,
       language: {
@@ -402,13 +435,31 @@
             return `<td class="text-end"><div class="actions"><a href="editar-materia?id=${data.id}" class="btn btn-sm bg-danger-light"><i class="feather-edit"></i></a></div></td>`;
           }
         }
-      ]
+      ],
+      initComplete: function() {
+        // Ocultar los botones generados automáticamente
+        tabla.buttons().container().addClass('d-none');
+      }
     });
 
     $('#buscar-input').on('input', function () {
       tabla.search($(this).val()).draw();
     });
+// Ocultar los botones generados automáticamente
+    tabla.buttons().container().addClass('d-none');
 
+    // Agregar funcionalidad a los botones del menú desplegable
+    $('#download-pdf').on('click', function() {
+      tabla.button('.buttons-pdf').trigger();  // Descargar PDF
+    });
+
+    $('#download-excel').on('click', function() {
+      tabla.button('.buttons-excel').trigger();  // Descargar Excel
+    });
+
+    $('#download-csv').on('click', function() {
+      tabla.button('.buttons-csv').trigger();  // Descargar CSV
+    });
     // Cargar profesores en el modal
     function cargarProfesores(materiaId) {
       // Inicializar la tabla de DataTables}

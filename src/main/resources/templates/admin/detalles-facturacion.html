@@ -265,7 +265,18 @@
                   <div class="col">
                     <h3 class="page-title" id="titulo"></h3>
                   </div>
-
+                  <div class="col-auto ms-auto d-flex align-items-center download-grp">
+                    <div class="dropdown me-2">
+                      <a href="#" class="btn btn-outline-primary dropdown-toggle" id="btn-descargar" data-bs-toggle="dropdown">
+                        <i class="fas fa-download"></i> Descargar
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="btn-descargar">
+                        <li><a class="dropdown-item" href="#" id="download-pdf">Descargar PDF</a></li>
+                        <li><a class="dropdown-item" href="#" id="download-excel">Descargar Excel</a></li>
+                        <li><a class="dropdown-item" href="#" id="download-csv">Descargar CSV</a></li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
       <div class="row">
@@ -325,6 +336,8 @@
 <script src="../assets/plugins/datatables/datatables.min.js"></script>
 <script src="../assets/js/script.js"></script>
             <script src="../assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<script src="../assets/js/datatables_buttons.js"></script>
+
 <script th:inline="none">
   function formatearMoneda(numero) {
     return '$ ' + numero.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -338,6 +351,25 @@
     } else {
       console.error("No se proporcionó un ID de facturación válido.");
     }
+    $.ajax({
+      url: '/api/v1/userdata',
+      type: 'GET',
+      dataType: 'json',
+      success: function (data) {
+        // Asumiendo que la API retorna un objeto JSON con nombre, apellido y rol
+        var nombre = data.nombre;
+        var apellido = data.apellido;
+        var rol = data.rol;
+
+        // Actualiza la información del usuario en el menú desplegable
+        $('.user-text h6').text(nombre + ' ' + apellido);
+        $('.user-text p').text(rol);
+      },
+      error: function (error) {
+        console.error('Error al obtener la información del usuario:', error);
+        // Manejar el error de la solicitud, por ejemplo, mostrar un mensaje al usuario
+      }
+    });
   });
 
   function obtenerDetallesFacturacion(id) {
@@ -419,6 +451,30 @@
     });
     // Inicializar DataTables
     tabla = $('#tabla-detalles-facturacion').DataTable({
+      dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
+      buttons: [
+        {
+          extend: 'csvHtml5',
+          text: 'Descargar CSV',
+          exportOptions: {
+            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+          }
+        },
+        {
+          extend: 'excelHtml5',
+          text: 'Descargar Excel',
+          exportOptions: {
+            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+          }
+        },
+        {
+          extend: 'pdfHtml5',
+          text: 'Descargar PDF',
+          exportOptions: {
+            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+          }
+        }
+      ],
       "order": [[0, 'asc']],
       "searching": false,
       "paging": false,
@@ -433,8 +489,20 @@
                         <p class="mb-0">TOTAL ADEUDADO: ${formatearMoneda(totalAdeudado)}</p>
                     `);
       }
+
+    });
+  // Agregar funcionalidad a los botones del menú desplegable
+    $('#download-pdf').on('click', function() {
+      tabla.button('.buttons-pdf').trigger();  // Descargar PDF
     });
 
+    $('#download-excel').on('click', function() {
+      tabla.button('.buttons-excel').trigger();  // Descargar Excel
+    });
+
+    $('#download-csv').on('click', function() {
+      tabla.button('.buttons-csv').trigger();  // Descargar CSV
+    });
     // Manejar clics en los checkboxes de "Abonado"
     tbody.on('change', '.checkbox-abonado', function() {
       mostrarBotonConfirmar();

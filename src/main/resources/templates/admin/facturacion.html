@@ -249,11 +249,18 @@
                                     <div class="col">
                                         <h3 class="page-title">Facturación</h3>
                                     </div>
-                                    <div class="col-auto text-end float-end ms-auto download-grp">
+                                    <div class="col-auto ms-auto d-flex align-items-center download-grp">
 
-                                        <a href="#" class="btn btn-outline-primary me-2"><i
-                                                class="fas fa-download"></i>
-                                            Descargar</a>
+                                        <div class="dropdown me-2">
+                                            <a href="#" class="btn btn-outline-primary dropdown-toggle" id="btn-descargar" data-bs-toggle="dropdown">
+                                                <i class="fas fa-download"></i> Descargar
+                                            </a>
+                                            <ul class="dropdown-menu" aria-labelledby="btn-descargar">
+                                                <li><a class="dropdown-item" href="#" id="download-pdf">Descargar PDF</a></li>
+                                                <li><a class="dropdown-item" href="#" id="download-excel">Descargar Excel</a></li>
+                                                <li><a class="dropdown-item" href="#" id="download-csv">Descargar CSV</a></li>
+                                            </ul>
+                                        </div>
                                         <button onclick="facturar()" class="btn btn-primary">
                                             <i class="fas fa-dollar-sign"></i>
                                         </button>
@@ -357,6 +364,7 @@
                     <script src="../assets/plugins/toastr/toastr.min.js"></script>
                     <script src="../assets/plugins/toastr/toastr.js"></script>
                     <script src="../assets/js/script.js"></script>
+                    <script src="../assets/js/datatables_buttons.js"></script>
 
                     <script>
                         function formatearMoneda(numero) {
@@ -426,6 +434,7 @@
                                     actualizarTablaFacturacion(periodoSeleccionado);
                                 }
                             });
+
                         });
                         document.getElementById('iniciarFacturacionBtn').addEventListener('click', function() {
                             //const incluirConceptosAdicionales = document.getElementById('incluirConceptosAdicionales').checked;
@@ -500,6 +509,30 @@
 
                         function actualizarTablaFacturacion(periodo) {
                             tabla = $('#tabla-facturacion').DataTable({
+                                dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
+                                buttons: [
+                                    {
+                                        extend: 'csvHtml5',
+                                        text: 'Descargar CSV',
+                                        exportOptions: {
+                                            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+                                        }
+                                    },
+                                    {
+                                        extend: 'excelHtml5',
+                                        text: 'Descargar Excel',
+                                        exportOptions: {
+                                            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+                                        }
+                                    },
+                                    {
+                                        extend: 'pdfHtml5',
+                                        text: 'Descargar PDF',
+                                        exportOptions: {
+                                            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+                                        }
+                                    }
+                                ],
                                 destroy: true,
                                 processing: true,
                                 ajax: {
@@ -529,6 +562,21 @@
                                                 <p class="mb-0">TOTAL: ${formatearMoneda(total)}</p>
                                             `);
                                 }
+                            });
+                            // Ocultar los botones generados automáticamente
+                            tabla.buttons().container().addClass('d-none');
+
+                            // Agregar funcionalidad a los botones del menú desplegable
+                            $('#download-pdf').on('click', function() {
+                                tabla.button('.buttons-pdf').trigger();  // Descargar PDF
+                            });
+
+                            $('#download-excel').on('click', function() {
+                                tabla.button('.buttons-excel').trigger();  // Descargar Excel
+                            });
+
+                            $('#download-csv').on('click', function() {
+                                tabla.button('.buttons-csv').trigger();  // Descargar CSV
                             });
                         }
                     </script>

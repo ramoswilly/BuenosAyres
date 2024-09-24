@@ -226,14 +226,27 @@
         <div class="col-sm-12">
           <div class="card card-table comman-shadow">
             <div class="card-body">
-
               <div class="page-header">
                 <div class="row align-items-center">
                   <div class="col">
                     <h3 class="page-title">Cursos</h3>
                   </div>
+                  <div class="col-auto ms-auto d-flex align-items-center download-grp">
+                    <div class="dropdown me-2">
+                      <a href="#" class="btn btn-outline-primary dropdown-toggle" id="btn-descargar" data-bs-toggle="dropdown">
+                        <i class="fas fa-download"></i> Descargar
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="btn-descargar">
+                        <li><a class="dropdown-item" href="#" id="download-pdf">Descargar PDF</a></li>
+                        <li><a class="dropdown-item" href="#" id="download-excel">Descargar Excel</a></li>
+                        <li><a class="dropdown-item" href="#" id="download-csv">Descargar CSV</a></li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
+
+
 
               <div class="table-responsive">
                 <table id="tabla-cursos"
@@ -327,6 +340,7 @@
 <script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../assets/plugins/datatables/datatables.min.js"></script>
 <script src="../assets/js/script.js"></script>
+<script src="../assets/js/datatables_buttons.js"></script>
 
 <script>
   $(document).ready(function () {
@@ -356,6 +370,30 @@
 
     // Inicializar DataTable
     let tablaCursos = $("#tabla-cursos").DataTable({
+      dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
+      buttons: [
+        {
+          extend: 'csvHtml5',
+          text: 'Descargar CSV',
+          exportOptions: {
+            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+          }
+        },
+        {
+          extend: 'excelHtml5',
+          text: 'Descargar Excel',
+          exportOptions: {
+            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+          }
+        },
+        {
+          extend: 'pdfHtml5',
+          text: 'Descargar PDF',
+          exportOptions: {
+            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+          }
+        }
+      ],
       ajax: {
         url: `${baseUrl}/cursos`,
         dataSrc: "" // Indica que los datos están en la raíz del JSON
@@ -394,6 +432,10 @@
       language: {
         url: "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
       },
+      initComplete: function() {
+        // Ocultar los botones generados automáticamente
+        tablaCursos.buttons().container().addClass('d-none');
+      }
     });
     // Si se proporciona un ID de profesor en la URL
     if (profesorId) {
@@ -525,6 +567,23 @@
           console.error("Error al cambiar la habilitación del curso:", error);
         },
       });
+    });
+    $('#buscar-input').on('input', function () {
+
+      tablaCursos.search($(this).val()).draw();
+    })
+
+    // Agregar funcionalidad a los botones del menú desplegable
+    $('#download-pdf').on('click', function() {
+      tablaCursos.button('.buttons-pdf').trigger();  // Descargar PDF
+    });
+
+    $('#download-excel').on('click', function() {
+      tablaCursos.button('.buttons-excel').trigger();  // Descargar Excel
+    });
+
+    $('#download-csv').on('click', function() {
+      tablaCursos.button('.buttons-csv').trigger();  // Descargar CSV
     });
   });
 </script>
