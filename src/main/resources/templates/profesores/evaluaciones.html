@@ -24,7 +24,9 @@
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
+    <style>       .dt-buttons {
+            display: none;
+        }
         .dataTables_filter {
             display: none;
         }
@@ -223,7 +225,9 @@
                         // Manejar el error de la solicitud, por ejemplo, mostrar un mensaje al usuario
                     }
                 });
-        var tabla = $('#tabla-materias').DataTable({
+        var tabla = $('#tabla-materias').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             processing: true,
             searching: true,
             language: {

@@ -24,7 +24,9 @@
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
+    <style>       .dt-buttons {
+            display: none;
+        }
         .dataTables_filter {
             display: none;
         }
@@ -329,7 +331,9 @@
                 });
             var conteoApellidos = {}; // Diccionario para contar apellidos
 
-            var tabla = $('#tabla-familias').DataTable({
+            var tabla = $('#tabla-familias').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
                 dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
                 buttons: [
                     {

@@ -24,7 +24,9 @@
   <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 
   <link rel="stylesheet" href="../assets/css/style.css">
-  <style>
+  <style>       .dt-buttons {
+            display: none;
+        }
     .dataTables_filter {
       display: none;
     }
@@ -322,7 +324,9 @@
     const urlParams = new URLSearchParams(window.location.search);
     const evaluacionId = urlParams.get('evaluacion');
 
-    var tabla = $('#tabla-entregas').DataTable({
+    var tabla = $('#tabla-entregas').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
       processing: true,
       searching: true,
       language: {

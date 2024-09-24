@@ -24,7 +24,9 @@
   <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 
   <link rel="stylesheet" href="../assets/css/style.css">
-  <style>
+  <style>       .dt-buttons {
+            display: none;
+        }
     .dataTables_filter {
       display: none;
     }
@@ -371,7 +373,9 @@
     const urlParams = new URLSearchParams(window.location.search);
     const profesorId = urlParams.get('profesor');
 
-    var tabla = $('#tabla-materias').DataTable({
+    var tabla = $('#tabla-materias').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
       dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
       buttons: [
         {
@@ -465,7 +469,9 @@
       // Inicializar la tabla de DataTables}
       var tablaProfesores;
       if (!$.fn.DataTable.isDataTable('#tabla-profesores')) {
-        tablaProfesores = $('#tabla-profesores').DataTable({
+        tablaProfesores = $('#tabla-profesores').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
           "ajax": {
             "url": "/api/v1/profesores",
             "dataSrc": ""

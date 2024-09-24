@@ -369,7 +369,9 @@
     const profesorId = urlParams.get('profesor');
 
     // Inicializar DataTable
-    let tablaCursos = $("#tabla-cursos").DataTable({
+    let tablaCursos = $("#tabla-cursos").DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
       dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
       buttons: [
         {
@@ -526,7 +528,9 @@
     });
 
     // Inicializar DataTable para responsables
-    $("#tabla-responsables").DataTable({
+    $("#tabla-responsables").DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
       columns: [
         { data: "dni" },
         { data: "nombre" },

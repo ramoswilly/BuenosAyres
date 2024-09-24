@@ -25,7 +25,9 @@
     <link rel="stylesheet" href="../assets/plugins/toastr/toatr.css">
 
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
+    <style>       .dt-buttons {
+            display: none;
+        }
         .dataTables_filter {
             display: none;
         }
@@ -395,7 +397,9 @@
                             $('#incluirConceptosAdicionales').change(function () {
                                 if ($(this).is(':checked')) {
                                     $('#conceptosAdicionalesTable').show();
-                                    var table = $('#conceptosAdicionalesTable').DataTable({
+                                    var table = $('#conceptosAdicionalesTable').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
                                         "ajax": {
                                             url: "/api/v1/conceptos?type=ADICIONAL",
                                             dataSrc: ''
@@ -508,7 +512,9 @@
                         }
 
                         function actualizarTablaFacturacion(periodo) {
-                            tabla = $('#tabla-facturacion').DataTable({
+                            tabla = $('#tabla-facturacion').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
                                 dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
                                 buttons: [
                                     {

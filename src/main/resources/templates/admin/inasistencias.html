@@ -24,7 +24,9 @@
   <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 
   <link rel="stylesheet" href="../assets/css/style.css">
-  <style>
+  <style>       .dt-buttons {
+            display: none;
+        }
     .dataTables_filter {
       display: none;
     }
@@ -330,7 +332,9 @@
                         // Manejar el error de la solicitud, por ejemplo, mostrar un mensaje al usuario
                     }
                 });
-    var tabla = $('#tabla-inasistencias').DataTable({
+    var tabla = $('#tabla-inasistencias').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
       dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
       buttons: [
         {

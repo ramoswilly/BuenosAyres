@@ -493,7 +493,9 @@
                 });
 
         // *** Mejores Promedios ***
-        $('#mejoresPromediosTable').DataTable({
+        $('#mejoresPromediosTable').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             destroy: true,
             ajax: {
                 url: '/api/v1/calificaciones/mejores_promedios',
@@ -515,7 +517,9 @@
         });
 
         // *** Asistencias Perfectas ***
-        $('#asistenciasPerfectasTable').DataTable({
+        $('#asistenciasPerfectasTable').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             destroy: true,
             ajax: {
                 url: '/api/v1/inasistencias/perfectas',
@@ -536,7 +540,9 @@
         });
 
         // *** Alumnos con Faltas ***
-        $('#alumnosFaltasTable').DataTable({
+        $('#alumnosFaltasTable').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             destroy: true,
             ajax: {
                 url: '/api/v1/inasistencias/top5',
@@ -560,7 +566,9 @@
         });
 
         // *** Alumnos Problemáticos ***
-        $('#alumnosProblematicosTable').DataTable({
+        $('#alumnosProblematicosTable').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             destroy: true,
             ajax: {
                 url: '/api/v1/sanciones/top10',
@@ -584,7 +592,9 @@
         });
 
         // *** Rendimiento de Profesor ***
-        $('#rendimientoProfesorTable').DataTable({
+        $('#rendimientoProfesorTable').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             destroy: true,
             ajax: {
                 url: '/api/v1/profesores/rendimiento',
@@ -608,7 +618,9 @@
         });
 
         // *** Cursos Problemáticos ***
-        $('#cursosProblematicosTable').DataTable({
+        $('#cursosProblematicosTable').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             destroy: true,
             ajax: {
                 url: '/api/v1/cursos/problematicos',

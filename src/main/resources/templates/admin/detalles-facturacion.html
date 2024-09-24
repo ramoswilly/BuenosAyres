@@ -25,7 +25,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11">
 
   <link rel="stylesheet" href="../assets/css/style.css">
-  <style>
+  <style>       .dt-buttons {
+            display: none;
+        }
     .dataTables_filter {
       display: none;
     }
@@ -450,7 +452,9 @@
       }
     });
     // Inicializar DataTables
-    tabla = $('#tabla-detalles-facturacion').DataTable({
+    tabla = $('#tabla-detalles-facturacion').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
       dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
       buttons: [
         {

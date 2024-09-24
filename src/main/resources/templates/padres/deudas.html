@@ -24,7 +24,9 @@
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
+    <style>       .dt-buttons {
+            display: none;
+        }
         .dataTables_filter {
             display: none;
         }
@@ -251,7 +253,9 @@
     });
 
     function cargarTablaDeudas() {
-        tabla = $('#tabla-deudas').DataTable({
+        tabla = $('#tabla-deudas').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             "ajax": {
                 "url": "/api/v1/facturacion/deudas",
                 "dataSrc": ""

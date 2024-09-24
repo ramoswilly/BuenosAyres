@@ -373,7 +373,9 @@
 
         // Establecer el atributo max del campo de fecha
         $('#fecha-input').attr('max', fechaActual);
-        var tablaAlumnos = $('#tabla-alumnos').DataTable({
+        var tablaAlumnos = $('#tabla-alumnos').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             "ajax": {
                 "url": "/api/v1/alumnos", // Ajustar la URL de la API
                 "dataSrc": ""

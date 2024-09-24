@@ -24,10 +24,16 @@
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
+    <style>       .dt-buttons {
+            display: none;
+        }
         .dataTables_filter {
             display: none;
         }
+        .dt-buttons {
+            display: none;
+        }
+
     </style>
 </head>
 
@@ -330,7 +336,8 @@
                         // Manejar el error de la solicitud, por ejemplo, mostrar un mensaje al usuario
                     }
                 });
-                        var tabla = $('#tabla-familias').DataTable({
+                        var tabla = $('#tabla-familias').DataTable(
+                            {
                             dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
                             buttons: [
                                 {
@@ -355,6 +362,9 @@
                                     }
                                 }
                             ],
+                        language: {
+                            url: '/../assets/plugins/datatables/es-ES.json',
+                        },
                             processing: true,
                             searching: true,
                             ajax: {

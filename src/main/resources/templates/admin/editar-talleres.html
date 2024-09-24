@@ -396,7 +396,9 @@
     }
 
     function cargarTablaAlumnos() {
-        tabla = $('#tabla-detalle').DataTable({ // Asignar a la variable global
+        tabla = $('#tabla-detalle').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            }, // Asignar a la variable global
             dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
             buttons: [
                 {
@@ -448,7 +450,9 @@
     }
 
     function cargarAlumnos() {
-        var tablaPersonas = $('#personasTable').DataTable({
+        var tablaPersonas = $('#personasTable').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             "processing": true,
             "ajax": {
                 "url": "/api/v1/alumnos",
@@ -579,7 +583,9 @@
         });
     }
 
-    var tablaProfesores = $('#tabla-profesores').DataTable({
+    var tablaProfesores = $('#tabla-profesores').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
         "ajax": {
             "url": "/api/v1/profesores", // Ajustar la URL de la API
             "dataSrc": ""

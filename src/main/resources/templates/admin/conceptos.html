@@ -556,7 +556,9 @@
             }
 
             function cargarAdicionales() {
-                $('#tabla-adicionales').DataTable({ // Inicializa DataTable aquí
+                $('#tabla-adicionales').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            }, // Inicializa DataTable aquí
                     processing: true,
                     ajax: {
                         url: `/api/v1/conceptos?type=ADICIONAL`,

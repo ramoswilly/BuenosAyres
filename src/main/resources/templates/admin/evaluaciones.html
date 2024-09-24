@@ -24,7 +24,9 @@
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
+    <style>       .dt-buttons {
+            display: none;
+        }
         .dataTables_filter {
             display: none;
         }
@@ -326,7 +328,9 @@
                         // Manejar el error de la solicitud, por ejemplo, mostrar un mensaje al usuario
                     }
                 });
-        var tabla = $('#tabla-materias').DataTable({
+        var tabla = $('#tabla-materias').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
             buttons: [
                 {
@@ -353,9 +357,6 @@
             ],
             processing: true,
             searching: true,
-            language: {
-                url: '/../assets/plugins/datatables/es-ES.json',
-            },
             ajax: {
                 url: '/api/v1/materias', // Ajustar la URL según tu API
                 dataSrc: ''
@@ -374,11 +375,7 @@
                         return `<td class="text-end"><div class="actions"><a href="evaluaciones-creadas?materia=${data.id}" class="btn btn-sm bg-success-light"><i class="feather-eye"></i></a></div></td>`;
                     }
                 }
-            ],
-            initComplete: function() {
-                // Ocultar los botones generados automáticamente
-                tabla.buttons().container().addClass('d-none');
-            }
+            ]
         });
 
         $('#buscar-input').on('input', function () {

@@ -24,7 +24,9 @@
   <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 
   <link rel="stylesheet" href="../assets/css/style.css">
-  <style>
+  <style>       .dt-buttons {
+            display: none;
+        }
     .dataTables_filter {
       display: none;
     }
@@ -377,7 +379,9 @@
     // Establecer el atributo max del campo de fecha
     $('#fecha').attr('max', fechaActual);
 
-    var tablaAlumnos = $('#tabla-alumnos').DataTable({
+    var tablaAlumnos = $('#tabla-alumnos').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
       "ajax": {
         "url": "/api/v1/alumnos", // Ajustar la URL de la API
         "dataSrc": ""

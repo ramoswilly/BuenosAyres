@@ -431,7 +431,9 @@
     }
 
     function cargarPersonas() {
-        var tablaPersonas = $('#personasTable').DataTable({
+        var tablaPersonas = $('#personasTable').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             "processing": true,
             "ajax": {
                 "url": "/api/v1/personas",

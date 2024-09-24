@@ -24,6 +24,11 @@
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 
     <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        .dt-buttons {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -320,7 +325,9 @@
                         // Manejar el error de la solicitud, por ejemplo, mostrar un mensaje al usuario
                     }
                 });
-                                var tabla = $('#tabla-talleres').DataTable({
+                                var tabla = $('#tabla-talleres').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
                                     dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
                                     buttons: [
                                         {

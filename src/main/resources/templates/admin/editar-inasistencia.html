@@ -396,7 +396,9 @@
       }
     });
 
-    var tablaAlumnos = $('#tabla-alumnos').DataTable({
+    var tablaAlumnos = $('#tabla-alumnos').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
       "ajax": {
         "url": "/api/v1/alumnos", // Ajustar la URL de la API
         "dataSrc": ""
