@@ -173,7 +173,6 @@
                     <th>Nombre</th>
                     <th>Curso</th>
                     <th>Profesor</th>
-                    <th>Acciones</th>
                   </tr>
                   </thead>
                 </table>
@@ -290,19 +289,9 @@
         {
           data: null,
           render: function (data, type, row) {
-            if (data.id_profesor) {
-              return `<a href="#" class="cambiar-profesor" data-materia-id="${data.id}" style="color: lightblue; text-decoration: underline;">${data.nombre_profesor} ${data.apellido_profesor}</a>`;
-            } else {
-              return `<a href="#" class="asignar-profesor" data-materia-id="${data.id}" style="color: lightblue; text-decoration: underline;">Asignar</a>`;
-            }
+            return `${data.nombre_profesor} ${data.apellido_profesor}`
           }
         },
-        {
-          data: null,
-          render: function (data, type, row) {
-            return `<td class="text-end"><div class="actions"><a href="editar-materia?id=${data.id}" class="btn btn-sm bg-danger-light"><i class="feather-edit"></i></a></div></td>`;
-          }
-        }
       ]
     });
 
