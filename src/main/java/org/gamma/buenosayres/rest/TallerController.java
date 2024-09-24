@@ -1,6 +1,7 @@
 package org.gamma.buenosayres.rest;
 
 
+import org.gamma.buenosayres.dto.CrearTallerDTO;
 import org.gamma.buenosayres.dto.TallerDTO;
 import org.gamma.buenosayres.mapper.AlumnoMapper;
 import org.gamma.buenosayres.mapper.TallerMapper;
@@ -61,11 +62,27 @@ public class TallerController {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
 	}
+	@GetMapping("/{idTaller}")
+	public ResponseEntity<?> get(@PathVariable(value = "idTaller") UUID idTaller) {
+		try {
+			return ResponseEntity.ok(tallerService.getTallerById(idTaller));
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
+	@PutMapping("/{idTaller}")
+	public ResponseEntity<?> update(@PathVariable(value = "idTaller") UUID idTaller, @RequestBody CrearTallerDTO tallerDTO) {
+		try {
+			return ResponseEntity.ok(tallerService.updateTaller(idTaller, tallerDTO));
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
+	}
 	@PostMapping
-	public ResponseEntity<?> altaTaller(@RequestBody TallerDTO dto)
+	public ResponseEntity<?> altaTaller(@RequestBody CrearTallerDTO dto)
 	{
 		try {
-			return ResponseEntity.ok(tallerService.newTaller(tallerMapper.map(dto)));
+			return ResponseEntity.ok(tallerMapper.map(tallerService.newTaller(dto)));
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}

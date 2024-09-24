@@ -37,4 +37,9 @@ public class PadreViewController {
 	{
 		return "padres/inasistencias";
 	}
+	@GetMapping("/disciplina")
+	public String disciplina()
+	{
+		return "padres/sanciones";
+	}
 }

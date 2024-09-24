@@ -1,13 +1,16 @@
 package org.gamma.buenosayres.service;
 
 import org.gamma.buenosayres.dto.AlumnoSancionDTO;
+import org.gamma.buenosayres.model.Padre;
 import org.gamma.buenosayres.repository.AlumnoRepository;
+import org.gamma.buenosayres.repository.PadreDAO;
 import org.gamma.buenosayres.repository.SancionDAO;
 import org.gamma.buenosayres.dto.SancionDTO;
 import org.gamma.buenosayres.model.Alumno;
 import org.gamma.buenosayres.model.Sancion;
 import org.gamma.buenosayres.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,13 +21,13 @@ import java.util.stream.Collectors;
 public class SancionService {
 	private SancionDAO sancionDAO;
 	private AlumnoRepository alumnoRepository;
-
-
+	private PadreDAO padreDAO;
 	@Autowired
-	public SancionService(SancionDAO sancionDAO, AlumnoRepository alumnoRepository)
+	public SancionService(SancionDAO sancionDAO, AlumnoRepository alumnoRepository, PadreDAO padreDAO)
 	{
 		this.sancionDAO = sancionDAO;
 		this.alumnoRepository = alumnoRepository;
+		this.padreDAO = padreDAO;
 	}
 
 	public List<Sancion> get()
@@ -82,6 +85,7 @@ public class SancionService {
 		int currentYear = LocalDate.now().getYear();
 
 		List<Sancion> sanciones = sancionDAO.findAll().stream()
+				.filter(sancion -> sancion.getAlumno().isHabilitado())
 				.filter(sancion -> sancion.getFecha().getYear() == currentYear)
 				.toList();
 
@@ -97,5 +101,15 @@ public class SancionService {
 				.sorted(Comparator.comparingLong(AlumnoSancionDTO::getCantidadSanciones).reversed())
 				.limit(10)
 				.toList();
+	}
+
+	public List<Sancion> get(Authentication authentication) throws ServiceException
+	{
+		// Es padre
+		if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_PADRE"))) {
+			Padre padre = padreDAO.findPadreByPersona_Dni(authentication.getName()).orElseThrow(() -> new ServiceException("Padre inexistente", 404));
+			return sancionDAO.findAllByAlumno_Persona_Familia(padre.getPersona().getFamilia());
+		}
+		return sancionDAO.findAll();
 	}
 }

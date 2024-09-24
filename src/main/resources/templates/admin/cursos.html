@@ -52,41 +52,41 @@
       <i class="fas fa-bars"></i>
     </a>
 
-    <ul class="nav user-menu">
+            <ul class="nav user-menu">
 
-      <li class="nav-item zoom-screen me-2">
-        <a href="#" class="nav-link header-nav-list">
-          <img src="../assets/img/icons/header-icon-04.svg" alt="">
-        </a>
-      </li>
+            <li class="nav-item zoom-screen me-2">
+                <a href="#" class="nav-link header-nav-list">
+                    <img src="../assets/img/icons/header-icon-04.svg" alt="">
+                </a>
+            </li>
 
-      <li class="nav-item dropdown has-arrow new-user-menus">
-        <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
-                <span class="user-img">
-                    <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
-                         alt="Soeng Souy">
-                    <div class="user-text">
-                        <h6>Buenos Ayres</h6>
-                        <p class="text-muted mb-0">Administrador</p>
+            <li class="nav-item dropdown has-arrow new-user-menus">
+                <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                        <span class="user-img">
+                            <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
+                                 alt="Perfil">
+                            <div class="user-text">
+                                <h6>Obteniendo...</h6>
+                                <p class="text-muted mb-0">Obteniendo...</p>
+                            </div>
+                        </span>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="user-header">
+                        <div class="avatar avatar-sm">
+                            <img src="../assets/img/profiles/avatar-01.jpg" alt="User Image"
+                                 class="avatar-img rounded-circle">
+                        </div>
+                        <div class="user-text">
+                            <h6>Obteniendo...</h6>
+                            <p class="text-muted mb-0">Obteniendo...</p>
+                        </div>
                     </div>
-                </span>
-        </a>
-        <div class="dropdown-menu">
-          <div class="user-header">
-            <div class="avatar avatar-sm">
-              <img src="../assets/img/profiles/avatar-01.jpg" alt="User Image"
-                   class="avatar-img rounded-circle">
-            </div>
-            <div class="user-text">
-              <h6>Buenos Ayres</h6>
-              <p class="text-muted mb-0">Administrador</p>
-            </div>
-          </div>
+                    <a class="dropdown-item" href="/perform_logout">Salir</a>
+                </div>
+            </li>
 
-        </div>
-      </li>
-
-    </ul>
+        </ul>
 
   </div>
 
@@ -226,14 +226,27 @@
         <div class="col-sm-12">
           <div class="card card-table comman-shadow">
             <div class="card-body">
-
               <div class="page-header">
                 <div class="row align-items-center">
                   <div class="col">
                     <h3 class="page-title">Cursos</h3>
                   </div>
+                  <div class="col-auto ms-auto d-flex align-items-center download-grp">
+                    <div class="dropdown me-2">
+                      <a href="#" class="btn btn-outline-primary dropdown-toggle" id="btn-descargar" data-bs-toggle="dropdown">
+                        <i class="fas fa-download"></i> Descargar
+                      </a>
+                      <ul class="dropdown-menu" aria-labelledby="btn-descargar">
+                        <li><a class="dropdown-item" href="#" id="download-pdf">Descargar PDF</a></li>
+                        <li><a class="dropdown-item" href="#" id="download-excel">Descargar Excel</a></li>
+                        <li><a class="dropdown-item" href="#" id="download-csv">Descargar CSV</a></li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
+
+
 
               <div class="table-responsive">
                 <table id="tabla-cursos"
@@ -327,16 +340,62 @@
 <script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="../assets/plugins/datatables/datatables.min.js"></script>
 <script src="../assets/js/script.js"></script>
+<script src="../assets/js/datatables_buttons.js"></script>
 
 <script>
   $(document).ready(function () {
+                $.ajax({
+                    url: '/api/v1/userdata',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        // Asumiendo que la API retorna un objeto JSON con nombre, apellido y rol
+                        var nombre = data.nombre;
+                        var apellido = data.apellido;
+                        var rol = data.rol;
+
+                        // Actualiza la información del usuario en el menú desplegable
+                        $('.user-text h6').text(nombre + ' ' + apellido);
+                        $('.user-text p').text(rol);
+                    },
+                    error: function (error) {
+                        console.error('Error al obtener la información del usuario:', error);
+                        // Manejar el error de la solicitud, por ejemplo, mostrar un mensaje al usuario
+                    }
+                });
     const baseUrl = "/api/v1";
     // Obtener el ID del profesor de la URL (si existe)
     const urlParams = new URLSearchParams(window.location.search);
     const profesorId = urlParams.get('profesor');
 
     // Inicializar DataTable
-    let tablaCursos = $("#tabla-cursos").DataTable({
+    let tablaCursos = $("#tabla-cursos").DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
+      dom: 'Bfrtip',  // Agrega esta opción para habilitar los botones
+      buttons: [
+        {
+          extend: 'csvHtml5',
+          text: 'Descargar CSV',
+          exportOptions: {
+            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+          }
+        },
+        {
+          extend: 'excelHtml5',
+          text: 'Descargar Excel',
+          exportOptions: {
+            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+          }
+        },
+        {
+          extend: 'pdfHtml5',
+          text: 'Descargar PDF',
+          exportOptions: {
+            columns: ':not(:last-child)'  // Omitir la última columna (Acciones)
+          }
+        }
+      ],
       ajax: {
         url: `${baseUrl}/cursos`,
         dataSrc: "" // Indica que los datos están en la raíz del JSON
@@ -375,6 +434,10 @@
       language: {
         url: "//cdn.datatables.net/plug-ins/1.10.25/i18n/Spanish.json",
       },
+      initComplete: function() {
+        // Ocultar los botones generados automáticamente
+        tablaCursos.buttons().container().addClass('d-none');
+      }
     });
     // Si se proporciona un ID de profesor en la URL
     if (profesorId) {
@@ -465,7 +528,9 @@
     });
 
     // Inicializar DataTable para responsables
-    $("#tabla-responsables").DataTable({
+    $("#tabla-responsables").DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
       columns: [
         { data: "dni" },
         { data: "nombre" },
@@ -506,6 +571,23 @@
           console.error("Error al cambiar la habilitación del curso:", error);
         },
       });
+    });
+    $('#buscar-input').on('input', function () {
+
+      tablaCursos.search($(this).val()).draw();
+    })
+
+    // Agregar funcionalidad a los botones del menú desplegable
+    $('#download-pdf').on('click', function() {
+      tablaCursos.button('.buttons-pdf').trigger();  // Descargar PDF
+    });
+
+    $('#download-excel').on('click', function() {
+      tablaCursos.button('.buttons-excel').trigger();  // Descargar Excel
+    });
+
+    $('#download-csv').on('click', function() {
+      tablaCursos.button('.buttons-csv').trigger();  // Descargar CSV
     });
   });
 </script>

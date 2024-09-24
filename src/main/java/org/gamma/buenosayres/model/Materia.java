@@ -17,7 +17,7 @@ public class Materia {
 	@ManyToOne
 	@JoinColumn(name = "id_profesor")
 	private Profesor profesor;
-
+	private boolean habilitada;
 	public UUID getId()
 	{
 		return id;
@@ -56,5 +56,15 @@ public class Materia {
 	public void setProfesor(Profesor profesor)
 	{
 		this.profesor = profesor;
+	}
+
+	public boolean isHabilitada()
+	{
+		return habilitada;
+	}
+
+	public void setHabilitada(boolean habilitada)
+	{
+		this.habilitada = habilitada;
 	}
 }

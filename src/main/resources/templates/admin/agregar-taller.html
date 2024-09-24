@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-  <title>Buenos Ayres - Realizar Entrega</title>
+  <title>Buenos Ayres - Agregar Taller</title>
 
   <link rel="shortcut icon" href="../assets/img/favicon.png">
 
@@ -38,6 +38,7 @@
 <body>
 
 <div class="main-wrapper">
+  <!-- Header -->
   <div class="header">
 
     <div class="header-left">
@@ -98,37 +99,7 @@
         </ul>
 
   </div>
-
-
-  <div class="sidebar" id="sidebar">
-    <div class="sidebar-inner slimscroll">
-      <div id="sidebar-menu" class="sidebar-menu">
-        <ul>
-          <li class="menu-title">
-            <span>Menú Principal</span>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-clipboard-list"></i> <span> Evaluaciones</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="evaluaciones">Lista de Evaluaciones</a></li>
-              <li><a href="agregar-evaluacion">Agregar Evaluación</a></li>
-              <li><a href="evaluaciones-creadas">Evaluaciones Creadas</a></li>
-            </ul>
-          </li>
-          <li class="submenu">
-            <a href="#"><i class="fas fa-graduation-cap"></i> <span> Calificaciones</span> <span
-                    class="menu-arrow"></span></a>
-            <ul>
-              <li><a href="calificaciones" class="active">Ver Calificaciones</a></li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-
+  <!-- /Header -->
 
   <div class="page-wrapper">
     <div class="content container-fluid">
@@ -136,41 +107,55 @@
       <div class="page-header">
         <div class="row">
           <div class="col-sm-12">
-            <h3 class="page-title">Realizar Entrega</h3>
+            <h3 class="page-title">Agregar Taller</h3>
             <ul class="breadcrumb">
-              <li class="breadcrumb-item"><a href="evaluaciones">Evaluaciones</a></li>
-              <li class="breadcrumb-item active">Realizar Entrega</li>
+              <li class="breadcrumb-item"><a href="talleres">Talleres</a></li>
+              <li class="breadcrumb-item active">Agregar Taller</li>
             </ul>
           </div>
         </div>
       </div>
 
-
       <div class="row">
         <div class="col-sm-12">
           <div class="card comman-shadow">
             <div class="card-body">
-              <form id="formulario-entrega">
+              <form id="agregar-taller-form">
                 <div class="row">
                   <div class="col-12">
-                    <h5 class="form-title"><span>Información de la Entrega</span></h5>
+                    <h5 class="form-title">Información del Taller</h5>
                   </div>
                   <div class="col-12 col-sm-6">
                     <div class="form-group">
-                      <label>Archivo adjunto</label>
-                      <input type="file" class="form-control" id="archivo" name="archivo">
-                      <small class="text-muted">Archivo de entrega.</small>
+                      <label>Nombre</label>
+                      <input type="text" class="form-control" id="nombre" name="nombre" required>
                     </div>
                   </div>
-                  <div class="col-12">
+                  <div class="col-12 col-sm-6">
                     <div class="form-group">
-                      <label>Comentarios adicionales</label>
-                      <textarea class="form-control" id="comentarios" name="comentarios" rows="4"></textarea>
+                      <label>Nivel</label>
+                      <select class="form-control" id="nivel" name="nivel" required>
+                        <option value="INICIAL">INICIAL</option>
+                        <option value="PRIMARIA">PRIMARIA</option>
+                        <option value="SECUNDARIA">SECUNDARIA</option>
+                      </select>
                     </div>
                   </div>
-
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                      <label>Profesor</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" id="profesor-nombre" name="profesor-nombre" readonly>
+                        <input type="hidden" id="profesor-id" name="profesor-id">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#modalSeleccionarProfesor">
+                          Seleccionar
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                   <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Realizar Entrega</button>
+                    <button type="submit" class="btn btn-primary">Agregar Taller</button>
                   </div>
                 </div>
               </form>
@@ -181,7 +166,52 @@
     </div>
   </div>
 
+  <!-- Modal para seleccionar profesor -->
+  <div class="modal fade" id="modalSeleccionarProfesor" tabindex="-1" role="dialog"
+       aria-labelledby="modalSeleccionarProfesorLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalSeleccionarProfesorLabel">Seleccionar Profesor</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="student-group-form">
+            <div class="row">
+              <div class="col-lg-3 col-md-6">
+                <div class="form-group">
+                  <input id="buscar-profesor-input" type="text" class="form-control"
+                         placeholder="Buscar Profesores...">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table id="tabla-profesores" class="table table-striped table-bordered w-100">
+              <thead>
+              <tr>
+                <th>DNI</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Habilitado</th>
+                <th>Seleccionar</th>
+              </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 <script src="../assets/js/jquery-3.6.0.min.js"></script>
 
 <script src="../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -216,55 +246,66 @@
                         // Manejar el error de la solicitud, por ejemplo, mostrar un mensaje al usuario
                     }
                 });
-    const urlParams = new URLSearchParams(window.location.search);
-    const evaluacionId = urlParams.get('evaluacion');
-    // Verificar si la entrega ya fue realizada
-    $.ajax({
-      url: `/api/v1/entregas/${evaluacionId}`, // Ajustar la URL según tu API
-      type: 'GET',
-      success: function (entrega) {
-        // Rellenar los campos y deshabilitarlos
-        $('#alumno').val(entrega.idAlumno).prop('disabled', true);
-        $('#comentarios').val(entrega.comentarios).prop('disabled', true);
-        $('#archivo').prop('disabled', false);
-        $('#archivo').parent().find('label').text('Revisar archivo'); // Cambiar el texto del label
-
-        // Deshabilitar el botón de entrega y mostrar la fecha de entrega
-        const fechaEntrega = new Date(entrega.fechaEntrega).toISOString().split('T')[0];
-        $('#formulario-entrega button[type="submit"]').prop('disabled', true).text(`Entrega ya realizada el ${fechaEntrega}`);
+    var tablaProfesores = $('#tabla-profesores').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
+      "ajax": {
+        "url": "/api/v1/profesores", // Ajustar la URL de la API
+        "dataSrc": ""
       },
-      error: function (error) {
-        // Si la entrega no existe (404), la página se mantiene tal cual
-        if (error.status !== 404) {
-          alert('Error al verificar la entrega: ' + error.responseText);
+      "columns": [
+        {"data": "dni"},
+        {"data": "nombre"},
+        {"data": "apellido"},
+        {
+          data: "habilitado",
+          render: function (data, type, row) {
+            return data ? '<span class="badge bg-success">Habilitado</span>' : '<span class="badge bg-danger">Deshabilitado</span>';
+          }
+        },
+        {
+          "data": null,
+          "render": function (data, type, row) {
+            return `<button type="button" class="btn btn-primary btn-sm seleccionar-profesor" data-profesor-id="${data.id}" data-profesor-nombre="${data.nombre} ${data.apellido}">Seleccionar</button>`;
+          }
         }
-      }
+      ]
+    });
+
+    $('#buscar-profesor-input').on('input', function () {
+      tablaProfesores.search($(this).val()).draw();
+    });
+
+    // Manejar clic en "Seleccionar" profesor
+    $('#tabla-profesores').on('click', '.seleccionar-profesor', function () {
+      const profesorId = $(this).data('profesor-id');
+      const profesorNombre = $(this).data('profesor-nombre');
+      $('#profesor-id').val(profesorId);
+      $('#profesor-nombre').val(profesorNombre);
+      $('#modalSeleccionarProfesor').modal('hide');
     });
 
     // Manejar el envío del formulario
-    $('#formulario-entrega').submit(function (event) {
-      event.preventDefault();
+    $('#agregar-taller-form').submit(function (event) {
+      event.preventDefault(); // Evitar el envío por defecto del formulario
 
-      const alumnoId = $('#alumno').val();
-      const comentarios = $('#comentarios').val();
-
-      const nuevaEntrega = {
-        idAlumno: alumnoId,
-        comentarios: comentarios,
-        idEvaluacion: evaluacionId,
+      const formData = {
+        nombre: $('#nombre').val(),
+        nivel: $('#nivel').val(),
+        profesorId: $('#profesor-id').val()
       };
 
       $.ajax({
-        url: '/api/v1/entregas', // Ajustar la URL según tu API
+        url: '/api/v1/talleres', // Ajustar la URL de la API
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(nuevaEntrega),
+        data: JSON.stringify(formData),
         success: function () {
-          // Redirigir a la página de ver entregas o mostrar un mensaje de éxito
-          window.location.href = `/evaluaciones`;
+          toastr.success('Taller agregado correctamente.');
+          // Limpiar el formulario o redirigir a la lista de talleres, según sea necesario
         },
         error: function (error) {
-          alert('Error al realizar la entrega: ' + error.responseText);
+          toastr.error(error.responseText);
         }
       });
     });

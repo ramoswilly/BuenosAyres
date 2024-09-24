@@ -6,6 +6,7 @@ import org.gamma.buenosayres.exception.ServiceException;
 import org.gamma.buenosayres.service.SancionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +25,13 @@ public class SancionController {
 		this.sancionMapper = sancionMapper;
 	}
 	@GetMapping(produces = "application/json")
-	public ResponseEntity<?> get()
+	public ResponseEntity<?> get(Authentication authentication)
 	{
-		return ResponseEntity.ok(sancionService.get().stream().map(sancionMapper::map).toList());
+		try {
+			return ResponseEntity.ok(sancionService.get(authentication).stream().map(sancionMapper::map).toList());
+		} catch (ServiceException e) {
+			return ResponseEntity.status(e.getCode()).body(e.getMessage());
+		}
 	}
 	@GetMapping("/{sancion}")
 	public ResponseEntity<?> get(@PathVariable(value = "sancion") UUID sancion)

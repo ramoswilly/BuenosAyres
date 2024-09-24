@@ -24,7 +24,9 @@
     <link rel="stylesheet" href="../assets/plugins/datatables/datatables.min.css">
 
     <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
+    <style>       .dt-buttons {
+            display: none;
+        }
         .dataTables_filter {
             display: none;
         }
@@ -59,7 +61,7 @@
         </a>
 
 
-        <ul class="nav user-menu">
+                <ul class="nav user-menu">
 
             <li class="nav-item zoom-screen me-2">
                 <a href="#" class="nav-link header-nav-list">
@@ -71,10 +73,10 @@
                 <a href="#" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
                         <span class="user-img">
                             <img class="rounded-circle" src="../assets/img/profiles/avatar-01.jpg" width="31"
-                                 alt="Soeng Souy">
+                                 alt="Perfil">
                             <div class="user-text">
-                                <h6>Buenos Ayres</h6>
-                                <p class="text-muted mb-0">Administrador</p>
+                                <h6>Obteniendo...</h6>
+                                <p class="text-muted mb-0">Obteniendo...</p>
                             </div>
                         </span>
                 </a>
@@ -85,11 +87,11 @@
                                  class="avatar-img rounded-circle">
                         </div>
                         <div class="user-text">
-                            <h6>Buenos Ayres</h6>
-                            <p class="text-muted mb-0">Administrador</p>
+                            <h6>Obteniendo...</h6>
+                            <p class="text-muted mb-0">Obteniendo...</p>
                         </div>
                     </div>
-
+                    <a class="dropdown-item" href="/perform_logout">Salir</a>
                 </div>
             </li>
 
@@ -224,6 +226,25 @@
     }
     var tabla;
     $(document).ready(function () {
+                $.ajax({
+                    url: '/api/v1/userdata',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        // Asumiendo que la API retorna un objeto JSON con nombre, apellido y rol
+                        var nombre = data.nombre;
+                        var apellido = data.apellido;
+                        var rol = data.rol;
+
+                        // Actualiza la información del usuario en el menú desplegable
+                        $('.user-text h6').text(nombre + ' ' + apellido);
+                        $('.user-text p').text(rol);
+                    },
+                    error: function (error) {
+                        console.error('Error al obtener la información del usuario:', error);
+                        // Manejar el error de la solicitud, por ejemplo, mostrar un mensaje al usuario
+                    }
+                });
         cargarTablaDeudas();
         //barra de busqueda
         $('#buscar-input').on('input', function () {
@@ -232,7 +253,9 @@
     });
 
     function cargarTablaDeudas() {
-        tabla = $('#tabla-deudas').DataTable({
+        tabla = $('#tabla-deudas').DataTable({language: {
+                url: '/../assets/plugins/datatables/es-ES.json',
+            },
             "ajax": {
                 "url": "/api/v1/facturacion/deudas",
                 "dataSrc": ""
@@ -266,7 +289,7 @@
         familia.facturas.forEach(factura => {
             const fecha = new Date(factura.periodo);
             const options = {year: 'numeric', month: 'long'};
-            var periodoFormateado = fecha.toLocaleDateString('es-ES', options);
+            var periodoFormateado = fecha.toISOString().split('T')[0];
             periodoFormateado = periodoFormateado.charAt(0).toUpperCase() + periodoFormateado.slice(1);
 
             // Calcular monto total de la factura sin los detalles abonados

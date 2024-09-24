@@ -20,7 +20,7 @@ public interface FacturaDAO extends JpaRepository<Factura, UUID> {
            "WHERE df.abonado = false " +
            "ORDER BY f.familia.id")
     List<Factura> facturasImpagas();
-	@Query("SELECT f FROM Factura f WHERE f.periodo = (SELECT MAX(fa.periodo) FROM Factura fa) ORDER BY f.montoFinal DESC")
+	@Query("SELECT f FROM Factura f WHERE f.periodo = (SELECT MAX(fa.periodo) FROM Factura fa) AND f.familia.habilitada = true ORDER BY f.montoFinal DESC")
 	List<Factura> findTop10Familias();
 	Optional<Factura> findByFamiliaAndPeriodo(Familia familia, LocalDate periodo);
 	@Query("SELECT new org.gamma.buenosayres.dto.IngresosResponse(SUM(f.montoFinal), f.periodo) " +

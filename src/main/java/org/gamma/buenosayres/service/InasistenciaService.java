@@ -74,6 +74,7 @@ public class InasistenciaService {
 		int currentYear = LocalDate.now().getYear();
 
 		List<Inasistencia> inasistencias = inasistenciaDAO.findAll().stream()
+				.filter(inasistencia -> inasistencia.getAlumno().isHabilitado())
 				.filter(inasistencia -> inasistencia.getFecha().getYear() == currentYear)
 				.toList();
 
@@ -97,6 +98,7 @@ public class InasistenciaService {
 
 		List<Inasistencia> inasistencias = inasistenciaDAO.findAll().stream()
 				.filter(inasistencia -> inasistencia.getFecha().getYear() == currentYear)
+				.filter(inasistencia -> inasistencia.getAlumno().isHabilitado())
 				.toList();
 
 		List<Alumno> alumnosConInasistencias = inasistencias.stream()
@@ -105,6 +107,7 @@ public class InasistenciaService {
 				.toList();
 
 		List<AlumnoPerfectoDTO> alumnosPerfectos = alumnoRepository.findAll().stream()
+				.filter(Alumno::isHabilitado)
 				.filter(alumno -> !alumnosConInasistencias.contains(alumno))
 				.map(alumno -> new AlumnoPerfectoDTO(alumno.getCurso(), alumno.getPersona().getNombre(), alumno.getPersona().getApellido()))
 				.toList();

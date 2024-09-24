@@ -41,7 +41,7 @@ public class MateriaController {
 	{
 		// Obtener materias del profe
 		if (authentication.getAuthorities().stream().anyMatch(auth -> Objects.equals(auth.getAuthority(), "ROLE_PROFESOR"))) {
-			return ResponseEntity.ok(materiaService.get(authentication.getName()).stream().map(materiaMapper::map).toList());
+			return ResponseEntity.ok(materiaService.get(authentication).stream().map(materiaMapper::map).toList());
 		}
 		// Devolver todo
 		return ResponseEntity.ok(materiaService.get().stream().map(materiaMapper::map).toList());

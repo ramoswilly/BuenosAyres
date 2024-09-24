@@ -30,7 +30,6 @@ public class ConceptoService {
 			);
 		}
 
-
 		return conceptoDAO.findByTipoConceptoAndNivelAndTallerOrderByFechaActualizacionDesc(tipo, nivel, taller, PageRequest.of(0, limit));
 	}
 	public Concepto newConcepto(Concepto concepto) throws ServiceException

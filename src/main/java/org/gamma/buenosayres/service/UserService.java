@@ -1,6 +1,7 @@
 package org.gamma.buenosayres.service;
 
 import jakarta.transaction.Transactional;
+import org.gamma.buenosayres.dto.UserDataDTO;
 import org.gamma.buenosayres.repository.PersonaDAO;
 import org.gamma.buenosayres.repository.RolDAO;
 import org.gamma.buenosayres.repository.UsuarioDAO;
@@ -9,6 +10,7 @@ import org.gamma.buenosayres.model.Rol;
 import org.gamma.buenosayres.model.Usuario;
 import org.gamma.buenosayres.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -78,5 +80,30 @@ public class UserService {
 	public Optional<Usuario> get(String username)
 	{
 		return usuarioDAO.findByUsername(username);
+	}
+
+	public UserDataDTO get(Authentication authentication) throws ServiceException
+	{
+		Usuario usuario = usuarioDAO.findByUsername(authentication.getName()).orElseThrow(() -> new ServiceException("Usuario no encontrado", 404));
+		UserDataDTO userData = new UserDataDTO();
+		userData.setNombre(usuario.getPersona().getNombre());
+		userData.setApellido(usuario.getPersona().getApellido());
+		userData.setRol(switch (usuario.getRoles().stream().findAny().get().getAuthority()) {
+			case "ROLE_ADMIN":
+				yield "Administrador";
+			case "ROLE_ALUMNO":
+				yield "Alumno";
+			case "ROLE_PADRE":
+				yield "Padre";
+			case "ROLE_PROFESOR":
+				yield "Profesor";
+			case "ROLE_PRECEPTOR":
+				yield "Preceptor";
+			case "ROLE_DIRECTOR":
+				yield "Director";
+			default:
+				yield "Desconocido";
+		});
+		return userData;
 	}
 }

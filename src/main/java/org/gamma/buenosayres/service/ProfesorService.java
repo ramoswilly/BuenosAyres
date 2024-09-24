@@ -72,6 +72,7 @@ public class ProfesorService {
 
 		// Obtener calificaciones del año actual
 		List<Calificacion> calificaciones = calificacionRepository.findAll().stream()
+				.filter(calificacion -> calificacion.getEvaluacion().getProfesor().isHabilitado())
 				.filter(calificacion -> calificacion.getEvaluacion().getFechaCreacion().getYear() == currentYear)
 				.toList();
 

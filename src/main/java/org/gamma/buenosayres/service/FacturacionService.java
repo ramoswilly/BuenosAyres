@@ -131,7 +131,7 @@ public class FacturacionService {
 			// Obtener un indice para iterar en descuentos
 			int discount_index = 0;
 
-			List<Optional<Alumno>> alumnosPresentes = alumnos.stream().filter(Optional::isPresent).toList();
+			List<Optional<Alumno>> alumnosPresentes = alumnos.stream().filter(Optional::isPresent).filter(alumno -> alumno.get().isHabilitado()).toList();
 
 			// Crear una nueva lista mutable a partir de alumnosPresentes
 			List<Optional<Alumno>> alumnosOrdenables = new ArrayList<>(alumnosPresentes);
@@ -279,7 +279,7 @@ public class FacturacionService {
 	}
     public List<DeudaDTO> obtenerDeudas() {
         List<Factura> facturas = facturaDAO.facturasImpagas();
-		Map<Familia, List<Factura>> facturasMap = facturas.stream()
+		Map<Familia, List<Factura>> facturasMap = facturas.stream().filter(factura -> factura.getFamilia().isHabilitada())
 			.collect(Collectors.groupingBy(Factura::getFamilia));
 		return facturasMap.entrySet().stream()
 			.map(entry -> {

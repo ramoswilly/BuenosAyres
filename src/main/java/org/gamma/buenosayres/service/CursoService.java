@@ -41,6 +41,7 @@ public class CursoService {
 		List<Calificacion> calificaciones = calificacionRepository.findAll().stream()
 				.filter(calificacion -> calificacion.getEvaluacion().getFechaCreacion().getYear() == currentYear
 						&& calificacion.getEvaluacion().getMateria().getCurso().getNivel() != Nivel.INICIAL)
+				.filter(calificacion -> calificacion.getAlumno().isHabilitado())
 				.toList();
 
 		// Agrupar por curso y calcular el promedio
@@ -59,6 +60,7 @@ public class CursoService {
 		if (curso.isEmpty()) throw new ServiceException("Curso inexistente", 404);
 		Optional<Profesor> profesor = profesorDAO.findById(dto.getId());
 		if (profesor.isEmpty()) throw new ServiceException("Profesor inexistente", 404);
+		if (!profesor.get().isHabilitado()) throw new ServiceException("Profesor deshabilitado", 404);
 		// remover responsable actual
 		if (curso.get().getResponsable() != null) {
 			curso.get().getResponsable().getCursos().remove(curso.get());
@@ -105,6 +107,7 @@ public class CursoService {
 		// Obtener sanciones del año actual
 		List<Sancion> sanciones = sancionDAO.findAll().stream()
 				.filter(sancion -> sancion.getFecha().getYear() == currentYear)
+				.filter(sancion -> sancion.getAlumno().isHabilitado())
 				.toList();
 
 		// Agrupar por curso y contar las sanciones

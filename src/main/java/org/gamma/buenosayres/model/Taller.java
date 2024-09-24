@@ -17,7 +17,9 @@ public class Taller {
 	private Nivel nivel;
 	@ManyToMany(mappedBy = "talleres")
 	private List<Alumno> alumnos;
-
+	@ManyToOne
+	@JoinColumn(name = "id_profesor")
+	private Profesor profesor;
 	public Taller()
 	{
 	}
@@ -60,5 +62,15 @@ public class Taller {
 	public void setAlumnos(List<Alumno> alumnos)
 	{
 		this.alumnos = alumnos;
+	}
+
+	public Profesor getProfesor()
+	{
+		return profesor;
+	}
+
+	public void setProfesor(Profesor profesor)
+	{
+		this.profesor = profesor;
 	}
 }
