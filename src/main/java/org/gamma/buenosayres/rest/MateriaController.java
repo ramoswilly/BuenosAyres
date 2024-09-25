@@ -39,12 +39,7 @@ public class MateriaController {
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<?> get(Authentication authentication)
 	{
-		// Obtener materias del profe
-		if (authentication.getAuthorities().stream().anyMatch(auth -> Objects.equals(auth.getAuthority(), "ROLE_PROFESOR"))) {
-			return ResponseEntity.ok(materiaService.get(authentication).stream().map(materiaMapper::map).toList());
-		}
-		// Devolver todo
-		return ResponseEntity.ok(materiaService.get().stream().map(materiaMapper::map).toList());
+		return ResponseEntity.ok(materiaService.get(authentication).stream().map(materiaMapper::map).toList());
 	}
 	@GetMapping("/{materia}")
 	public ResponseEntity<?> get(@PathVariable(value = "materia") UUID materia)

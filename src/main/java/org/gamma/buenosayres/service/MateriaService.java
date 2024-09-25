@@ -3,10 +3,7 @@ package org.gamma.buenosayres.service;
 import jakarta.transaction.Transactional;
 import org.gamma.buenosayres.dto.MateriaRendimientoDTO;
 import org.gamma.buenosayres.model.*;
-import org.gamma.buenosayres.repository.CalificacionRepository;
-import org.gamma.buenosayres.repository.CursoDAO;
-import org.gamma.buenosayres.repository.MateriaDAO;
-import org.gamma.buenosayres.repository.ProfesorDAO;
+import org.gamma.buenosayres.repository.*;
 import org.gamma.buenosayres.dto.MateriaDTO;
 import org.gamma.buenosayres.dto.ProfesorDTO;
 import org.gamma.buenosayres.exception.ServiceException;
@@ -25,14 +22,16 @@ public class MateriaService {
 	private ProfesorDAO profesorDAO;
 	private UserService userService;
 	private CalificacionRepository calificacionRepository;
+	private AlumnoRepository alumnoRepository;
 	@Autowired
-	public MateriaService(MateriaDAO materiaDAO, CursoDAO cursoDAO, ProfesorDAO profesorDAO, UserService userService, CalificacionRepository calificacionRepository)
+	public MateriaService(MateriaDAO materiaDAO, CursoDAO cursoDAO, ProfesorDAO profesorDAO, UserService userService, CalificacionRepository calificacionRepository, AlumnoRepository alumnoRepository)
 	{
 		this.materiaDAO = materiaDAO;
 		this.cursoDAO = cursoDAO;
 		this.profesorDAO = profesorDAO;
 		this.userService = userService;
 		this.calificacionRepository = calificacionRepository;
+		this.alumnoRepository = alumnoRepository;
 	}
 	public List<Materia> get()
 	{
@@ -105,16 +104,27 @@ public class MateriaService {
 
 	public List<Materia> get(Authentication authentication)
 	{
-		// ¿Es profe de primaria?
-		Optional<Profesor> profesor = profesorDAO.findByPersonaDni(authentication.getName());
-		if (profesor.isEmpty()) return new ArrayList<>();
-		if (profesor.get().getNivel().equals(Nivel.PRIMARIA)) {
-			return materiaDAO.findAllByCurso_Responsable(profesor.get());
+		// Es admin?
+		if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"))) {
+			return materiaDAO.findAll();
 		}
-		// Obtener Usuario
-		Optional<Usuario> usuario = userService.get(authentication.getName());
-		if (usuario.isEmpty()) return new ArrayList<>();
-		return materiaDAO.findByProfesor_Persona_Usuario(usuario.get());
+		// Es profesor?
+		if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_PROFESOR"))) {
+			// ¿Es profe de primaria?
+			Optional<Profesor> profesor = profesorDAO.findByPersonaDni(authentication.getName());
+			if (profesor.get().getNivel().equals(Nivel.PRIMARIA)) {
+				return materiaDAO.findAllByCurso_Responsable(profesor.get());
+			}
+			// Obtener por profesor
+			return materiaDAO.findAllByProfesor(profesor.get());
+		}
+		// Es alumno?
+		if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ALUMNO"))) {
+			// Convertir
+			Optional<Alumno> alumnoByPersonaDni = alumnoRepository.findAlumnoByPersona_Dni(authentication.getName());
+			return materiaDAO.findAllByCurso(alumnoByPersonaDni.get().getCurso()); //Materias de su curso
+		}
+		return new ArrayList<>(); //Nada
 	}
 
 	public List<MateriaRendimientoDTO> getRendimientoPorMateria() throws ServiceException {

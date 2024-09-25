@@ -12,4 +12,6 @@ import java.util.UUID;
 public interface MateriaDAO extends JpaRepository<Materia, UUID> {
 	List<Materia> findByProfesor_Persona_Usuario(Usuario usuario);
 	List<Materia> findAllByCurso_Responsable(Profesor profesor);
+	List<Materia> findAllByCurso(Curso curso);
+	List<Materia> findAllByProfesor(Profesor profesor);
 }
