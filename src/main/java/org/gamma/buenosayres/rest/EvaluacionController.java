@@ -3,6 +3,7 @@ package org.gamma.buenosayres.rest;
 import org.gamma.buenosayres.dto.EvaluacionDTO;
 import org.gamma.buenosayres.mapper.EvaluacionMapper;
 import org.gamma.buenosayres.exception.ServiceException;
+import org.gamma.buenosayres.model.Evaluacion;
 import org.gamma.buenosayres.service.EvaluacionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,9 @@ public class EvaluacionController {
 			// Obtener solo evaluaciones entregables // TP // No vencidas
 			if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_ALUMNO"))) {
 				return ResponseEntity.ok(evaluacionService.getEntregables(idMateria)
-						.stream().map(evaluacionMapper::map).toList());
+						.stream()
+						.filter(Evaluacion::isHabilitada)
+						.map(evaluacionMapper::map).toList());
 			}
 			return ResponseEntity.ok(evaluacionService.get(idMateria)
 					.stream().map(evaluacionMapper::map).toList());

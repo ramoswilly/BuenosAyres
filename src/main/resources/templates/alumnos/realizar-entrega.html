@@ -261,7 +261,7 @@
         data: JSON.stringify(nuevaEntrega),
         success: function () {
           // Redirigir a la página de ver entregas o mostrar un mensaje de éxito
-          window.location.href = `/evaluaciones`;
+          window.location.href = `/alumnos/evaluaciones`;
         },
         error: function (error) {
           alert('Error al realizar la entrega: ' + error.responseText);
