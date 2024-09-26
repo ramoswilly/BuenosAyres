@@ -7,10 +7,7 @@ import org.gamma.buenosayres.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,10 +25,24 @@ public class SaludService {
 	private PatologiaDAO patologiaDAO;
 
 	public List<Salud> obtenerSalud() {
-		return saludDAO.findAll();
+		return personaDAO.findByRoles(Set.of("ROLE_PROFESOR", "ROLE_ALUMNO"))
+				.stream()
+				.filter(persona -> persona.getUsuario().isEnabled())
+				.map(persona -> saludDAO.findByPersona(persona))
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.collect(Collectors.toList());
 	}
 
 	public List<Salud> obtenerSaludPorPreceptor(String username) {
+		return personaDAO.findByRoles(Set.of("ROLE_PROFESOR", "ROLE_ALUMNO"))
+				.stream()
+				.filter(persona -> persona.getUsuario().isEnabled())
+				.map(persona -> saludDAO.findByPersona(persona))
+				.filter(Optional::isPresent)
+				.map(Optional::get)
+				.collect(Collectors.toList());
+		/*
 		Optional<Profesor> profesor = profesorDAO.findByPersonaDni(username);
 		if (profesor.isPresent()) {
 			List<Curso> cursos = cursoDAO.findAll().stream()
@@ -47,7 +58,7 @@ public class SaludService {
 					.map(Optional::get)
 					.collect(Collectors.toList());
 		}
-		return List.of();
+		return List.of();*/
 	}
 
 	public Salud obtenerSaludPorId(UUID idPersona) throws ServiceException
