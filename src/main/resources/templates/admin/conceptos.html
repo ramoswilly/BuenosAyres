@@ -268,6 +268,7 @@
                                                     <td class="text-start">
                                                         <div class="actions d-flex justify-content-start">
                                                             <button onclick="Matricula('INICIAL')" class="btn btn-sm bg-danger-light btn-hover"><i class="feather-edit"></i></button>
+                                                            <button onclick="verGrafico('MATRICULA', 'INICIAL')" class="btn btn-sm bg-info-light btn-hover"><i class="feather-bar-chart-2"></i></button>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -277,6 +278,7 @@
                                                     <td class="text-start">
                                                         <div class="actions d-flex justify-content-start">
                                                             <button onclick="Matricula('PRIMARIA')" class="btn btn-sm bg-danger-light btn-hover"><i class="feather-edit"></i></button>
+                                                            <button onclick="verGrafico('MATRICULA', 'PRIMARIA')" class="btn btn-sm bg-info-light btn-hover"><i class="feather-bar-chart-2"></i></button>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -286,6 +288,7 @@
                                                     <td class="text-start">
                                                         <div class="actions d-flex justify-content-start">
                                                             <button onclick="Matricula('SECUNDARIA')" class="btn btn-sm bg-danger-light btn-hover"><i class="feather-edit"></i></button>
+                                                            <button onclick="verGrafico('MATRICULA', 'SECUNDARIA')" class="btn btn-sm bg-info-light btn-hover"><i class="feather-bar-chart-2"></i></button>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -309,6 +312,7 @@
                                                     <td class="text-start">
                                                         <div class="actions d-flex justify-content-start">
                                                             <button onclick="Cuota('INICIAL')" class="btn btn-sm bg-danger-light btn-hover"><i class="feather-edit"></i></button>
+                                                            <button onclick="verGrafico('CUOTA', 'INICIAL')" class="btn btn-sm bg-info-light btn-hover"><i class="feather-bar-chart-2"></i></button>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -318,6 +322,7 @@
                                                     <td class="text-start">
                                                         <div class="actions d-flex justify-content-start">
                                                             <button onclick="Cuota('PRIMARIA')" class="btn btn-sm bg-danger-light"><i class="feather-edit"></i></button>
+                                                            <button onclick="verGrafico('CUOTA', 'PRIMARIA')" class="btn btn-sm bg-info-light btn-hover"><i class="feather-bar-chart-2"></i></button>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -327,6 +332,7 @@
                                                     <td class="text-start">
                                                         <div class="actions d-flex justify-content-start">
                                                             <button onclick="Cuota('SECUNDARIA')" class="btn btn-sm bg-danger-light"><i class="feather-edit"></i></button>
+                                                            <button onclick="verGrafico('CUOTA', 'SECUNDARIA')" class="btn btn-sm bg-info-light btn-hover"><i class="feather-bar-chart-2"></i></button>
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -341,6 +347,7 @@
                                                     <p class="monto-materiales"></p>
                                                 </div>
                                                 <button onclick="Materiales()" class="btn btn-primary">Modificar <i class="fas fa-edit"></i></button>
+                                                <button onclick="verGrafico('MATERIALES', 'INICIAL')" class="btn btn-sm bg-info-light btn-hover"><i class="feather-bar-chart-2"></i></button>
                                             </div>
                                         </div>
 
@@ -374,6 +381,20 @@
 
             </div>
 
+        </div>
+        <!-- Modal para el gráfico -->
+        <div class="modal fade" id="graficoModal" tabindex="-1" aria-labelledby="graficoModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="graficoModalLabel">Evolución del concepto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="graficoConcepto"></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -461,11 +482,52 @@
 
         <script src="../assets/plugins/datatables/jquery.dataTables.min.js"></script>
         <script src="../assets/plugins/datatables/datatables.min.js"></script>
+        <script src="../assets/plugins/apexchart/apexcharts.min.js"></script>
         <script src="../assets/plugins/toastr/toastr.min.js"></script>
         <script src="../assets/plugins/toastr/toastr.js"></script>
         <script src="../assets/js/script.js"></script>
 
         <script>
+            // Función para mostrar el modal con el gráfico
+            function verGrafico(tipo, nivel) {
+                // Realiza una petición AJAX al servidor para obtener los datos del gráfico
+                $.ajax({
+                    url: `/api/v1/conceptos?type=${tipo}&nivel=${nivel}`, // Reemplaza con la ruta correcta a tu endpoint
+                    method: 'GET',
+                    success: function(response) {
+                        // Procesa la respuesta del servidor (formato: fecha, monto, tipo, nivel)
+                        var options = {
+                            series: [{
+                                name: tipo + (nivel ? ' - ' + nivel : ''),
+                                data: response.map(item => [new Date(item.fechaActualizacion).getTime(), item.monto])
+                            }],
+                            chart: {
+                                type: 'line',
+                                height: 350
+                            },
+                            xaxis: {
+                                type: 'datetime'
+                            },
+                            yaxis: {
+                                title: {
+                                    text: 'Monto'
+                                }
+                            }
+                        };
+
+                        // Crea el gráfico con ApexCharts
+                        var chart = new ApexCharts(document.querySelector("#graficoConcepto"), options);
+                        chart.render();
+
+                        // Muestra el modal
+                        $('#graficoModal').modal('show');
+                    },
+                    error: function(error) {
+                        console.error('Error al obtener datos del gráfico:', error);
+                        // Muestra un mensaje de error al usuario
+                    }
+                });
+            }
             function formatearMoneda(numero) {
                 return '$ ' + numero.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             }
