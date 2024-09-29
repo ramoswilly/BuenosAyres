@@ -21,8 +21,10 @@ public class AlumnoService {
 	private final SaludDAO saludDAO;
 	private final UsuarioDAO usuarioDAO;
 	private final PadreDAO padreDAO;
+	private final ProfesorDAO profesorDAO;
+	private final AuthenticationService authenticationService;
 	@Autowired
-	public AlumnoService(AlumnoRepository alumnoRepository, CursoDAO cursoDAO, PersonaService personaService, UserService userService, SaludDAO saludDAO, UsuarioDAO usuarioDAO, PadreDAO padreDAO)
+	public AlumnoService(AlumnoRepository alumnoRepository, CursoDAO cursoDAO, PersonaService personaService, UserService userService, SaludDAO saludDAO, UsuarioDAO usuarioDAO, PadreDAO padreDAO, ProfesorDAO profesorDAO, AuthenticationService authenticationService)
 	{
 		this.alumnoRepository = alumnoRepository;
 		this.cursoDAO = cursoDAO;
@@ -31,6 +33,8 @@ public class AlumnoService {
 		this.saludDAO = saludDAO;
 		this.usuarioDAO = usuarioDAO;
 		this.padreDAO = padreDAO;
+		this.profesorDAO = profesorDAO;
+		this.authenticationService = authenticationService;
 	}
 	@Transactional
 	public Alumno newAlumno(Alumno alumno) throws ServiceException
@@ -131,5 +135,23 @@ public class AlumnoService {
 	{
 		Padre padre = padreDAO.findPadreByPersona_Dni(authentication.getName()).orElseThrow(() -> new ServiceException("Padre no encontrado", 404));
 		return alumnoRepository.findAllByPersona_Familia(padre.getPersona().getFamilia());
+	}
+	public List<Alumno> findByPreceptor(Authentication authentication) throws ServiceException
+	{
+		Profesor preceptor = profesorDAO.findByPersonaDni(authentication.getName()).orElseThrow(() -> new ServiceException("Preceptor no encontrado", 404));
+		return cursoDAO.findByResponsable(preceptor).stream().map(Curso::getAlumnos).flatMap(List::stream).toList();
+	}
+	public List<Alumno> findAll(Authentication authentication, UUID cursoId) throws ServiceException
+	{
+		if (cursoId != null) {
+			return findByCurso(cursoId);
+		}
+		if (authenticationService.hasRole(authentication, "ROLE_PADRE")) {
+			return findByPadre(authentication);
+		}
+		if (authenticationService.hasRole(authentication, "ROLE_PRECEPTOR")) {
+			return findByPreceptor(authentication);
+		}
+		return alumnoRepository.findAll();
 	}
 }

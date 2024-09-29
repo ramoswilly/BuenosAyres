@@ -29,14 +29,7 @@ public class AlumnoController {
 	public ResponseEntity<?> getAllAlumnos(Authentication authentication, @RequestParam(value = "curso", required = false) UUID cursoId)
 	{
 		try {
-			if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_PADRE"))) {
-				return ResponseEntity.ok(service.findByPadre(authentication).stream().map(alumnoMapper::map).toList());
-			}
-			if (cursoId != null) {
-				return ResponseEntity.ok(service.findByCurso(cursoId).stream().map(alumnoMapper::map).toList());
-			} else {
-				return ResponseEntity.ok(service.findAll().stream().map(alumnoMapper::map).toList());
-			}
+			return ResponseEntity.ok(service.findAll(authentication, cursoId).stream().map(alumnoMapper::map).toList());
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
