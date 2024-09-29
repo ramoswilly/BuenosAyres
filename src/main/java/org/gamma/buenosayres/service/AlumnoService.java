@@ -2,12 +2,10 @@ package org.gamma.buenosayres.service;
 
 import jakarta.transaction.Transactional;
 import org.gamma.buenosayres.model.*;
-import org.gamma.buenosayres.repository.AlumnoRepository;
-import org.gamma.buenosayres.repository.CursoDAO;
+import org.gamma.buenosayres.repository.*;
 import org.gamma.buenosayres.exception.ServiceException;
-import org.gamma.buenosayres.repository.SaludDAO;
-import org.gamma.buenosayres.repository.UsuarioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +20,9 @@ public class AlumnoService {
 	private final UserService userService;
 	private final SaludDAO saludDAO;
 	private final UsuarioDAO usuarioDAO;
+	private final PadreDAO padreDAO;
 	@Autowired
-	public AlumnoService(AlumnoRepository alumnoRepository, CursoDAO cursoDAO, PersonaService personaService, UserService userService, SaludDAO saludDAO, UsuarioDAO usuarioDAO)
+	public AlumnoService(AlumnoRepository alumnoRepository, CursoDAO cursoDAO, PersonaService personaService, UserService userService, SaludDAO saludDAO, UsuarioDAO usuarioDAO, PadreDAO padreDAO)
 	{
 		this.alumnoRepository = alumnoRepository;
 		this.cursoDAO = cursoDAO;
@@ -31,6 +30,7 @@ public class AlumnoService {
 		this.userService = userService;
 		this.saludDAO = saludDAO;
 		this.usuarioDAO = usuarioDAO;
+		this.padreDAO = padreDAO;
 	}
 	@Transactional
 	public Alumno newAlumno(Alumno alumno) throws ServiceException
@@ -125,5 +125,11 @@ public class AlumnoService {
 			throw new ServiceException("Curso inexistente", 404);
 		}
 		return curso.get().getAlumnos();
+	}
+
+	public List<Alumno> findByPadre(Authentication authentication) throws ServiceException
+	{
+		Padre padre = padreDAO.findPadreByPersona_Dni(authentication.getName()).orElseThrow(() -> new ServiceException("Padre no encontrado", 404));
+		return alumnoRepository.findAllByPersona_Familia(padre.getPersona().getFamilia());
 	}
 }
