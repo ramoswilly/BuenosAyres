@@ -412,9 +412,9 @@
             // Crear la tabla manualmente
             const body = alumnoCalificaciones.calificaciones.map(calificacion => [
               calificacion.materia,
-              calificacion.primer_trimestre || "",
-              calificacion.segundo_trimestre || "",
-              calificacion.tercer_trimestre || "",
+              calificacion.primerTrimestre || "",
+              calificacion.segundoTrimestre || "",
+              calificacion.tercerTrimestre || "",
               calificacion.final || "",
             ]);
 
@@ -475,7 +475,7 @@
                               textColor: 255,
                             },
                             // Se usa body para pasar los datos directamente
-                            body: data.map(materia => [materia.materia, materia.primer_trimestre, materia.segundo_trimestre, materia.tercer_trimestre, materia.final]),
+                            body: data.map(materia => [materia.materia, materia.primerTrimestre, materia.segundoTrimestre, materia.tercerTrimestre, materia.final]),
                           });
                         }
                       }
