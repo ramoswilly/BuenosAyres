@@ -208,7 +208,18 @@ public class AdminViewController {
 	{
 		return "admin/agregar-inasistencia";
 	}
-
+	// Salud
+	@GetMapping("/salud")
+	public String salud()
+	{
+		return "admin/salud";
+	}
+	// Ver informacion de salud
+	@GetMapping("admin/editar-informacion-salud")
+	public String editarSalud()
+	{
+		return "admin/editar-informacion-salud";
+	}
 	// Reportes
 	@GetMapping("/ver-reportes")
 	public String verReportes()

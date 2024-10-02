@@ -2,12 +2,10 @@ package org.gamma.buenosayres.service;
 
 import jakarta.transaction.Transactional;
 import org.gamma.buenosayres.model.*;
-import org.gamma.buenosayres.repository.AlumnoRepository;
-import org.gamma.buenosayres.repository.CursoDAO;
+import org.gamma.buenosayres.repository.*;
 import org.gamma.buenosayres.exception.ServiceException;
-import org.gamma.buenosayres.repository.SaludDAO;
-import org.gamma.buenosayres.repository.UsuarioDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +20,11 @@ public class AlumnoService {
 	private final UserService userService;
 	private final SaludDAO saludDAO;
 	private final UsuarioDAO usuarioDAO;
+	private final PadreDAO padreDAO;
+	private final ProfesorDAO profesorDAO;
+	private final AuthenticationService authenticationService;
 	@Autowired
-	public AlumnoService(AlumnoRepository alumnoRepository, CursoDAO cursoDAO, PersonaService personaService, UserService userService, SaludDAO saludDAO, UsuarioDAO usuarioDAO)
+	public AlumnoService(AlumnoRepository alumnoRepository, CursoDAO cursoDAO, PersonaService personaService, UserService userService, SaludDAO saludDAO, UsuarioDAO usuarioDAO, PadreDAO padreDAO, ProfesorDAO profesorDAO, AuthenticationService authenticationService)
 	{
 		this.alumnoRepository = alumnoRepository;
 		this.cursoDAO = cursoDAO;
@@ -31,6 +32,9 @@ public class AlumnoService {
 		this.userService = userService;
 		this.saludDAO = saludDAO;
 		this.usuarioDAO = usuarioDAO;
+		this.padreDAO = padreDAO;
+		this.profesorDAO = profesorDAO;
+		this.authenticationService = authenticationService;
 	}
 	@Transactional
 	public Alumno newAlumno(Alumno alumno) throws ServiceException
@@ -125,5 +129,29 @@ public class AlumnoService {
 			throw new ServiceException("Curso inexistente", 404);
 		}
 		return curso.get().getAlumnos();
+	}
+
+	public List<Alumno> findByPadre(Authentication authentication) throws ServiceException
+	{
+		Padre padre = padreDAO.findPadreByPersona_Dni(authentication.getName()).orElseThrow(() -> new ServiceException("Padre no encontrado", 404));
+		return alumnoRepository.findAllByPersona_Familia(padre.getPersona().getFamilia());
+	}
+	public List<Alumno> findByPreceptor(Authentication authentication) throws ServiceException
+	{
+		Profesor preceptor = profesorDAO.findByPersonaDni(authentication.getName()).orElseThrow(() -> new ServiceException("Preceptor no encontrado", 404));
+		return cursoDAO.findByResponsable(preceptor).stream().map(Curso::getAlumnos).flatMap(List::stream).toList();
+	}
+	public List<Alumno> findAll(Authentication authentication, UUID cursoId) throws ServiceException
+	{
+		if (cursoId != null) {
+			return findByCurso(cursoId);
+		}
+		if (authenticationService.hasRole(authentication, "ROLE_PADRE")) {
+			return findByPadre(authentication);
+		}
+		if (authenticationService.hasRole(authentication, "ROLE_PRECEPTOR")) {
+			return findByPreceptor(authentication);
+		}
+		return alumnoRepository.findAll();
 	}
 }

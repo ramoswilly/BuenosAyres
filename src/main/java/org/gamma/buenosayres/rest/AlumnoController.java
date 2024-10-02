@@ -7,6 +7,7 @@ import org.gamma.buenosayres.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.gamma.buenosayres.service.AlumnoService;
 
@@ -25,14 +26,10 @@ public class AlumnoController {
 		this.alumnoMapper = alumnoMapper;
 	}
 	@GetMapping(produces = "application/json")
-	public ResponseEntity<?> getAllAlumnos(@RequestParam(value = "curso", required = false) UUID cursoId)
+	public ResponseEntity<?> getAllAlumnos(Authentication authentication, @RequestParam(value = "curso", required = false) UUID cursoId)
 	{
 		try {
-			if (cursoId != null) {
-				return ResponseEntity.ok(service.findByCurso(cursoId).stream().map(alumnoMapper::map).toList());
-			} else {
-				return ResponseEntity.ok(service.findAll().stream().map(alumnoMapper::map).toList());
-			}
+			return ResponseEntity.ok(service.findAll(authentication, cursoId).stream().map(alumnoMapper::map).toList());
 		} catch (ServiceException e) {
 			return ResponseEntity.status(e.getCode()).body(e.getMessage());
 		}
