@@ -328,6 +328,9 @@
       const alumnoId = $(this).data('alumno-id');
       const alumnoNombre = $(this).data('alumno-nombre');
 
+      // Agregar data-alumno-id al modal al abrirlo (nuevo)
+      $('#modalBoletin').data('alumno-id', alumnoId);
+
       $('#nombreAlumnoModal').text(alumnoNombre);
       $('#modalBoletin').modal('show');
 
@@ -368,26 +371,72 @@
       });
     }
 
-    // Exportar a PDF
     document.getElementById('exportarPDF').addEventListener('click', function () {
+      const alumnoNombre = $('#nombreAlumnoModal').text();
+      const cursoSeleccionado = $('#select-curso-boletin option:selected').text();
+      const partesCurso = cursoSeleccionado.split('-');
+      const anioCurso = partesCurso[0].trim();
+
+
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 
+      // Encabezado
+      doc.setFontSize(16);
+      doc.text(`Boletín de Calificaciones - ${alumnoNombre}`, 105, 20, { align: 'center' }); // Nombre del alumno
+
+      doc.setFontSize(12);
+      //doc.text(anioCurso, 14, 30); // Año a la izquierda
+      doc.text(`Ciclo Lectivo: ${new Date().getFullYear()}`, 14, 30);  // Alineado a la izquierda (sin align)
+      doc.text(`Sección: ${anioCurso} - ${partesCurso[1]} - ${partesCurso[2]}`, 150, 30, { align: 'right' }); // Sección a la derecha (misma línea que Ciclo Lectivo)
+
+
+
+      // Tabla de calificaciones
+      const data = [];
+      $('#tabla-boletin tbody tr').each(function () {
+        const materia = $(this).find('td:eq(0)').text();
+        const primerTrimestre = $(this).find('td:eq(1)').text();
+        const segundoTrimestre = $(this).find('td:eq(2)').text();
+        const tercerTrimestre = $(this).find('td:eq(3)').text();
+        const final = $(this).find('td:eq(4)').text();
+        data.push([materia, primerTrimestre, segundoTrimestre, tercerTrimestre, final]); // Agregar columna vacía para Período Extendido
+      });
+
+
       doc.autoTable({
-        html: '#tabla-boletin',
-        theme: 'striped',
+        startY: 60,
+        head: [['Área Curricular', '1° Informe', '2° Informe', '3° Informe', 'Informe Final']],
+        body: data,
+        theme: 'grid', // Cambiar a 'grid' para bordes en todas las celdas
         styles: {
           cellPadding: 3,
           fontSize: 10,
+          halign: 'center' // Centrar texto en celdas
         },
         headStyles: {
-          fillColor: [41, 128, 185],
-          textColor: 255,
+          fillColor: [200, 200, 200], // Color de fondo del encabezado
+          textColor: 0 // Color de texto del encabezado
         },
+        columnStyles: {
+          4: { halign: 'center' } // Centrar la columna "Período Extendido"
+        }
+
       });
 
-      doc.save('boletin_calificaciones.pdf');
+
+      // Firmas (ajustar la posición vertical según la tabla)
+      const yPosition = doc.lastAutoTable.finalY + 10;
+      doc.setFontSize(10);
+      doc.text('Firma de la/el Docente: _________________________', 20, yPosition);
+      doc.text('Firma de la/el Directora/or: _________________________', 20, yPosition + 10);
+      doc.text('Firma de la/el Estudiante: _________________________', 20, yPosition + 20);
+      doc.text('Firma de la/el Adulta/o Responsable: _________________________', 20, yPosition + 30);
+
+      doc.save(`boletin_calificaciones_${alumnoNombre}.pdf`);
     });
+
+
 
     // Exportar todos
     document.getElementById('exportarTodos').addEventListener('click', function () {
@@ -404,53 +453,74 @@
           calificaciones.forEach(alumnoCalificaciones => {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
+            const cursoSeleccionado = $('#select-curso option:selected').text();
+            const partesCurso = cursoSeleccionado.split('-');
+            const anioCurso = partesCurso[0].trim();
+            const alumnoNombre = `${alumnoCalificaciones.alumno.nombre} ${alumnoCalificaciones.alumno.apellido}`;
 
-            // Encabezado del PDF
+
+            // Encabezado
             doc.setFontSize(16);
-            doc.text(`Boletín de Calificaciones - ${alumnoCalificaciones.alumno.nombre} ${alumnoCalificaciones.alumno.apellido}`, 14, 20);
+            doc.text(`Boletín de Calificaciones`, 105, 20, { align: 'center' });
+            doc.setFontSize(12);
+            doc.text(anioCurso, 105, 30, { align: 'center' });
+            doc.text(`Ciclo Lectivo: ${new Date().getFullYear()}`, 105, 40, { align: 'center' });
+            doc.text(`Sección: ${partesCurso[1]} - ${partesCurso[2]}`, 105, 50, { align: 'center' });
 
-            // Crear la tabla manualmente
+
+            // Tabla de calificaciones
             const body = alumnoCalificaciones.calificaciones.map(calificacion => [
               calificacion.materia,
               calificacion.primerTrimestre || "",
               calificacion.segundoTrimestre || "",
               calificacion.tercerTrimestre || "",
-              calificacion.final || "",
+              "", // Período Extendido
+              calificacion.final || ""
             ]);
 
             doc.autoTable({
-              startY: 30,
-              head: [['Materia', 'Primer Trimestre', 'Segundo Trimestre', 'Tercer Trimestre', 'Final']],
+              startY: 60,
+              head: [['Área Curricular', '1° Informe', '2° Informe', '3° Informe', 'Período Extendido', 'Informe Final']],
               body: body,
-              theme: 'striped',
+              theme: 'grid',
               styles: {
                 cellPadding: 3,
                 fontSize: 10,
+                halign: 'center'
               },
               headStyles: {
-                fillColor: [41, 128, 185],
-                textColor: 255,
-              },
+                fillColor: [200, 200, 200],
+                textColor: 0
+              }
             });
 
-            doc.save(`boletin_${alumnoCalificaciones.alumno.nombre}_${alumnoCalificaciones.alumno.apellido}.pdf`);
+            // Firmas
+            const yPosition = doc.lastAutoTable.finalY + 10;
+            doc.setFontSize(10);
+            doc.text('Firma de la/el Docente: _________________________', 20, yPosition);
+            doc.text('Firma de la/el Directora/or: _________________________', 20, yPosition + 10);
+            doc.text('Firma de la/el Estudiante: _________________________', 20, yPosition + 20);
+            doc.text('Firma de la/el Adulta/o Responsable: _________________________', 20, yPosition + 30);
+
+
+
+
+            doc.save(`boletin_${alumnoNombre}.pdf`);
           });
         }
       });
     });
-
-    // Exportar Historia Académica
     document.getElementById('exportarHistoriaAcademica').addEventListener('click', function () {
-      const alumnoId = $('.ver-boletin').data('alumno-id');
-      const alumnoNombre = $('.ver-boletin').data('alumno-nombre');
+      const alumnoId = $('#modalBoletin').data('alumno-id');  // Obtener del modal
+      const alumnoNombre = $('#nombreAlumnoModal').text(); // Obtener del modal
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 
-      // Obtener todos los cursos
       $.ajax({
         url: '/api/v1/cursos',
         success: function (cursos) {
           let promises = [];
+          let startY = 20; // Posición inicial para el primer curso
 
           cursos.forEach(curso => {
             promises.push(
@@ -458,32 +528,61 @@
                       url: `/api/v1/calificaciones/boletin?alumno=${alumnoId}&curso=${curso.id}`,
                       success: function (data) {
                         if (data.length > 0) {
-                          // Agregar encabezado del curso
-                          doc.setFontSize(14);
-                          doc.text(`${curso.orden}° - ${curso.nivel} - ${curso.turno}`, 14, doc.lastAutoTable.finalY + 20 || 20);
+                          const partesCurso = `${curso.orden}° - ${curso.nivel} - ${curso.turno}`.split('-');
+                          const anioCurso = partesCurso[0].trim();
 
-                          // Agregar tabla de calificaciones del curso (CORREGIDO)
+                          // Encabezado del curso
+                          doc.setFontSize(14);
+                          doc.text(`Boletín de Calificaciones`, 105, startY, { align: 'center' });
+                          doc.setFontSize(12);
+                          doc.text(anioCurso, 105, startY + 10, { align: 'center' });
+                          doc.text(`Ciclo Lectivo: ${new Date().getFullYear()}`, 105, startY + 20, { align: 'center' });
+                          doc.text(`Sección: ${partesCurso[1]} - ${partesCurso[2]}`, 105, startY + 30, { align: 'center' });
+
+
+                          // Tabla de calificaciones del curso
+                          const body = data.map(materia => [
+                            materia.materia,
+                            materia.primerTrimestre || "",
+                            materia.segundoTrimestre || "",
+                            materia.tercerTrimestre || "",
+                            materia.final || ""
+                          ]);
+
                           doc.autoTable({
-                            startY: doc.lastAutoTable.finalY + 25 || 25,
-                            theme: 'striped',
+                            startY: startY + 40,
+                            head: [['Área Curricular', '1° Informe', '2° Informe', '3° Informe', 'Informe Final']],
+                            body: body,
+                            theme: 'grid',
                             styles: {
                               cellPadding: 3,
                               fontSize: 10,
+                              halign: 'center'
                             },
                             headStyles: {
-                              fillColor: [41, 128, 185],
-                              textColor: 255,
+                              fillColor: [200, 200, 200],
+                              textColor: 0
                             },
-                            // Se usa body para pasar los datos directamente
-                            body: data.map(materia => [materia.materia, materia.primerTrimestre, materia.segundoTrimestre, materia.tercerTrimestre, materia.final]),
+                            didDrawPage: function (data) {
+                              startY = data.settings.startY;
+                            }
                           });
+
+
+                          startY = doc.lastAutoTable.finalY + 20; // Actualizar startY para el siguiente curso
+
                         }
                       }
                     })
             );
           });
 
+
           Promise.all(promises).then(() => {
+            // Firmas al final del documento
+            doc.setFontSize(10);
+            doc.text('Firma de la/el Docente: _________________________', 20, doc.lastAutoTable.finalY + 10);
+            // ... otras firmas
             doc.save(`historia_academica_${alumnoNombre}.pdf`);
           });
         }
