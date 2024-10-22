@@ -381,15 +381,6 @@
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 
-      // Encabezado
-      doc.setFontSize(16);
-      doc.text(`Boletín de Calificaciones - ${alumnoNombre}`, 105, 20, { align: 'center' }); // Nombre del alumno
-
-      doc.setFontSize(12);
-      //doc.text(anioCurso, 14, 30); // Año a la izquierda
-      doc.text(`Ciclo Lectivo: ${new Date().getFullYear()}`, 14, 30);  // Alineado a la izquierda (sin align)
-      doc.text(`Sección: ${anioCurso} - ${partesCurso[1]} - ${partesCurso[2]}`, 150, 30, { align: 'right' }); // Sección a la derecha (misma línea que Ciclo Lectivo)
-
 
 
       // Tabla de calificaciones
@@ -408,30 +399,72 @@
         startY: 60,
         head: [['Área Curricular', '1° Informe', '2° Informe', '3° Informe', 'Informe Final']],
         body: data,
-        theme: 'grid', // Cambiar a 'grid' para bordes en todas las celdas
+        theme: 'striped',
         styles: {
-          cellPadding: 3,
+          cellPadding: 5,
           fontSize: 10,
-          halign: 'center' // Centrar texto en celdas
+          font: 'helvetica',
+          lineColor: [44, 62, 80],
+          lineWidth: 0.1,
         },
         headStyles: {
-          fillColor: [200, 200, 200], // Color de fondo del encabezado
-          textColor: 0 // Color de texto del encabezado
+          fillColor: [41, 128, 185],
+          textColor: 255,
+          fontSize: 12,
+          fontStyle: 'bold',
+          halign: 'center',
+        },
+        bodyStyles: {
+          textColor: [44, 62, 80],
+        },
+        alternateRowStyles: {
+          fillColor: [236, 240, 241],
         },
         columnStyles: {
-          4: { halign: 'center' } // Centrar la columna "Período Extendido"
-        }
-
+          0: { cellWidth: 'auto', halign: 'left' },
+          1: { cellWidth: 30, halign: 'center' },
+          2: { cellWidth: 30, halign: 'center' },
+          3: { cellWidth: 30, halign: 'center' },
+          4: { cellWidth: 30, halign: 'center' },
+        },
       });
 
+// Agregar título y logo
+      doc.setFontSize(20);
+      doc.setTextColor(41, 128, 185);
+      doc.text('Boletín de Calificaciones', 105, 30, { align: 'center' });
+// Aquí puedes agregar un logo: doc.addImage(logoData, 'PNG', 20, 20, 30, 30);
 
-      // Firmas (ajustar la posición vertical según la tabla)
-      const yPosition = doc.lastAutoTable.finalY + 10;
+// Información del estudiante
+      doc.setFontSize(12);
+      doc.setTextColor(44, 62, 80);
+      doc.text(`Estudiante: ${alumnoNombre}`, 20, 50);
+      doc.text(`Sección: ${anioCurso} - ${partesCurso[1]} - ${partesCurso[2]}`, 110, 50);
+
+// Firmas (ajustar la posición vertical según la tabla)
+      const yPosition = doc.lastAutoTable.finalY + 20;
       doc.setFontSize(10);
-      doc.text('Firma de la/el Docente: _________________________', 20, yPosition);
-      doc.text('Firma de la/el Directora/or: _________________________', 20, yPosition + 10);
-      doc.text('Firma de la/el Estudiante: _________________________', 20, yPosition + 20);
-      doc.text('Firma de la/el Adulta/o Responsable: _________________________', 20, yPosition + 30);
+      doc.setTextColor(44, 62, 80);
+
+      const firmas = [
+        'Docente',
+        'Director',
+        'Estudiante',
+        'Adulto Responsable'
+      ];
+
+      firmas.forEach((firma, index) => {
+        doc.text(`Firma del ${firma}:`, 20, yPosition + (index * 15));
+        doc.line(70, yPosition + 2 + (index * 15), 190, yPosition + 2 + (index * 15));
+      });
+
+// Agregar pie de página
+      const pageCount = doc.internal.getNumberOfPages();
+      doc.setFontSize(8);
+      for(let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.text(`Página ${i} de ${pageCount}`, 105, 290, { align: 'center' });
+      }
 
       doc.save(`boletin_calificaciones_${alumnoNombre}.pdf`);
     });
@@ -458,52 +491,84 @@
             const anioCurso = partesCurso[0].trim();
             const alumnoNombre = `${alumnoCalificaciones.alumno.nombre} ${alumnoCalificaciones.alumno.apellido}`;
 
-
-            // Encabezado
-            doc.setFontSize(16);
-            doc.text(`Boletín de Calificaciones`, 105, 20, { align: 'center' });
-            doc.setFontSize(12);
-            doc.text(anioCurso, 105, 30, { align: 'center' });
-            doc.text(`Ciclo Lectivo: ${new Date().getFullYear()}`, 105, 40, { align: 'center' });
-            doc.text(`Sección: ${partesCurso[1]} - ${partesCurso[2]}`, 105, 50, { align: 'center' });
-
-
             // Tabla de calificaciones
             const body = alumnoCalificaciones.calificaciones.map(calificacion => [
               calificacion.materia,
               calificacion.primerTrimestre || "",
               calificacion.segundoTrimestre || "",
               calificacion.tercerTrimestre || "",
-              "", // Período Extendido
               calificacion.final || ""
             ]);
-
             doc.autoTable({
               startY: 60,
-              head: [['Área Curricular', '1° Informe', '2° Informe', '3° Informe', 'Período Extendido', 'Informe Final']],
+              head: [['Área Curricular', '1° Informe', '2° Informe', '3° Informe', 'Informe Final']],
               body: body,
-              theme: 'grid',
+              theme: 'striped',
               styles: {
-                cellPadding: 3,
+                cellPadding: 5,
                 fontSize: 10,
-                halign: 'center'
+                font: 'helvetica',
+                lineColor: [44, 62, 80],
+                lineWidth: 0.1,
               },
               headStyles: {
-                fillColor: [200, 200, 200],
-                textColor: 0
-              }
+                fillColor: [41, 128, 185],
+                textColor: 255,
+                fontSize: 12,
+                fontStyle: 'bold',
+                halign: 'center',
+              },
+              bodyStyles: {
+                textColor: [44, 62, 80],
+              },
+              alternateRowStyles: {
+                fillColor: [236, 240, 241],
+              },
+              columnStyles: {
+                0: { cellWidth: 'auto', halign: 'left' },
+                1: { cellWidth: 30, halign: 'center' },
+                2: { cellWidth: 30, halign: 'center' },
+                3: { cellWidth: 30, halign: 'center' },
+                4: { cellWidth: 30, halign: 'center' },
+              },
             });
 
-            // Firmas
-            const yPosition = doc.lastAutoTable.finalY + 10;
+// Agregar título y logo
+            doc.setFontSize(20);
+            doc.setTextColor(41, 128, 185);
+            doc.text('Boletín de Calificaciones', 105, 30, { align: 'center' });
+// Aquí puedes agregar un logo: doc.addImage(logoData, 'PNG', 20, 20, 30, 30);
+
+// Información del estudiante
+            doc.setFontSize(12);
+            doc.setTextColor(44, 62, 80);
+            doc.text(`Estudiante: ${alumnoNombre}`, 20, 50);
+            doc.text(`Sección: ${anioCurso} - ${partesCurso[1]} - ${partesCurso[2]}`, 110, 50);
+
+// Firmas (ajustar la posición vertical según la tabla)
+            const yPosition = doc.lastAutoTable.finalY + 20;
             doc.setFontSize(10);
-            doc.text('Firma de la/el Docente: _________________________', 20, yPosition);
-            doc.text('Firma de la/el Directora/or: _________________________', 20, yPosition + 10);
-            doc.text('Firma de la/el Estudiante: _________________________', 20, yPosition + 20);
-            doc.text('Firma de la/el Adulta/o Responsable: _________________________', 20, yPosition + 30);
+            doc.setTextColor(44, 62, 80);
 
+            const firmas = [
+              'Docente',
+              'Director',
+              'Estudiante',
+              'Adulto Responsable'
+            ];
 
+            firmas.forEach((firma, index) => {
+              doc.text(`Firma del ${firma}:`, 20, yPosition + (index * 15));
+              doc.line(70, yPosition + 2 + (index * 15), 190, yPosition + 2 + (index * 15));
+            });
 
+// Agregar pie de página
+            const pageCount = doc.internal.getNumberOfPages();
+            doc.setFontSize(8);
+            for(let i = 1; i <= pageCount; i++) {
+              doc.setPage(i);
+              doc.text(`Página ${i} de ${pageCount}`, 105, 290, { align: 'center' });
+            }
 
             doc.save(`boletin_${alumnoNombre}.pdf`);
           });
@@ -511,8 +576,8 @@
       });
     });
     document.getElementById('exportarHistoriaAcademica').addEventListener('click', function () {
-      const alumnoId = $('#modalBoletin').data('alumno-id');  // Obtener del modal
-      const alumnoNombre = $('#nombreAlumnoModal').text(); // Obtener del modal
+      const alumnoId = $('#modalBoletin').data('alumno-id');
+      const alumnoNombre = $('#nombreAlumnoModal').text();
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 
@@ -520,25 +585,34 @@
         url: '/api/v1/cursos',
         success: function (cursos) {
           let promises = [];
-          let startY = 20; // Posición inicial para el primer curso
 
-          cursos.forEach(curso => {
+          let isFirstPage = true;
+          cursos.forEach((curso, index) => {
             promises.push(
                     $.ajax({
                       url: `/api/v1/calificaciones/boletin?alumno=${alumnoId}&curso=${curso.id}`,
                       success: function (data) {
                         if (data.length > 0) {
-                          const partesCurso = `${curso.orden}° - ${curso.nivel} - ${curso.turno}`.split('-');
-                          const anioCurso = partesCurso[0].trim();
+                          if (!isFirstPage) {
+                            doc.addPage();
+                          }
+                          isFirstPage = false;
+
+                          let startY = 20;
 
                           // Encabezado del curso
-                          doc.setFontSize(14);
-                          doc.text(`Boletín de Calificaciones`, 105, startY, { align: 'center' });
-                          doc.setFontSize(12);
-                          doc.text(anioCurso, 105, startY + 10, { align: 'center' });
-                          doc.text(`Ciclo Lectivo: ${new Date().getFullYear()}`, 105, startY + 20, { align: 'center' });
-                          doc.text(`Sección: ${partesCurso[1]} - ${partesCurso[2]}`, 105, startY + 30, { align: 'center' });
+                          doc.setFontSize(20);
+                          doc.setTextColor(41, 128, 185);
+                          doc.text('Historia Académica', 105, startY, { align: 'center' });
 
+                          doc.setFontSize(14);
+                          doc.setTextColor(44, 62, 80);
+                          doc.text(`${curso.orden}° - ${curso.nivel} - ${curso.turno}`, 105, startY + 15, { align: 'center' });
+                          //doc.text(`Ciclo Lectivo: ${curso.anio}`, 105, startY + 25, { align: 'center' });
+
+                          // Información del estudiante
+                          doc.setFontSize(12);
+                          doc.text(`Estudiante: ${alumnoNombre}`, 20, startY + 40);
 
                           // Tabla de calificaciones del curso
                           const body = data.map(materia => [
@@ -550,39 +624,77 @@
                           ]);
 
                           doc.autoTable({
-                            startY: startY + 40,
+                            startY: startY + 50,
                             head: [['Área Curricular', '1° Informe', '2° Informe', '3° Informe', 'Informe Final']],
                             body: body,
-                            theme: 'grid',
+                            theme: 'striped',
                             styles: {
-                              cellPadding: 3,
+                              cellPadding: 5,
                               fontSize: 10,
-                              halign: 'center'
+                              font: 'helvetica',
+                              lineColor: [44, 62, 80],
+                              lineWidth: 0.1,
                             },
                             headStyles: {
-                              fillColor: [200, 200, 200],
-                              textColor: 0
+                              fillColor: [41, 128, 185],
+                              textColor: 255,
+                              fontSize: 12,
+                              fontStyle: 'bold',
+                              halign: 'center',
                             },
-                            didDrawPage: function (data) {
-                              startY = data.settings.startY;
-                            }
+                            bodyStyles: {
+                              textColor: [44, 62, 80],
+                            },
+                            alternateRowStyles: {
+                              fillColor: [236, 240, 241],
+                            },
+                            columnStyles: {
+                              0: { cellWidth: 'auto', halign: 'left' },
+                              1: { cellWidth: 30, halign: 'center' },
+                              2: { cellWidth: 30, halign: 'center' },
+                              3: { cellWidth: 30, halign: 'center' },
+                              4: { cellWidth: 30, halign: 'center' },
+                            },
                           });
-
-
-                          startY = doc.lastAutoTable.finalY + 20; // Actualizar startY para el siguiente curso
-
                         }
                       }
                     })
             );
           });
 
-
           Promise.all(promises).then(() => {
-            // Firmas al final del documento
-            doc.setFontSize(10);
-            doc.text('Firma de la/el Docente: _________________________', 20, doc.lastAutoTable.finalY + 10);
-            // ... otras firmas
+            // Agregar página para firmas
+            doc.addPage();
+
+            // Firmas
+            const yPosition = 50;
+            doc.setFontSize(14);
+            doc.setTextColor(41, 128, 185);
+            doc.text('Firmas de las Autoridades', 105, 30, { align: 'center' });
+
+            doc.setFontSize(12);
+            doc.setTextColor(44, 62, 80);
+
+            const firmas = [
+              'Docente',
+              'Director',
+              'Estudiante',
+              'Adulto Responsable'
+            ];
+
+            firmas.forEach((firma, index) => {
+              doc.text(`Firma del/la ${firma}:`, 20, yPosition + (index * 30));
+              doc.line(70, yPosition + 2 + (index * 30), 190, yPosition + 2 + (index * 30));
+            });
+
+            // Agregar pie de página
+            const pageCount = doc.internal.getNumberOfPages();
+            doc.setFontSize(8);
+            for(let i = 1; i <= pageCount; i++) {
+              doc.setPage(i);
+              doc.text(`Página ${i} de ${pageCount}`, 105, 290, { align: 'center' });
+            }
+
             doc.save(`historia_academica_${alumnoNombre}.pdf`);
           });
         }
