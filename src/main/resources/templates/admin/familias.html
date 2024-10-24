@@ -356,19 +356,13 @@
                     {
                         data: 'apellido',
                         render: function (data, type, row) {
-                            if (conteoApellidos[data]) {
-                                conteoApellidos[data]++;
-                                return data + ' #' + conteoApellidos[data];
-                            } else {
-                                conteoApellidos[data] = 1;
-                                return data;
-                            }
-                        },
+                            return `<span data-bs-toggle="tooltip" data-bs-placement="top" title="ID: ${row.id}">${data}</span>`;
+                        }
                     },
                     {
                         data: 'habilitada',
                         render: function (data, type, row) {
-                            return data === true ? '<td>Sí</td>' : '<td>No</td>';
+                            return data === true ? '<span class="badge bg-success">Habilitado</span>' : '<span class="badge bg-danger">Deshabilitado</span>';
                         }
                     },
                     {
