@@ -262,6 +262,26 @@
     }
     var tabla;
     $(document).ready(function () {
+        $.ajax({
+            url: '/api/v1/userdata',
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // Asumiendo que la API retorna un objeto JSON con nombre, apellido y rol
+                var nombre = data.nombre;
+                var apellido = data.apellido;
+                var rol = data.rol;
+
+                // Actualiza la información del usuario en el menú desplegable
+                $('.user-text h6').text(nombre + ' ' + apellido);
+                $('.user-text p').text(rol);
+            },
+            error: function (error) {
+                console.error('Error al obtener la información del usuario:', error);
+                // Manejar el error de la solicitud, por ejemplo, mostrar un mensaje al usuario
+            }
+        });
+
         const urlParams = new URLSearchParams(window.location.search);
         const id = urlParams.get('id');
         if (id) {
