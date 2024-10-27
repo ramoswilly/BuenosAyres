@@ -127,4 +127,13 @@ public class CursoService {
 		curso.setHabilitado(!curso.isHabilitado());
 		return cursoDAO.save(curso);
 	}
+
+	public List<Curso> findByPreceptor(String username) throws ServiceException
+	{
+		Optional<Profesor> profesor = profesorDAO.findByPersona_Usuario_Username(username);
+		if (profesor.isEmpty()) {
+			throw new ServiceException("Preceptor inexistente", 404);
+		}
+		return profesor.get().getCursos();
+	}
 }

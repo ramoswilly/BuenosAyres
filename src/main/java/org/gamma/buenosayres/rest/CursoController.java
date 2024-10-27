@@ -45,6 +45,14 @@ public class CursoController {
 				return ResponseEntity.status(e.getCode()).body(e.getMessage());
 			}
 		}
+		// Obtener cursos del preceptor
+		if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_PRECEPTOR"))) {
+			try {
+				return ResponseEntity.ok(service.findByPreceptor(authentication.getName()).stream().map(mapper::map));
+			} catch (ServiceException e) {
+				return ResponseEntity.status(e.getCode()).body(e.getMessage());
+			}
+		}
 		// Obtener cursos del director
 		if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_DIRECTOR"))) {
 			try {
