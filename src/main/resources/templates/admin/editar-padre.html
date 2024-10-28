@@ -278,6 +278,16 @@
                                         </div>
                                     </div>
                                     <div class="form-group row">
+                                        <label for="cuit" class="col-form-label col-lg-2">CUIT</label>
+                                        <div class="col-lg-10">
+                                            <input type="text" class="form-control" id="cuit" name="cuit"
+                                                   placeholder="CUIT del Padre" pattern="[0-9]{11}">
+                                            <div class="invalid-feedback">
+                                                Por favor, ingrese un CUIT válido de 11 dígitos.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label class="col-form-label col-lg-2">¿Responsable de
                                             facturación?</label>
                                         <div class="col-lg-10">
@@ -375,6 +385,7 @@
             var direccion = $('#direccion').val();
             var telefono = $('#telefono').val();
             var email = $('#email').val();
+            var cuit = $('#cuit').val();
             var responsableFacturacion = $('input[name="facturar"]:checked').val() === 'si';
             var habilitado = $('#habilitado').is(':checked');
 
@@ -385,6 +396,7 @@
                 direccion: direccion,
                 telefono: telefono,
                 email: email,
+                cuit: cuit,
                 habilitado: habilitado,
                 responsableFacturacion: responsableFacturacion
             };
@@ -432,6 +444,7 @@
                     document.getElementById('direccion').value = data.direccion;
                     document.getElementById('telefono').value = data.telefono;
                     document.getElementById('email').value = data.email;
+                    document.getElementById('cuit').value = data.cuit;
                     document.getElementById('habilitado').checked = data.habilitado;
                     if (data.responsableFacturacion) {
                         $('input[name="facturar"][value="si"]').prop('checked', true);

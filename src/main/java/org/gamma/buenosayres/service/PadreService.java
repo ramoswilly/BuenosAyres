@@ -83,6 +83,9 @@ public class PadreService {
           if (padre.getEmail() != null) {
                padreSync.get().setEmail(padre.getEmail());
           }
+          if (padre.getCuit() != null) {
+               padreSync.get().setCuit(padre.getCuit());
+          }
           if (padre.getTelefono() != null) {
                padreSync.get().setTelefono(padre.getTelefono());
           }

@@ -17,6 +17,7 @@ public class Padre {
 	private Persona persona;
 	private String telefono;
 	private String email;
+	private String cuit;
 	private boolean habilitado;
 	@Column(name = "es_responsable_facturacion")
 	private boolean responsableFacturacion;
@@ -83,5 +84,15 @@ public class Padre {
 	public void setHabilitado(boolean habilitado)
 	{
 		this.habilitado = habilitado;
+	}
+
+	public String getCuit()
+	{
+		return cuit;
+	}
+
+	public void setCuit(String cuit)
+	{
+		this.cuit = cuit;
 	}
 }

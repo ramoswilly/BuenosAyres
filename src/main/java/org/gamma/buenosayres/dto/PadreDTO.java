@@ -10,6 +10,7 @@ public class PadreDTO {
 	private String direccion;
 	private String telefono;
 	private String email;
+	private String cuit;
 	private boolean habilitado;
 	private boolean responsableFacturacion;
 
@@ -101,5 +102,15 @@ public class PadreDTO {
 	public void setHabilitado(boolean habilitado)
 	{
 		this.habilitado = habilitado;
+	}
+
+	public String getCuit()
+	{
+		return cuit;
+	}
+
+	public void setCuit(String cuit)
+	{
+		this.cuit = cuit;
 	}
 }

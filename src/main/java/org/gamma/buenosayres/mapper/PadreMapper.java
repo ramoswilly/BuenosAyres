@@ -21,6 +21,7 @@ public class PadreMapper {
                mapper.map(src -> src.getPersona().getNombre(), PadreDTO::setNombre);
                mapper.map(src -> src.getPersona().getApellido(), PadreDTO::setApellido);
                mapper.map(src -> src.getPersona().getDireccion(), PadreDTO::setDireccion);
+               mapper.map(Padre::getCuit, PadreDTO::setCuit);
           });
 
           DTOtoPadreMap.addMappings(mapper -> {
@@ -29,6 +30,7 @@ public class PadreMapper {
                mapper.map(PadreDTO::getNombre, (dest, value) -> dest.getPersona().setNombre((String)value));
                mapper.map(PadreDTO::getApellido, (dest, value) -> dest.getPersona().setApellido((String)value));
                mapper.map(PadreDTO::getDireccion, (dest, value) -> dest.getPersona().setDireccion((String)value));
+               mapper.map(PadreDTO::getCuit, Padre::setCuit);
           });
      }
      public PadreDTO map(Padre padre)
@@ -36,6 +38,7 @@ public class PadreMapper {
           return modelMapper.map(padre, PadreDTO.class);
      }
      public Padre map(PadreDTO padre) {
+          System.out.println(padre.getCuit());
           return modelMapper.map(padre, Padre.class);
      }
 }

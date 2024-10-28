@@ -272,7 +272,7 @@
                                                 <label for="telefono" class="col-form-label col-lg-2">Teléfono</label>
                                                 <div class="col-lg-10">
                                                     <input type="text" class="form-control" id="telefono"
-                                                           name="telefono" placeholder="Telefono del Padre" required pattern="[0-9]{10}" minlength="10">
+                                                           name="telefono" placeholder="Telefono del Padre" pattern="[0-9]{10}" minlength="10">
                                                     <div class="invalid-feedback">
                                                         Por favor, ingrese un teléfono válido de 10 dígitos.
                                                     </div>
@@ -282,9 +282,20 @@
                                                 <label for="email" class="col-form-label col-lg-2">Email</label>
                                                 <div class="col-lg-10">
                                                     <input type="email" class="form-control" id="email"
-                                                           name="email" placeholder="Email del Padre" required>
+                                                           name="email" placeholder="Email del Padre">
                                                     <div class="invalid-feedback">
                                                         Por favor, ingrese un email válido.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="cuit" class="col-form-label col-lg-2">CUIT</label>
+                                                <div class="col-lg-10">
+                                                    <input type="text" class="form-control" id="cuit" name="cuit"
+                                                           placeholder="CUIT del Padre" pattern="[0-9]{11}">
+                                                    <div class="invalid-feedback">
+                                                        Por favor, ingrese un CUIT válido de 11 dígitos.
                                                     </div>
                                                 </div>
                                             </div>
@@ -373,6 +384,7 @@
                     var direccion = $('#direccion').val();
                     var telefono = $('#telefono').val();
                     var email = $('#email').val();
+                    var cuit = $('#cuit').val();
                     var responsableFacturacion = $('input[name="facturar"]:checked').val() === 'si';
 
                     var nuevoPadre = {
@@ -382,6 +394,7 @@
                         direccion: direccion,
                         telefono: telefono,
                         email: email,
+                        cuit: cuit,
                         responsableFacturacion: responsableFacturacion
                     };
 
