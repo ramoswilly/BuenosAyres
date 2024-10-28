@@ -24,13 +24,7 @@ public class SaludController {
 
 	@GetMapping
 	public ResponseEntity<?> getSalud(Authentication authentication) {
-		return ResponseEntity.ok(saludService.obtenerSalud().stream().map(saludMapper::map).toList());
-
-
-		/*if (authentication.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_PRECEPTOR"))) {
-			return ResponseEntity.ok(saludService.obtenerSaludPorPreceptor(authentication.getName()).stream().map(saludMapper::map).toList());
-		}
-		return ResponseEntity.ok(saludService.obtenerSalud().stream().map(saludMapper::map).toList());*/
+		return ResponseEntity.ok(saludService.obtenerSalud(authentication).stream().map(saludMapper::map).toList());
 	}
 	@GetMapping("/{idPersona}")
 	public ResponseEntity<?> getSaludPorId(@PathVariable("idPersona") UUID idPersona) {

@@ -5,6 +5,7 @@ import org.gamma.buenosayres.exception.ServiceException;
 import org.gamma.buenosayres.model.*;
 import org.gamma.buenosayres.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -12,7 +13,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class SaludService {
-
+	@Autowired
+	private AuthenticationService authenticationService;
 	@Autowired
 	private SaludDAO saludDAO;
 	@Autowired
@@ -24,7 +26,17 @@ public class SaludService {
 	@Autowired
 	private PatologiaDAO patologiaDAO;
 
-	public List<Salud> obtenerSalud() {
+	public List<Salud> obtenerSalud(Authentication authentication) {
+		if (authenticationService.hasRole(authentication, "ROLE_PRECEPTOR")) {
+			if (profesorDAO.findByPersonaDni(authentication.getName()).isPresent()) {
+				return profesorDAO.findByPersonaDni(authentication.getName()).get().getCursos().stream()
+						.flatMap(curso -> curso.getAlumnos().stream())
+						.map(alumno -> saludDAO.findByPersona(alumno.getPersona()))
+						.filter(Optional::isPresent)
+						.map(Optional::get)
+						.collect(Collectors.toList());
+			}
+		}
 		return personaDAO.findByRoles(Set.of("ROLE_PROFESOR", "ROLE_ALUMNO"))
 				.stream()
 				.filter(persona -> persona.getUsuario().isEnabled())
